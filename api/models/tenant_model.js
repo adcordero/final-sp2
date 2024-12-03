@@ -13,7 +13,7 @@ const tenantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    contact_no: {
+    contact_num: {
         type: String,
         required: true
     },
@@ -28,7 +28,7 @@ const tenantSchema = new mongoose.Schema({
     },
     user_type: {
         type: String,
-        default: 'Owner'
+        default: 'Tenant'
     },
     status : {
         type: String,
