@@ -55,9 +55,9 @@ const SignIn = () => {
       dispatch(loginSuccess(data));
 
       if (data.user_type == "Owner") {
-        navigate("/o-dashboard");
+        navigate("/owner-dashboard");
       } else {
-        navigate("/t-dashboard");
+        navigate("/tenant-dashboard");
       }
     } catch (error) {
       toast.error(data.errorMessage);
