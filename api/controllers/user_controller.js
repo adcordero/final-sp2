@@ -121,6 +121,8 @@ export const signIn = async (req, res, next) => {
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
         .json(rest);
+
+      return;
     }
 
     const validTenant = await Tenant.findOne({ email });
@@ -159,5 +161,3 @@ export const signOut = (req, res, next) => {
     next(error);
   }
 };
-
-

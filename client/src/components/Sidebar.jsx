@@ -97,7 +97,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* unit */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                  className={`mt-2 w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/owner-units"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""

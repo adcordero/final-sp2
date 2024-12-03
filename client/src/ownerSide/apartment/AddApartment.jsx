@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddApartment = ({ showAddModal }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     owner_id: currentUser._id,
-    description: "",
+    // description: "",
   });
 
   // handles changes made in the input fields
@@ -102,7 +100,7 @@ const AddApartment = ({ showAddModal }) => {
                   />
                 </label>
 
-                <label className={`grid gap-2`}>
+                {/* <label className={`grid gap-2`}>
                   <span className={`text-base font-semibold font-poppins pl-1`}>
                     Description
                   </span>
@@ -114,12 +112,12 @@ const AddApartment = ({ showAddModal }) => {
                     onChange={handleChange}
                     required
                   />
-                </label>
+                </label> */}
               </form>
             </div>
 
             {/* footer */}
-            <div className="flex items-center justify-end p-4 rounded-b-lg">
+            <div className="flex items-center justify-end p-3 rounded-b-lg">
               <button
                 className="text-red-600 background-transparent font-bold font-nunito-sans uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
