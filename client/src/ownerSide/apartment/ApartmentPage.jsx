@@ -148,39 +148,47 @@ const ApartmentPage = () => {
               </div>
 
               {/* list apartments */}
-              {allApartments_statusSort.map((apt) => (
+              {allApartments.length == 0 ? (
                 <div
-                  key={apt._id}
-                  className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
-                  {/* <h1
-                    className={`cursor-pointer hover:underline text-blue-600`}
-                    onClick={() => {showDetailModal(); setChosenAptId(apt._id)}}
-                  >
-                    {apt.name}
-                  </h1> */}
-                  <h1>{apt.name}</h1>
-
-                  <h1>{apt.address}</h1>
-
-                  <div className={`flex justify-between`}>
-                    {apt.status}
-
-                    {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
-                    <button
-                      className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
-                      onClick={() =>
-                        navigate(`/owner-apartments/detail/${apt._id}`)
-                      }
-                    >
-                      <FontAwesomeIcon icon={faCircleInfo} />
-                      <h1>Details</h1>
-                    </button>
-                  </div>
-
-                  <span></span>
+                  No apartments found
                 </div>
-              ))}
+              ) : (
+                allApartments_statusSort.map((apt) => (
+                  <div
+                    key={apt._id}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                  >
+                    {/* <h1
+                      className={`cursor-pointer hover:underline text-blue-600`}
+                      onClick={() => {showDetailModal(); setChosenAptId(apt._id)}}
+                    >
+                      {apt.name}
+                    </h1> */}
+                    <h1>{apt.name}</h1>
+
+                    <h1>{apt.address}</h1>
+
+                    <div className={`flex justify-between`}>
+                      {apt.status}
+
+                      {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+                      <button
+                        className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
+                        onClick={() =>
+                          navigate(`/owner-apartments/detail/${apt._id}`)
+                        }
+                      >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        <h1>Details</h1>
+                      </button>
+                    </div>
+
+                    <span></span>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}

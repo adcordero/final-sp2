@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+import UpdateApartment from "./UpdateApartment";
 
 const ApartmentDetail = () => {
   const pathname = window.location.pathname;
@@ -166,6 +167,9 @@ const ApartmentDetail = () => {
           </div>
         )}
       </div>
+
+      {/* update modal */}
+      { updateModal ? (<UpdateApartment showUpdateModal={showUpdateModal} /> ) : null }
     </>
   );
 };

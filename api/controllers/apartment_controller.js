@@ -53,6 +53,8 @@ export const findOneUnit = async (req, res, next) => {
 };
 
 // update an apartment
+// owner_id: req.body.owner_id,
+// status: req.body.status,
 export const updateApt = async (req, res, next) => {
   try {
     const updatedApt = await Apartment.findByIdAndUpdate(
@@ -61,9 +63,6 @@ export const updateApt = async (req, res, next) => {
         $set: {
           name: req.body.name,
           address: req.body.address,
-          owner_id: req.body.owner_id,
-          description: req.body.description,
-          status: req.body.status,
         },
       },
       { new: true }

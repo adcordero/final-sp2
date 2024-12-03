@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddApartment = ({ showAddModal }) => {
   const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: "",
