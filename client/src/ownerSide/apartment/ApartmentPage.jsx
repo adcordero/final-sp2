@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faExpand,
+  faPenToSquare,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import AddApartment from "./AddApartment";
 
@@ -15,22 +20,24 @@ const ApartmentPage = () => {
   // should be TRUE by default
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
-//   modal states
+  //   modal states
   const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [detailModal, setDetailModal] = useState(false);
+  //   const [editModal, setEditModal] = useState(false);
+  //   const [detailModal, setDetailModal] = useState(false);
+  //   const [chosenAptId, setChosenAptId] = useState("");
 
   const showAddModal = () => {
     setAddModal(!addModal);
   };
 
-  const showEditModal = () => {
-    setEditModal(!editModal);
-  };
+  //   const showEditModal = () => {
+  //     setEditModal(!editModal);
+  //   };
 
-  const showDetailModal = () => {
-    setDetailModal(!detailModal);
-  };
+  //   const showDetailModal = () => {
+
+  //     setDetailModal(!detailModal);
+  //   };
 
   const [allApartments, setAllApartments] = useState([]);
   const allApartments_nameSort = allApartments.sort((a, b) =>
@@ -77,9 +84,16 @@ const ApartmentPage = () => {
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
             <div
-              className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans`}
+              className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
-              Apartments {">"} All Apartments
+              <span
+                className={`cursor-pointer hover:text-logo-blue hover:underline`}
+                onClick={() => navigate("/owner-apartments")}
+              >
+                Apartments
+              </span>
+              {">"}
+              <h1> All Apartments</h1>
             </div>
 
             {/* welcoming statement */}
@@ -133,12 +147,18 @@ const ApartmentPage = () => {
                 <h1>Status</h1>
               </div>
 
-              {/* list items */}
+              {/* list apartments */}
               {allApartments_statusSort.map((apt) => (
                 <div
                   key={apt._id}
                   className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
                 >
+                  {/* <h1
+                    className={`cursor-pointer hover:underline text-blue-600`}
+                    onClick={() => {showDetailModal(); setChosenAptId(apt._id)}}
+                  >
+                    {apt.name}
+                  </h1> */}
                   <h1>{apt.name}</h1>
 
                   <h1>{apt.address}</h1>
@@ -146,7 +166,16 @@ const ApartmentPage = () => {
                   <div className={`flex justify-between`}>
                     {apt.status}
 
-                    <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span>
+                    {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+                    <button
+                      className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
+                      onClick={() =>
+                        navigate(`/owner-apartments/detail/${apt._id}`)
+                      }
+                    >
+                      <FontAwesomeIcon icon={faCircleInfo} />
+                      <h1>Details</h1>
+                    </button>
                   </div>
 
                   <span></span>
@@ -156,9 +185,9 @@ const ApartmentPage = () => {
           </div>
         )}
       </div>
-      
+
       {/* modals */}
-      {addModal ? (<AddApartment showAddModal={showAddModal} />) : null}
+      {addModal ? <AddApartment showAddModal={showAddModal} /> : null}
     </>
   );
 };

@@ -10,7 +10,7 @@ router.post("/update-apartment/:id", updateApt);
 
 // unit routes
 router.post("/create-unit", createUnit);
-router.get("/find-units/:id", findUnits);
+router.get("/find-apt-units/:id", findUnits);
 router.get("/find-unit/:id", findOneUnit);
 router.post("/update-unit/:id", updateUnit);
 
