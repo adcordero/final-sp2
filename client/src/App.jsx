@@ -34,6 +34,8 @@ const App = () => {
             <Route path="/owner-apartments" element={<ApartmentPage />} />
             <Route path="/owner-apartments/add" element={<AddApartment />} />
             <Route path="/owner-apartments/detail/:id" element={<ApartmentDetail />} />
+
+            {/* unit */}
           </Route>
         </Routes>
       </BrowserRouter>
