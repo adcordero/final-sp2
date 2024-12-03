@@ -4,12 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleInfo,
-  faExpand,
-  faPenToSquare,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import AddApartment from "./AddApartment";
 
@@ -22,22 +17,10 @@ const ApartmentPage = () => {
 
   //   modal states
   const [addModal, setAddModal] = useState(false);
-  //   const [editModal, setEditModal] = useState(false);
-  //   const [detailModal, setDetailModal] = useState(false);
-  //   const [chosenAptId, setChosenAptId] = useState("");
 
   const showAddModal = () => {
     setAddModal(!addModal);
   };
-
-  //   const showEditModal = () => {
-  //     setEditModal(!editModal);
-  //   };
-
-  //   const showDetailModal = () => {
-
-  //     setDetailModal(!detailModal);
-  //   };
 
   const [allApartments, setAllApartments] = useState([]);
   const allApartments_nameSort = allApartments.sort((a, b) =>
@@ -83,6 +66,7 @@ const ApartmentPage = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
+            {/* welcoming statement */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >

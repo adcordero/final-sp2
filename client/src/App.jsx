@@ -11,6 +11,7 @@ import OwnerDashboard from "./ownerSide/OwnerDashboard";
 import ApartmentPage from "./ownerSide/apartment/ApartmentPage";
 import AddApartment from "./ownerSide/apartment/AddApartment";
 import ApartmentDetail from "./ownerSide/apartment/ApartmentDetail";
+import UnitPage from "./ownerSide/unit/UnitPage";
 
 const App = () => {
   return (
@@ -20,22 +21,28 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/verification/:confirmationCode" element={<VerificationPage />} />
-
+          <Route
+            path="/verification/:confirmationCode"
+            element={<VerificationPage />}
+          />
 
           <Route element={<PrivateRoute />}>
-          {/* tenant side */}
+            {/* tenant side */}
             <Route path="/tenant-dashboard" element={<TenantDashboard />} />
 
-          {/* owner side */}
+            {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />
 
             {/* apartment */}
             <Route path="/owner-apartments" element={<ApartmentPage />} />
             <Route path="/owner-apartments/add" element={<AddApartment />} />
-            <Route path="/owner-apartments/detail/:id" element={<ApartmentDetail />} />
+            <Route
+              path="/owner-apartments/detail/:id"
+              element={<ApartmentDetail />}
+            />
 
             {/* unit */}
+            <Route path="/owner-units" element={<UnitPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
