@@ -82,14 +82,14 @@ const Header = () => {
                 className={` font-poppins font-semibold text-lg md:text-xl text-nowrap  hover:text-logo-gray-blue`}
                 onClick={onLogoutClick}
               >
-                Logout
+                Sign Out
               </button>
             ) : (
               <button
                 className={` font-poppins font-semibold text-lg md:text-xl text-nowrap  hover:text-logo-gray-blue`}
                 onClick={onLoginClick}
               >
-                Login
+                Sign In
               </button>
             )}
           </div>
