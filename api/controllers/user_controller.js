@@ -16,7 +16,7 @@ export const tenantSignUp = async (req, res, next) => {
     contact_num,
     email,
     password,
-    apt_id,
+    unit_id,
   } = req.body;
 
   const hashedPass = bcryptjs.hashSync(password, 10);
@@ -30,7 +30,7 @@ export const tenantSignUp = async (req, res, next) => {
     email,
     password: hashedPass,
     confirm_code: token,
-    apt_id: "",
+    unit_id,
   });
 
   try {

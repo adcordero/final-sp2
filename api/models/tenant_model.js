@@ -40,10 +40,8 @@ const tenantSchema = new mongoose.Schema({
         unique: true
     },
     unit_id: {
-        type: String
-    },
-    unit_name: {
-        type: String
+        type: String,
+        default: ''
     },
 },
 {

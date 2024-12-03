@@ -30,6 +30,8 @@ const SignUp = () => {
   const handleCreateTenantAccount = async (e) => {
     e.preventDefault();
 
+    // setFormData({ ...formData, unit_id: " " });
+
     const passRegEx =
       /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+-])(?!.* ).{8,16}$/;
 

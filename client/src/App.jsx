@@ -6,7 +6,7 @@ import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import PrivateRoute from "./components/PrivateRoute";
 import VerificationPage from "./components/VerificationPage";
-import TenantDashboard from "../tenantSide/TenantDashboard";
+import TenantDashboard from "./tenantSide/TenantDashboard";
 import OwnerDashboard from "./ownerSide/OwnerDashboard";
 
 const App = () => {

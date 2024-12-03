@@ -17,8 +17,6 @@ const Header = () => {
   const [buttonVal, setButtonVal] = useState("Sign In");
 
   const onLogoutClick = async () => {
-    // console.log('logout clicked!')
-
     try {
       dispatch(logoutUserStart());
 
@@ -35,13 +33,10 @@ const Header = () => {
       }
 
       dispatch(logoutUserSuccess(data));
-      // alert(data)
-      toast.success(data);
 
-      // navigate('/')
+      toast.success(data);
     } catch (error) {
       dispatch(logoutUserFailure(error.message));
-      // next(error)
     }
   };
 
