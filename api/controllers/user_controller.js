@@ -2,8 +2,6 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utilities/error.js";
 import jwt from "jsonwebtoken";
 import { sendEmailConfirmation } from "../utilities/nodemailer_config.js";
-import Apartment from "../models/apartment_model.js";
-import Unit from "../models/unit_model.js";
 import Tenant from "../models/tenant_model.js";
 import Owner from "../models/owner_model.js";
 
@@ -162,22 +160,4 @@ export const signOut = (req, res, next) => {
   }
 };
 
-// get owner's apartments
-export const getUserApts = async (req, res, next) => {
-  try {
-    const apt = await Apartment.find({ owner_id: req.params.id });
-    res.status(200).json(apt);
-  } catch (error) {
-    next(error);
-  }
-};
 
-// get owner's units
-export const getUserUnits = async (req, res, next) => {
-  try {
-    const aptUnits = await Unit.find({ owner_id: req.params.id });
-    res.status(200).json(aptUnits);
-  } catch (error) {
-    next(error);
-  }
-};

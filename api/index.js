@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 
-import aptRouter from "./routes/apartment_routes.js";
+import apartmentRouter from "./routes/apartment_routes.js";
 import userRouter from "./routes/user_routes.js";
+import ownerRouter from "./routes/owner_routes.js";
 
 dotenv.config();
 
@@ -26,7 +27,8 @@ app.listen(3000, () => {
 });
 
 app.use("/api/user", userRouter);
-app.use("/api/apartment", aptRouter);
+app.use("/api/apartment", apartmentRouter);
+app.use("/api/owner", ownerRouter);
 
 // middleware
 app.use((err, req, res, next) => {

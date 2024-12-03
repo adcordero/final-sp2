@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   logoutUserFailure,
@@ -24,6 +24,7 @@ import {
 const Sidebar = ({ currentPage }) => {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onLogoutClick = async () => {
     try {
@@ -62,11 +63,12 @@ const Sidebar = ({ currentPage }) => {
             >
               {/* dashboard */}
               <div
-                className={`w-auto flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                className={`w-auto flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                   currentPage == "/owner-dashboard"
                     ? "bg-logo-blue rounded-lg text-logo-white"
-                    : "text-zinc-600"
+                    : ""
                 } `}
+                 onClick={() => navigate("/owner-dashboard")}
               >
                 <FontAwesomeIcon icon={faHouse} className={`text-sm `} />
                 <p className={`md:text-lg text-base`}>Dashboard</p>
@@ -82,11 +84,12 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* apartment */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
-                    currentPage == "/rent"
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-apartments"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                  onClick={() => navigate("/owner-apartments")}
                 >
                   <FontAwesomeIcon icon={faBuilding} className={`text-sm `} />
                   <p className={`md:text-lg text-base truncate`}>Apartments</p>
@@ -94,11 +97,12 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* unit */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
-                    currentPage == "/rent"
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-units"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                  onClick={() => navigate("/owner-units")}
                 >
                   <FontAwesomeIcon
                     icon={faBuildingUser}
@@ -118,11 +122,12 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* tenant */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
-                    currentPage == "/rent"
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-tenants"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                  onClick={() => navigate("/owner-tenants")}
                 >
                   <FontAwesomeIcon
                     icon={faPeopleGroup}
@@ -142,11 +147,12 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* payment */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
-                    currentPage == "/rent"
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-payments"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                  onClick={() => navigate("/owner-payments")}
                 >
                   <FontAwesomeIcon icon={faReceipt} className={`text-sm `} />
                   <p className={`md:text-lg text-base truncate`}>Payments</p>
@@ -163,11 +169,12 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* feedback */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
-                    currentPage == "/rent"
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-feedbacks"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                  onClick={() => navigate("/owner-feedbacks")}
                 >
                   <FontAwesomeIcon icon={faInbox} className={`text-sm `} />
                   <p className={`md:text-lg text-base truncate`}>Feedbacks</p>
@@ -178,7 +185,7 @@ const Sidebar = ({ currentPage }) => {
 
               {/* logout */}
               <div
-                className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  rounded-md bg-logo-gray text-logo-white hover:bg-logo-blue-gray hover:text-logo-white`}
+                className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  rounded-md bg-logo-gray text-logo-white hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer`}
                 onClick={onLogoutClick}
               >
                 <FontAwesomeIcon
@@ -195,10 +202,10 @@ const Sidebar = ({ currentPage }) => {
             >
               {/* dashboard */}
               <div
-                className={`w-auto flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                className={`w-auto flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                   currentPage == "/t-home"
                     ? "bg-logo-blue rounded-lg text-logo-white"
-                    : "text-zinc-600"
+                    : ""
                 } `}
               >
                 <FontAwesomeIcon icon={faHouse} className={`text-sm `} />
@@ -215,7 +222,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* rent */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/rent"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
@@ -229,7 +236,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* water */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/water-bill"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
@@ -243,7 +250,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* power */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/power-bill"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
@@ -266,7 +273,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* water */}
                 <div
-                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white ${
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/t-feedbacks"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
@@ -281,7 +288,7 @@ const Sidebar = ({ currentPage }) => {
 
               {/* logout */}
               <div
-                className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  rounded-md bg-logo-gray text-logo-white hover:bg-logo-blue-gray hover:text-logo-white`}
+                className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  rounded-md bg-logo-gray text-logo-white hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer`}
                 onClick={onLogoutClick}
               >
                 <FontAwesomeIcon

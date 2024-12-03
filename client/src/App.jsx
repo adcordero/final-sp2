@@ -8,6 +8,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import VerificationPage from "./components/VerificationPage";
 import TenantDashboard from "./tenantSide/TenantDashboard";
 import OwnerDashboard from "./ownerSide/OwnerDashboard";
+import ApartmentPage from "./ownerSide/apartment/ApartmentPage";
+import AddApartment from "./ownerSide/apartment/AddApartment";
 
 const App = () => {
   return (
@@ -21,11 +23,15 @@ const App = () => {
 
 
           <Route element={<PrivateRoute />}>
-            {/* tenant side */}
+          {/* tenant side */}
             <Route path="/tenant-dashboard" element={<TenantDashboard />} />
 
-            {/* owner side */}
+          {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />
+
+            {/* apartment */}
+            <Route path="/owner-apartments" element={<ApartmentPage />} />
+            <Route path="/owner-apartments/add" element={<AddApartment />} />
           </Route>
         </Routes>
       </BrowserRouter>
