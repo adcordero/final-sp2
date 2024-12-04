@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleInfo,
   faPenToSquare,
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import AddUnit from "./AddUnit";
 import UpdateUnit from "./UpdateUnit";
@@ -47,14 +46,22 @@ const UnitPage = () => {
         const unitData = await unitRes.json();
 
         if (unitData.success == false) {
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           return;
         }
 
         setAllUnits(unitData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 

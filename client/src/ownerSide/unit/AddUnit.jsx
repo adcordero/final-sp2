@@ -2,7 +2,7 @@ import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Loading from "../../assets/LoadingScreen";
 
 const AddUnit = ({ showAddModal }) => {
@@ -38,14 +38,22 @@ const AddUnit = ({ showAddModal }) => {
         const aptData = await aptRes.json();
 
         if (aptData.success === false) {
-          toast.error(aptData.errorMessage);
+          // toast.error(aptData.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: aptData.errorMessage,
+          });
           return;
         }
 
         setAllApts(aptData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 
@@ -89,14 +97,26 @@ const AddUnit = ({ showAddModal }) => {
       const unitData = await unitRes.json();
 
       if (unitData.success === false) {
-        toast.error(unitData.errorMessage);
+        // toast.error(unitData.errorMessage);
+        SweetAlert.fire({
+          icon: "error",
+          title: unitData.errorMessage,
+        });
         return;
       }
 
-      toast.success("Successfully created unit!");
+      // toast.success("Successfully created unit!");
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully created unit!",
+      });
       showAddModal();
     } catch (error) {
-      toast.error(error);
+      // toast.error(error);
+      SweetAlert.fire({
+        icon: "error",
+        title: error,
+      });
     }
   };
 

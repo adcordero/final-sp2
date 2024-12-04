@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Loading from "../../assets/LoadingScreen";
 
 const UpdateApartment = ({ showUpdateModal }) => {
@@ -19,7 +19,11 @@ const UpdateApartment = ({ showUpdateModal }) => {
         const aptData = await aptRes.json();
 
         if (aptData.success === false) {
-          toast.error(aptData.errorMessage);
+          // toast.error(aptData.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: aptData.errorMessage,
+          });
           return;
         }
 
@@ -33,7 +37,11 @@ const UpdateApartment = ({ showUpdateModal }) => {
         // setAptDetail(aptData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 
@@ -60,14 +68,26 @@ const UpdateApartment = ({ showUpdateModal }) => {
       const data = await res.json();
 
       if (data.success == false) {
-        toast.error(data.errorMessage);
+        // toast.error(data.errorMessage);
+        SweetAlert.fire({
+          icon: "error",
+          title: data.errorMessage,
+        });
         return;
       }
 
-      toast.success("Successfully updated apartment!");
+      // toast.success("Successfully updated apartment!");
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully updated apartment!",
+      });
       showUpdateModal();
     } catch (error) {
-      toast.error(error);
+      // toast.error(error);
+      SweetAlert.fire({
+        icon: "error",
+        title: error,
+      });
     }
   };
 

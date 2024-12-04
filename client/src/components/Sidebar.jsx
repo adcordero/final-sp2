@@ -6,7 +6,7 @@ import {
   logoutUserStart,
   logoutUserSuccess,
 } from "../redux/user/userSlice";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,7 +44,11 @@ const Sidebar = ({ currentPage }) => {
 
       dispatch(logoutUserSuccess(data));
 
-      toast.success(data);
+      // toast.success(data);
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully logged out!",
+      });
     } catch (error) {
       dispatch(logoutUserFailure(error.message));
     }

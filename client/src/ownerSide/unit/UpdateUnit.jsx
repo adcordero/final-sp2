@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Loading from "../../assets/LoadingScreen";
 
 const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
@@ -15,7 +15,11 @@ const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
         const data = await res.json();
 
         if (data.success === false) {
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           return;
         }
 
@@ -28,7 +32,11 @@ const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
         // setUnitDetail(data);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 
@@ -62,38 +70,28 @@ const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
       const data = await res.json();
 
         if (data.success == false) {
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           return;
         }
 
-        toast.success("Successfully updated unit!");
+        // toast.success("Successfully updated unit!");
+        SweetAlert.fire({
+          icon: "success",
+          title: "Successfully updated unit!",
+        });
         showUpdateModal();
     } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
     }
 
-    // try {
-    //   const updateRes = await fetch(`/api/apartment/update-unit/${chosenUnitId}`, {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   const updatedRes = await updateRes.json();
-
-    //   if (updatedRes.success == false) {
-    //     toast.error(updatedRes.errorMessage);
-    //     return;
-    //   }
-
-    // //   console.log(updatedRes);
-    //   toast.success("Successfully updated unit!");
-    //   showUpdateModal();
-    // } catch (error) {
-    //   toast.error(error);
-    // }
   };
 
   return (

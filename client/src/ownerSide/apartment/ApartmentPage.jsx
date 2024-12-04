@@ -5,7 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import AddApartment from "./AddApartment";
 
 const ApartmentPage = () => {
@@ -40,14 +40,22 @@ const ApartmentPage = () => {
         // console.log(apartmentData);
 
         if (apartmentData.success == false) {
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           return;
         }
 
         setAllApartments(apartmentData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 
