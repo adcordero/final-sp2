@@ -3,7 +3,11 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faPenToSquare,
+  faSearch,
+} from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import AddUnit from "./AddUnit";
@@ -15,9 +19,20 @@ const UnitPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   const [addModal, setAddModal] = useState(false);
+  const [detailModal, setDetailModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [chosenUnitId, setChosenUnitId] = useState("");
 
   const showAddModal = () => {
     setAddModal(!addModal);
+  };
+
+  const showDetailModal = () => {
+    setDetailModal(!detailModal);
+  };
+
+  const showUpdateModal = () => {
+    setUpdateModal(!updateModal);
   };
 
   const [allUnits, setAllUnits] = useState([]);
@@ -137,7 +152,12 @@ const UnitPage = () => {
                     key={unit._id}
                     className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
                   >
-                    <h1>{unit.name}</h1>
+                    <h1
+                      className={`cursor-pointer hover:underline text-blue-600`}
+                      onClick={() => {showDetailModal(); setChosenAptId(unit._id)}}
+                    >
+                      {unit.name}
+                    </h1>
 
                     <h1>{unit.description}</h1>
 
@@ -151,8 +171,8 @@ const UnitPage = () => {
                         //     navigate(`/owner-apartments/detail/${unit._id}`)
                         //   }
                       >
-                        <FontAwesomeIcon icon={faCircleInfo} />
-                        <h1>Details</h1>
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                        <h1>Edit</h1>
                       </button>
                     </div>
                   </div>
