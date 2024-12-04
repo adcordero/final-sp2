@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 // import { toast } from "react-toastify";
-import SweetAlert from "../../assets/SweetAlert";
 import Swal from "sweetalert2";
+import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -80,7 +80,7 @@ const ApartmentDetail = () => {
     // console.log(aptUnits);
   }, [aptDetail, aptUnits]);
 
-  const handleDeleteUnit = async (e) => {
+  const handleDeleteUnit = async (e, unit_id) => {
     e.preventDefault();
 
     Swal.fire({
@@ -95,12 +95,9 @@ const ApartmentDetail = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(
-            `/api/apartment/delete-unit/${chosenUnitId}`,
-            {
-              method: "DELETE",
-            }
-          );
+          const res = await fetch(`/api/apartment/delete-unit/${unit_id}`, {
+            method: "DELETE",
+          });
 
           const data = await res.json();
 
@@ -113,7 +110,7 @@ const ApartmentDetail = () => {
 
           SweetAlert.fire({
             icon: "success",
-            title: "Successfully deleted unit!",
+            title: data,
           });
         } catch (error) {
           SweetAlert.fire({
@@ -240,12 +237,12 @@ const ApartmentDetail = () => {
                     <div className={`flex justify-between`}>
                       {unit.advance}
 
-                      {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+                      
                       {/* buttons */}
                       <div className={`flex gap-3`}>
                         {/* edit */}
                         <button
-                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
                           onClick={() => {
                             showUpdateModal();
                             setChosenUnitId(unit._id);
@@ -258,10 +255,10 @@ const ApartmentDetail = () => {
 
                         {/* delete */}
                         <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
                           onClick={(e) => {
-                            handleDeleteUnit(e);
-                            setChosenUnitId(unit._id);
+                            handleDeleteUnit(e, unit._id);
+                            // setChosenUnitId(unit._id);
                           }}
                           title="Delete"
                         >

@@ -70,7 +70,7 @@ const UnitPage = () => {
     fetchNeededDetails();
   }, [allUnits]);
 
-  const handleDeleteUnit = async (e) => {
+  const handleDeleteUnit = async (e, unit_id) => {
     e.preventDefault();
 
     Swal.fire({
@@ -85,12 +85,9 @@ const UnitPage = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(
-            `/api/apartment/delete-unit/${chosenUnitId}`,
-            {
-              method: "DELETE",
-            }
-          );
+          const res = await fetch(`/api/apartment/delete-unit/${unit_id}`, {
+            method: "DELETE",
+          });
 
           const data = await res.json();
 
@@ -103,7 +100,7 @@ const UnitPage = () => {
 
           SweetAlert.fire({
             icon: "success",
-            title: "Successfully deleted unit!",
+            title: data,
           });
         } catch (error) {
           SweetAlert.fire({
@@ -231,7 +228,7 @@ const UnitPage = () => {
                       <div className={`flex gap-3`}>
                         {/* edit */}
                         <button
-                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
                           onClick={() => {
                             showUpdateModal();
                             setChosenUnitId(unit._id);
@@ -244,10 +241,10 @@ const UnitPage = () => {
 
                         {/* delete */}
                         <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
                           onClick={(e) => {
-                            handleDeleteUnit(e);
-                            setChosenUnitId(unit._id);
+                            handleDeleteUnit(e, unit._id);
+                            // setChosenUnitId(unit._id);
                           }}
                           title="Delete"
                         >

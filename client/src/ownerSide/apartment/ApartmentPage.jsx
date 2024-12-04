@@ -4,8 +4,13 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 // import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import AddApartment from "./AddApartment";
 
@@ -62,6 +67,48 @@ const ApartmentPage = () => {
 
     fetchNeededDetails();
   }, [allApartments]);
+
+  const handleDeleteApt = async (e, apt_id) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      confirmButtonColor: "rgb(22 163 74)",
+      cancelButtonColor: "rgb(220 38 38)",
+      confirmButtonText: "Yes, delete it!",
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`/api/apartment/delete-apartment/${apt_id}`, {
+            method: "DELETE",
+          });
+
+          const data = await res.json();
+
+          if (data.success === false) {
+            SweetAlert.fire({
+              icon: "error",
+              title: data.errorMessage,
+            });
+          }
+
+          SweetAlert.fire({
+            icon: "success",
+            title: data,
+          });
+        } catch (error) {
+          SweetAlert.fire({
+            icon: "error",
+            title: error,
+          });
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -165,15 +212,34 @@ const ApartmentPage = () => {
                       {apt.status}
 
                       {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
-                      <button
-                        className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
-                        onClick={() =>
-                          navigate(`/owner-apartments/detail/${apt._id}`)
-                        }
-                      >
-                        <FontAwesomeIcon icon={faCircleInfo} />
-                        <h1>Details</h1>
-                      </button>
+
+                      {/* buttons */}
+                      <div className={`flex gap-3`}>
+                        {/* edit */}
+                        <button
+                          className={`text-blue-600 cursor-pointer flex gap-1 items-center text-base`}
+                          onClick={() =>
+                            navigate(`/owner-apartments/detail/${apt._id}`)
+                          }
+                          title="Details"
+                        >
+                          <FontAwesomeIcon icon={faCircleInfo} />
+                          {/* <h1>Details</h1> */}
+                        </button>
+
+                        {/* delete */}
+                        <button
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
+                          onClick={(e) => {
+                            handleDeleteApt(e, apt._id);
+                            // setChosenUnitId(unit._id);
+                          }}
+                          title="Delete"
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                          {/* <h1>Edit</h1> */}
+                        </button>
+                      </div>
                     </div>
 
                     {/* <span></span> */}
