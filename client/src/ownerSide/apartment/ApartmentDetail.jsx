@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 // import { toast } from "react-toastify";
 import SweetAlert from "../../assets/SweetAlert";
-import Swal from "sweetalert2";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -79,51 +78,6 @@ const ApartmentDetail = () => {
     fetchNeededDetails();
     // console.log(aptUnits);
   }, [aptDetail, aptUnits]);
-
-  const handleDeleteUnit = async (e) => {
-    e.preventDefault();
-
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      confirmButtonColor: "rgb(22 163 74)",
-      cancelButtonColor: "rgb(220 38 38)",
-      confirmButtonText: "Yes, delete it!",
-      showCancelButton: true,
-      reverseButtons: true,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await fetch(
-            `/api/apartment/delete-unit/${chosenUnitId}`,
-            {
-              method: "DELETE",
-            }
-          );
-
-          const data = await res.json();
-
-          if (data.success === false) {
-            SweetAlert.fire({
-              icon: "error",
-              title: data.errorMessage,
-            });
-          }
-
-          SweetAlert.fire({
-            icon: "success",
-            title: "Successfully deleted unit!",
-          });
-        } catch (error) {
-          SweetAlert.fire({
-            icon: "error",
-            title: error,
-          });
-        }
-      }
-    });
-  };
 
   return (
     <>
@@ -259,10 +213,9 @@ const ApartmentDetail = () => {
                         {/* delete */}
                         <button
                           className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
-                          onClick={(e) => {
-                            handleDeleteUnit(e);
-                            setChosenUnitId(unit._id);
-                          }}
+                          // onClick={() =>
+                          //   {showUpdateModal(); setChosenUnitId(unit._id);}
+                          // }
                           title="Delete"
                         >
                           <FontAwesomeIcon icon={faTrash} />

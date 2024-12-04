@@ -72,6 +72,20 @@ const UnitPage = () => {
 
   const handleDeleteUnit = async (e) => {
     e.preventDefault();
+    // console.log("entered delete function");
+
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   icon: "warning",
+    //   confirmButtonColor: "rgb(22 163 74)",
+    //   cancelButtonColor: "rgb(220 38 38)",
+    //   confirmButtonText: "Yes, delete it!",
+    //   showCancelButton: true,
+    //   reverseButtons: true,
+    //   // closeOnConfirm: false,
+    //   // closeOnCancel: false,
+    // });
 
     Swal.fire({
       title: "Are you sure?",
@@ -113,6 +127,31 @@ const UnitPage = () => {
         }
       }
     });
+
+    // try {
+    //   const res = await fetch(`/api/apartment/delete-unit/${chosenUnitId}`, {
+    //     method: "DELETE",
+    //   });
+
+    //   const data = await res.json();
+
+    //   if (data.success === false) {
+    //     SweetAlert.fire({
+    //       icon: "error",
+    //       title: data.errorMessage,
+    //     });
+    //   }
+
+    //   SweetAlert.fire({
+    //     icon: "success",
+    //     title: "Successfully deleted unit!",
+    //   });
+    // } catch (error) {
+    //   SweetAlert.fire({
+    //     icon: "error",
+    //     title: error,
+    //   });
+    // }
   };
 
   return (
