@@ -101,8 +101,18 @@ export const updateUnit = async (req, res, next) => {
 export const deleteOneUnit = async (req, res, next) => {
   try {
     const toDelUnit = await Unit.findByIdAndDelete(req.params.id);
-
     return res.status(200).json("Unit has been deleted...");
+  } catch (error) {
+    next(error);
+  }
+};
+
+// deletes an apartment and its units
+export const deleteApt = async (req, res, next) => {
+  try {
+    const toDelApt = await Apartment.findByIdAndDelete(req.params.id);
+    const toDelUnits = await Unit.deleteMany({ apt_id: req.params.id });
+    return res.status(200).json("Apartment and its units have been deleted...");
   } catch (error) {
     next(error);
   }

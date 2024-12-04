@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 // import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,6 +79,48 @@ const ApartmentDetail = () => {
     fetchNeededDetails();
     // console.log(aptUnits);
   }, [aptDetail, aptUnits]);
+
+  const handleDeleteUnit = async (e, unit_id) => {
+    e.preventDefault();
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      confirmButtonColor: "rgb(22 163 74)",
+      cancelButtonColor: "rgb(220 38 38)",
+      confirmButtonText: "Yes, delete it!",
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`/api/apartment/delete-unit/${unit_id}`, {
+            method: "DELETE",
+          });
+
+          const data = await res.json();
+
+          if (data.success === false) {
+            SweetAlert.fire({
+              icon: "error",
+              title: data.errorMessage,
+            });
+          }
+
+          SweetAlert.fire({
+            icon: "success",
+            title: data,
+          });
+        } catch (error) {
+          SweetAlert.fire({
+            icon: "error",
+            title: error,
+          });
+        }
+      }
+    });
+  };
 
   return (
     <>
@@ -194,12 +237,12 @@ const ApartmentDetail = () => {
                     <div className={`flex justify-between`}>
                       {unit.advance}
 
-                      {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+                      
                       {/* buttons */}
                       <div className={`flex gap-3`}>
                         {/* edit */}
                         <button
-                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
                           onClick={() => {
                             showUpdateModal();
                             setChosenUnitId(unit._id);
@@ -212,10 +255,11 @@ const ApartmentDetail = () => {
 
                         {/* delete */}
                         <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
-                          // onClick={() =>
-                          //   {showUpdateModal(); setChosenUnitId(unit._id);}
-                          // }
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
+                          onClick={(e) => {
+                            handleDeleteUnit(e, unit._id);
+                            // setChosenUnitId(unit._id);
+                          }}
                           title="Delete"
                         >
                           <FontAwesomeIcon icon={faTrash} />

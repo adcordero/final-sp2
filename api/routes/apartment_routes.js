@@ -1,5 +1,5 @@
 import express from "express";
-import { createApt, createUnit, deleteOneUnit, findOneApt, findOneUnit, findUnits, updateApt, updateUnit } from "../controllers/apartment_controller.js";
+import { createApt, createUnit, deleteApt, deleteOneUnit, findOneApt, findOneUnit, findUnits, updateApt, updateUnit } from "../controllers/apartment_controller.js";
 
 const router = express.Router();
 
@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/create-apartment", createApt);
 router.get("/find-apartment/:id", findOneApt);
 router.post("/update-apartment/:id", updateApt);
+router.delete("/delete-apartment/:id", deleteApt);
 
 // unit routes
 router.post("/create-unit", createUnit);

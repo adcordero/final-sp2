@@ -100,7 +100,7 @@ const UnitPage = () => {
 
           SweetAlert.fire({
             icon: "success",
-            title: "Successfully deleted unit!",
+            title: data,
           });
         } catch (error) {
           SweetAlert.fire({
@@ -228,7 +228,7 @@ const UnitPage = () => {
                       <div className={`flex gap-3`}>
                         {/* edit */}
                         <button
-                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
                           onClick={() => {
                             showUpdateModal();
                             setChosenUnitId(unit._id);
@@ -241,7 +241,7 @@ const UnitPage = () => {
 
                         {/* delete */}
                         <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
                           onClick={(e) => {
                             handleDeleteUnit(e, unit._id);
                             // setChosenUnitId(unit._id);
