@@ -9,11 +9,8 @@ import VerificationPage from "./components/VerificationPage";
 import TenantDashboard from "./tenantSide/TenantDashboard";
 import OwnerDashboard from "./ownerSide/OwnerDashboard";
 import ApartmentPage from "./ownerSide/apartment/ApartmentPage";
-import AddApartment from "./ownerSide/apartment/AddApartment";
 import ApartmentDetail from "./ownerSide/apartment/ApartmentDetail";
 import UnitPage from "./ownerSide/unit/UnitPage";
-import AddUnit from "./ownerSide/unit/AddUnit";
-import UnitDetail from "./ownerSide/unit/UnitDetail";
 
 const App = () => {
   return (
@@ -44,7 +41,6 @@ const App = () => {
 
             {/* unit */}
             <Route path="/owner-units" element={<UnitPage />} />
-            {/* <Route path="/owner-units/dtail/:id" element={<UnitDetail />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>

@@ -21,6 +21,8 @@ const AddUnit = ({ showAddModal }) => {
     name: "",
     description: "",
     rent: "",
+    deposit: "",
+    advance: "",
     owner_id: currentUser._id,
     est_id: "",
     est_name: "",
@@ -70,6 +72,11 @@ const AddUnit = ({ showAddModal }) => {
   // handles form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const rent_num = parseInt(formData.rent, 10);
+
+    formData.deposit = (rent_num * 2).toString();
+    formData.advance = formData.rent;
 
     try {
       const unitRes = await fetch(`/api/apartment/create-unit`, {
@@ -126,86 +133,99 @@ const AddUnit = ({ showAddModal }) => {
                   <form
                     className={`w-full grid justify-self-center self-center gap-3`}
                   >
-                    <label className={`grid gap-2`}>
-                      <span className={`text-base font-bold font-oswald pl-1`}>
-                        Name
-                      </span>
-                      <input
-                        type="text"
-                        placeholder="Name"
-                        id="name"
-                        className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-source `}
-                        onChange={handleChange}
-                        required
-                      />
-                    </label>
-
-                    <label className={`grid gap-2`}>
-                      <span className={`text-base font-bold font-oswald pl-1`}>
-                        Description
-                      </span>
-                      <input
-                        type="text"
-                        placeholder="Description"
-                        id="description"
-                        className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-source `}
-                        onChange={handleChange}
-                        required
-                      />
-                    </label>
-
-                    <label className={`grid gap-2`}>
-                      <span className={`text-base font-bold font-oswald pl-1`}>
-                        Rent
-                      </span>
-                      <input
-                        type="number"
-                        placeholder="Rent"
-                        id="rent"
-                        className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-source `}
-                        onChange={handleChange}
-                        required
-                      />
-                    </label>
-
-                    <label className={`grid gap-2`}>
-                      <span className={`text-base font-bold font-oswald pl-1`}>
-                        Choose Apartment
-                      </span>
-                      <div
-                        onClick={() => setIsOpen(!isOpen)}
-                        className={`border-2 border-black rounded-sm font-source p-2 w-full flex items-center justify-between text-sm ${
-                          buttonLabel == "Choose Apartment"
-                            ? "text-gray-400"
-                            : "text-black"
-                        }`}
-                      >
-                        {buttonLabel}
-                        {isOpen ? (
-                          <FontAwesomeIcon icon={faChevronUp} />
-                        ) : (
-                          <FontAwesomeIcon icon={faChevronDown} />
-                        )}
-                      </div>
-
-                      {isOpen && getAllApts.length ? (
-                        <div
-                          className={`border-2 border-black rounded-sm font-source p-2 w-full text-sm h-fit max-h-36 overflow-auto text-black`}
+                    <div className={`grid md:grid-cols-2 gap-3`}>
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
                         >
-                          {getAllApts_nameSort.map((apt) =>
-                            apt.owner_id == currentUser._id ? (
-                              <div
-                                key={apt._id}
-                                className={`grid justify-items-start p-1 content-center cursor-pointer hover:bg-logo-gray/50 hover:rounded-sm`}
-                                onClick={() => dropdownChoice(apt)}
-                              >
-                                <span>{apt.name}</span>
-                              </div>
-                            ) : null
+                          Name
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="Name"
+                          id="name"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Description
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="Description"
+                          id="description"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+                    </div>
+
+                    {/* money */}
+                    <div className={`grid md:grid-cols-2 gap-3`}>
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Rent
+                        </span>
+                        <input
+                          type="number"
+                          placeholder="Rent"
+                          id="rent"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Choose Apartment
+                        </span>
+                        <div
+                          onClick={() => setIsOpen(!isOpen)}
+                          className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full flex items-center justify-between text-sm ${
+                            buttonLabel == "Choose Apartment"
+                              ? "text-gray-400"
+                              : "text-black"
+                          }`}
+                        >
+                          {buttonLabel}
+                          {isOpen ? (
+                            <FontAwesomeIcon icon={faChevronUp} />
+                          ) : (
+                            <FontAwesomeIcon icon={faChevronDown} />
                           )}
                         </div>
-                      ) : null}
-                    </label>
+
+                        {isOpen && getAllApts.length ? (
+                          <div
+                            className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full text-sm h-fit max-h-36 overflow-auto text-black`}
+                          >
+                            {getAllApts_nameSort.map((apt) =>
+                              apt.owner_id == currentUser._id ? (
+                                <div
+                                  key={apt._id}
+                                  className={`grid justify-items-start p-1 content-center cursor-pointer hover:bg-logo-gray/50 hover:rounded-sm`}
+                                  onClick={() => dropdownChoice(apt)}
+                                >
+                                  <span>{apt.name}</span>
+                                </div>
+                              ) : null
+                            )}
+                          </div>
+                        ) : null}
+                      </label>
+                    </div>
                   </form>
                 </div>
 
