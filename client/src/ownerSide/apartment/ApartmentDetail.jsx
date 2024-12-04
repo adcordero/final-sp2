@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 // import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faPenToSquare, faSearch } from "@fortawesome/free-solid-svg-icons";

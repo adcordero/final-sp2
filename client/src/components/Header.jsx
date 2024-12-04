@@ -8,6 +8,7 @@ import {
   logoutUserSuccess,
 } from "../redux/user/userSlice";
 // import { toast } from "react-toastify";
+import SweetAlert from "../assets/SweetAlert";
 
 const Header = () => {
   const navigate = useNavigate();

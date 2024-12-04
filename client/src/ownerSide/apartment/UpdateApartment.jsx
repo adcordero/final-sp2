@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 import Loading from "../../assets/LoadingScreen";
 
 const UpdateApartment = ({ showUpdateModal }) => {

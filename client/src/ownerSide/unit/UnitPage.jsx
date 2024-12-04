@@ -9,6 +9,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 // import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import AddUnit from "./AddUnit";
 import UpdateUnit from "./UpdateUnit";

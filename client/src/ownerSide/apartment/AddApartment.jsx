@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 // import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 
 const AddApartment = ({ showAddModal }) => {
   const { currentUser } = useSelector((state) => state.user);

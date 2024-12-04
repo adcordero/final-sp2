@@ -6,6 +6,7 @@ import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
 // import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 import AddApartment from "./AddApartment";
 
 const ApartmentPage = () => {
