@@ -14,6 +14,14 @@ const unitSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        deposit: {
+            type: String,
+            required: true,
+        },
+        advance: {
+            type: String,
+            required: true,
+        },
         status: {
             type: String,
             enum: ['Vacant', 'Occupied'],

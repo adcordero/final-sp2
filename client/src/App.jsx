@@ -9,10 +9,25 @@ import VerificationPage from "./components/VerificationPage";
 import TenantDashboard from "./tenantSide/TenantDashboard";
 import OwnerDashboard from "./ownerSide/OwnerDashboard";
 import ApartmentPage from "./ownerSide/apartment/ApartmentPage";
-import AddApartment from "./ownerSide/apartment/AddApartment";
 import ApartmentDetail from "./ownerSide/apartment/ApartmentDetail";
+import UnitPage from "./ownerSide/unit/UnitPage";
+
+// import Swal from 'sweetalert2';
+// import withReactContent from 'sweetalert2-react-content'
 
 const App = () => {
+
+  // const showSwal = () => {
+  //   withReactContent(Swal).fire({
+  //     title: <i>Input something</i>,
+  //     input: 'text',
+  //     inputValue,
+  //     preConfirm: () => {
+  //       setInputValue(Swal.getInput()?.value || '')
+  //     },
+  //   })
+  // }
+
   return (
     <>
       <BrowserRouter>
@@ -20,26 +35,31 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/verification/:confirmationCode" element={<VerificationPage />} />
-
+          <Route
+            path="/verification/:confirmationCode"
+            element={<VerificationPage />}
+          />
 
           <Route element={<PrivateRoute />}>
-          {/* tenant side */}
+            {/* tenant side */}
             <Route path="/tenant-dashboard" element={<TenantDashboard />} />
 
-          {/* owner side */}
+            {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />
 
             {/* apartment */}
             <Route path="/owner-apartments" element={<ApartmentPage />} />
-            <Route path="/owner-apartments/add" element={<AddApartment />} />
-            <Route path="/owner-apartments/detail/:id" element={<ApartmentDetail />} />
+            <Route
+              path="/owner-apartments/detail/:id"
+              element={<ApartmentDetail />}
+            />
 
             {/* unit */}
+            <Route path="/owner-units" element={<UnitPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };

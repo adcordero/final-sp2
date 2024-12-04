@@ -4,13 +4,9 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleInfo,
-  faExpand,
-  faPenToSquare,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+// import { toast } from "react-toastify";
+import SweetAlert from "../../assets/SweetAlert";
 import AddApartment from "./AddApartment";
 
 const ApartmentPage = () => {
@@ -22,22 +18,10 @@ const ApartmentPage = () => {
 
   //   modal states
   const [addModal, setAddModal] = useState(false);
-  //   const [editModal, setEditModal] = useState(false);
-  //   const [detailModal, setDetailModal] = useState(false);
-  //   const [chosenAptId, setChosenAptId] = useState("");
 
   const showAddModal = () => {
     setAddModal(!addModal);
   };
-
-  //   const showEditModal = () => {
-  //     setEditModal(!editModal);
-  //   };
-
-  //   const showDetailModal = () => {
-
-  //     setDetailModal(!detailModal);
-  //   };
 
   const [allApartments, setAllApartments] = useState([]);
   const allApartments_nameSort = allApartments.sort((a, b) =>
@@ -57,14 +41,22 @@ const ApartmentPage = () => {
         // console.log(apartmentData);
 
         if (apartmentData.success == false) {
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           return;
         }
 
         setAllApartments(apartmentData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 
@@ -83,6 +75,7 @@ const ApartmentPage = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
+            {/* welcoming statement */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
@@ -134,8 +127,6 @@ const ApartmentPage = () => {
                 </form>
               </div>
 
-              {/* <hr className={``} /> */}
-
               {/* list title */}
               <div
                 className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
@@ -185,7 +176,7 @@ const ApartmentPage = () => {
                       </button>
                     </div>
 
-                    <span></span>
+                    {/* <span></span> */}
                   </div>
                 ))
               )}

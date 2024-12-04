@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,6 +8,7 @@ import {
   loginSuccess,
   loginFailure,
 } from "../redux/user/userSlice";
+import SweetAlert from "../assets/SweetAlert";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -41,7 +42,11 @@ const SignIn = () => {
       const data = await res.json();
 
       if (data.success == false) {
-        toast.error(data.errorMessage);
+        // toast.error(data.errorMessage);
+        SweetAlert.fire({
+              icon: "error",
+              title: data.errorMessage,
+            });
 
         dispatch(loginFailure(data.message));
 
@@ -51,8 +56,16 @@ const SignIn = () => {
       if (data.status != "Active") {
         return next(errorHandler(401, "Please verify your email!"));
       }
+      // console.log(data.status.message);
+      
 
       dispatch(loginSuccess(data));
+      
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully logged in!",
+      });
+      
 
       if (data.user_type == "Owner") {
         navigate("/owner-dashboard");
@@ -60,7 +73,11 @@ const SignIn = () => {
         navigate("/tenant-dashboard");
       }
     } catch (error) {
-      toast.error(data.errorMessage);
+      // toast.error(data.errorMessage);
+      SweetAlert.fire({
+        icon: "error",
+        title: data.errorMessage,
+      });
     }
   };
 
