@@ -3,39 +3,34 @@ import React, { useEffect, useState } from "react";
 import SweetAlert from "../../assets/SweetAlert";
 import Loading from "../../assets/LoadingScreen";
 
-const UpdateApartment = ({ showUpdateModal }) => {
-  const pathname = window.location.pathname;
-  const pathname_array = pathname.split("/");
-  const apt_id = pathname_array[3];
-
+const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
   const [formData, setFormData] = useState({});
-  const [aptDetail, setAptDetail] = useState([]);
+//   const [unitDetail, setUnitDetail] = useState([]);
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const aptRes = await fetch(`/api/apartment/find-apartment/${apt_id}`);
-        const aptData = await aptRes.json();
+        const res = await fetch(`/api/apartment/find-unit/${chosenUnitId}`);
+        const data = await res.json();
 
-        if (aptData.success === false) {
-          // toast.error(aptData.errorMessage);
+        if (data.success === false) {
+          // toast.error(data.errorMessage);
           SweetAlert.fire({
             icon: "error",
-            title: aptData.errorMessage,
+            title: data.errorMessage,
           });
           return;
         }
 
         setFormData({
-          name: aptData.name,
-          address: aptData.address,
-          //   owner_id: aptData.owner_id,
-          //   status: aptData.status,
+          name: data.name,
+          description: data.description,
+          rent: data.rent,
         });
 
-        // setAptDetail(aptData);
+        // setUnitDetail(data);
         setShowLoadingScreen(false);
       } catch (error) {
         // toast.error(error);
@@ -47,18 +42,25 @@ const UpdateApartment = ({ showUpdateModal }) => {
     };
 
     fetchNeededDetails();
-  }, [aptDetail]);
+  }, []);
 
   // handles changes made in the input fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
   };
 
+  // handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(chosenUnitId);
+
+    const rent_num = parseInt(formData.rent, 10);
+
+    formData.deposit = (rent_num * 2).toString();
+    formData.advance = formData.rent;
 
     try {
-      const res = await fetch(`/api/apartment/update-apartment/${apt_id}`, {
+      const res = await fetch(`/api/apartment/update-unit/${chosenUnitId}`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -68,28 +70,29 @@ const UpdateApartment = ({ showUpdateModal }) => {
 
       const data = await res.json();
 
-      if (data.success == false) {
-        // toast.error(data.errorMessage);
+        if (data.success == false) {
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
+          return;
+        }
+
+        // toast.success("Successfully updated unit!");
+        SweetAlert.fire({
+          icon: "success",
+          title: "Successfully updated unit!",
+        });
+        showUpdateModal();
+    } catch (error) {
+        // toast.error(error);
         SweetAlert.fire({
           icon: "error",
-          title: data.errorMessage,
+          title: error,
         });
-        return;
-      }
-
-      // toast.success("Successfully updated apartment!");
-      SweetAlert.fire({
-        icon: "success",
-        title: "Successfully updated apartment!",
-      });
-      showUpdateModal();
-    } catch (error) {
-      // toast.error(error);
-      SweetAlert.fire({
-        icon: "error",
-        title: error,
-      });
     }
+
   };
 
   return (
@@ -109,7 +112,7 @@ const UpdateApartment = ({ showUpdateModal }) => {
                 className={`flex items-center justify-between p-4 rounded-t-lg  bg-logo-blue font-poppins`}
               >
                 <h3 className={`text-3xl text-white font-semibold `}>
-                  Update Apartment
+                  Update Unit
                 </h3>
                 <button
                   className={`ml-auto bg-transparent border-0 text-white opacity-50 float-right text-3xl leading-none font-semibold outline-none focus:outline-none`}
@@ -134,7 +137,7 @@ const UpdateApartment = ({ showUpdateModal }) => {
                       type="text"
                       placeholder={formData.name}
                       id="name"
-                      className={`focus:outline-none rounded-sm border-black border-2 p-2 text-base font-nunito-sans `}
+                      className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
                       onChange={handleChange}
                       required
                     />
@@ -144,13 +147,29 @@ const UpdateApartment = ({ showUpdateModal }) => {
                     <span
                       className={`text-base font-semibold font-poppins pl-1`}
                     >
-                      Address
+                      Description
                     </span>
                     <input
                       type="text"
-                      placeholder={formData.address}
-                      id="address"
-                      className={`focus:outline-none rounded-sm border-black border-2 p-2 text-base font-nunito-sans `}
+                      placeholder={formData.description}
+                      id="description"
+                      className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                      onChange={handleChange}
+                      required
+                    />
+                  </label>
+
+                  <label className={`grid gap-2`}>
+                    <span
+                      className={`text-base font-semibold font-poppins pl-1`}
+                    >
+                      Rent
+                    </span>
+                    <input
+                      type="number"
+                      placeholder={formData.rent}
+                      id="rent"
+                      className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
                       onChange={handleChange}
                       required
                     />
@@ -186,4 +205,4 @@ const UpdateApartment = ({ showUpdateModal }) => {
   );
 };
 
-export default UpdateApartment;
+export default UpdateUnit;

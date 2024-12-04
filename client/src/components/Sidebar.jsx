@@ -6,7 +6,8 @@ import {
   logoutUserStart,
   logoutUserSuccess,
 } from "../redux/user/userSlice";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
+import SweetAlert from "../assets/SweetAlert";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -44,7 +45,11 @@ const Sidebar = ({ currentPage }) => {
 
       dispatch(logoutUserSuccess(data));
 
-      toast.success(data);
+      // toast.success(data);
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully logged out!",
+      });
     } catch (error) {
       dispatch(logoutUserFailure(error.message));
     }
@@ -68,7 +73,7 @@ const Sidebar = ({ currentPage }) => {
                     ? "bg-logo-blue rounded-lg text-logo-white"
                     : ""
                 } `}
-                 onClick={() => navigate("/owner-dashboard")}
+                onClick={() => navigate("/owner-dashboard")}
               >
                 <FontAwesomeIcon icon={faHouse} className={`text-sm `} />
                 <p className={`md:text-lg text-base`}>Dashboard</p>

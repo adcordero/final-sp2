@@ -35,7 +35,7 @@ export const createUnit = async (req, res, next) => {
 export const findUnits = async (req, res, next) => {
   try {
     // console.log(req.params.id);
-    const aptUnit = await Unit.find({ est_id: req.params.id });
+    const aptUnit = await Unit.find({ apt_id: req.params.id });
     return res.status(201).json(aptUnit);
   } catch (error) {
     next(error);
@@ -83,13 +83,26 @@ export const updateUnit = async (req, res, next) => {
         $set: {
           name: req.body.name,
           description: req.body.description,
-          monthly_rent: req.body.monthly_rent,
+          rent: req.body.rent,
+          deposit: req.body.deposit,
+          advance: req.body.advance,
         },
       },
       { new: true }
     );
 
     return res.status(200).json(updatedUnit);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// deletes an apartment unit
+export const deleteOneUnit = async (req, res, next) => {
+  try {
+    const toDelUnit = await Unit.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json("Unit has been deleted...");
   } catch (error) {
     next(error);
   }

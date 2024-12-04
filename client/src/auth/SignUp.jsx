@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import SweetAlert from "../assets/SweetAlert";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -52,23 +53,40 @@ const SignUp = () => {
         if (data.success == false) {
           // toast.error(data.message)
           setTenantLoading(false);
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
           // setError(data.message);
           return;
         }
 
-        toast.success("Please check email!");
+        // toast.success("Please check email!");
+        SweetAlert.fire({
+          icon: "info",
+          title: "Please check email!",
+        });
         setTenantLoading(false);
 
         navigate("/");
       } catch (error) {
         setTenantLoading(false);
-        toast.error(data.errorMessage);
+        // toast.error(data.errorMessage);
+        SweetAlert.fire({
+          icon: "error",
+          title: data.errorMessage,
+        });
       }
     } else {
-      toast.error(
-        "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)"
-      );
+      // toast.error(
+      //   "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)"
+      // );
+      SweetAlert.fire({
+        icon: "error",
+        title:
+          "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)",
+      });
     }
   };
 
@@ -96,23 +114,40 @@ const SignUp = () => {
         if (data.success == false) {
           // toast.error(data.message)
           setOwnerLoading(false);
-          toast.error(data.errorMessage);
+          // toast.error(data.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
+
           // setError(data.message);
           return;
         }
 
-        toast.success("Please check email!");
+        // toast.success("Please check email!");
+        SweetAlert.fire({
+          icon: "info",
+          title: "Please check email!",
+        })
         setOwnerLoading(false);
 
         navigate("/");
       } catch (error) {
         setOwnerLoading(false);
-        toast.error(data.errorMessage);
+        // toast.error(data.errorMessage);
+        SweetAlert.fire({
+          icon: "error",
+          title: data.errorMessage,
+        })
       }
     } else {
-      toast.error(
-        "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)"
-      );
+      // toast.error(
+      //   "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)"
+      // );
+      SweetAlert.fire({
+        icon: "error",
+        title: "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)",
+      })
     }
   };
 
