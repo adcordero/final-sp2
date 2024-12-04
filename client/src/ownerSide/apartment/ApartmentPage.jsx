@@ -118,8 +118,6 @@ const ApartmentPage = () => {
                 </form>
               </div>
 
-              {/* <hr className={``} /> */}
-
               {/* list title */}
               <div
                 className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
@@ -169,7 +167,7 @@ const ApartmentPage = () => {
                       </button>
                     </div>
 
-                    <span></span>
+                    {/* <span></span> */}
                   </div>
                 ))
               )}
