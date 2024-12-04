@@ -7,6 +7,7 @@ import {
   faCircleInfo,
   faPenToSquare,
   faSearch,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
@@ -172,16 +173,34 @@ const UnitPage = () => {
                     <div className={`flex justify-between`}>
                       {unit.advance}
 
-                      {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
-                      <button
-                        className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
-                          onClick={() =>
-                            {showUpdateModal(); setChosenUnitId(unit._id);}
-                          }
+                      {/* buttons */}
+                      <div className={`flex gap-3`}>
+                        {/* edit */}
+                        <button
+                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          onClick={() => {
+                            showUpdateModal();
+                            setChosenUnitId(unit._id);
+                          }}
+                          title="Edit"
+
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                          {/* <h1>Edit</h1> */}
+                        </button>
+
+                        {/* delete */}
+                        <button
+                        className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          // onClick={() =>
+                          //   {showUpdateModal(); setChosenUnitId(unit._id);}
+                          // }
+                          title="Delete"
                       >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                        <h1>Edit</h1>
+                        <FontAwesomeIcon icon={faTrash} />
+                        {/* <h1>Edit</h1> */}
                       </button>
+                      </div>
                     </div>
                   </div>
                 ))
@@ -193,9 +212,14 @@ const UnitPage = () => {
 
       {/* create unit modal */}
       {addModal ? <AddUnit showAddModal={showAddModal} /> : null}
-      
+
       {/* update unit modal */}
-      { updateModal ? <UpdateUnit showUpdateModal={showUpdateModal} chosenUnitId={chosenUnitId} /> : null }
+      {updateModal ? (
+        <UpdateUnit
+          showUpdateModal={showUpdateModal}
+          chosenUnitId={chosenUnitId}
+        />
+      ) : null}
     </>
   );
 };

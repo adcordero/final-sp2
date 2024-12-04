@@ -35,7 +35,7 @@ export const createUnit = async (req, res, next) => {
 export const findUnits = async (req, res, next) => {
   try {
     // console.log(req.params.id);
-    const aptUnit = await Unit.find({ est_id: req.params.id });
+    const aptUnit = await Unit.find({ apt_id: req.params.id });
     return res.status(201).json(aptUnit);
   } catch (error) {
     next(error);

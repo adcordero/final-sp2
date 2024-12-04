@@ -4,8 +4,9 @@ import Loading from "../../assets/LoadingScreen";
 import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faPenToSquare, faSearch } from "@fortawesome/free-solid-svg-icons";
 import UpdateApartment from "./UpdateApartment";
+import UpdateUnit from "../unit/UpdateUnit";
 
 const ApartmentDetail = () => {
   const pathname = window.location.pathname;
@@ -21,6 +22,14 @@ const ApartmentDetail = () => {
   const aptUnits_nameSort = aptUnits.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
+
+  const [updateUnitModal, setUpdateUnitModal] = useState(false);
+  const [chosenUnitId, setChosenUnitId] = useState("");
+
+  const showUnitUpdateModal = () => {
+    setUpdateUnitModal(!updateUnitModal);
+  };
+
 
   const showUpdateModal = () => {
     setUpdateModal(!updateModal);
@@ -50,6 +59,7 @@ const ApartmentDetail = () => {
     };
 
     fetchNeededDetails();
+    // console.log(aptUnits);
   }, [aptDetail, aptUnits]);
 
   return (
@@ -122,54 +132,82 @@ const ApartmentDetail = () => {
 
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-4 md:grid-cols-5 justify-between`}
               >
                 <h1>Unit Name</h1>
+                <h1 className={`hidden md:inline`}>Type</h1>
+                <h1>Rent</h1>
+                <h1>Deposit</h1>
+                <h1>Advance</h1>
 
-                <h1>Description</h1>
-
-                <h1>Status</h1>
+                {/* <h1>Status</h1> */}
               </div>
 
               {/* list units */}
               {aptUnits.length == 0 ? (
-                <div className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}>
-                    No units found
+                <div
+                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                >
+                  No units found
                 </div>
               ) : (
                 aptUnits_nameSort.map((unit) => (
-                    <div
-                      key={unit._id}
-                      className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                  <div
+                    key={unit._id}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-4 md:grid-cols-5 justify-between`}
+                  >
+                    <h1
+                      className={`${
+                        unit.status == "Vacant"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                      // onClick={() => {showDetailModal(); setChosenAptId(unit._id)}}
                     >
-                        <h1>{unit.name}</h1>
-    
-                        <h1>{unit.description}</h1>
-    
-                        <div className={`flex justify-between`}>
-                        {apt.status}
-    
-                        {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
-                        <button
-                          className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
-                        //   onClick={() =>
-                        //     navigate(`/owner-apartments/detail/${unit._id}`)
-                        //   }
-                        >
-                          <FontAwesomeIcon icon={faCircleInfo} />
-                          <h1>Details</h1>
-                        </button>
-                      </div>
+                      {unit.name}
+                    </h1>
+
+                    {/* <h1 className={`hidden md:inline`}>{unit.apt_name}</h1> */}
+                    <h1 className={`hidden md:inline`}>{unit.description}</h1>
+                    <h1>{unit.rent}</h1>
+                    <h1>{unit.deposit}</h1>
+                    {/* <h1>{unit.advance}</h1> */}
+                    {/* <h1>{unit.apt_name}</h1> */}
+
+                    <div className={`flex justify-between`}>
+                      {unit.advance}
+
+                      {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+                      <button
+                        className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
+                          onClick={() =>
+                            {showUnitUpdateModal(); setChosenUnitId(unit._id);}
+                          }
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                        <h1>Edit</h1>
+                      </button>
                     </div>
-                  ))
-              ) }
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}
       </div>
 
       {/* update modal */}
-      { updateModal ? (<UpdateApartment showUpdateModal={showUpdateModal} /> ) : null }
+      {updateModal ? (
+        <UpdateApartment showUpdateModal={showUpdateModal} />
+      ) : null}
+
+      {/* update unit modal */}
+      {updateUnitModal ? (
+        <UpdateUnit
+          showUpdateModal={showUnitUpdateModal}
+          chosenUnitId={chosenUnitId}
+        />
+      ) : null}
     </>
   );
 };
