@@ -9,6 +9,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 // import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import AddUnit from "./AddUnit";
@@ -68,6 +69,90 @@ const UnitPage = () => {
 
     fetchNeededDetails();
   }, [allUnits]);
+
+  const handleDeleteUnit = async (e) => {
+    e.preventDefault();
+    // console.log("entered delete function");
+
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   icon: "warning",
+    //   confirmButtonColor: "rgb(22 163 74)",
+    //   cancelButtonColor: "rgb(220 38 38)",
+    //   confirmButtonText: "Yes, delete it!",
+    //   showCancelButton: true,
+    //   reverseButtons: true,
+    //   // closeOnConfirm: false,
+    //   // closeOnCancel: false,
+    // });
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      confirmButtonColor: "rgb(22 163 74)",
+      cancelButtonColor: "rgb(220 38 38)",
+      confirmButtonText: "Yes, delete it!",
+      showCancelButton: true,
+      reverseButtons: true,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(
+            `/api/apartment/delete-unit/${chosenUnitId}`,
+            {
+              method: "DELETE",
+            }
+          );
+
+          const data = await res.json();
+
+          if (data.success === false) {
+            SweetAlert.fire({
+              icon: "error",
+              title: data.errorMessage,
+            });
+          }
+
+          SweetAlert.fire({
+            icon: "success",
+            title: "Successfully deleted unit!",
+          });
+        } catch (error) {
+          SweetAlert.fire({
+            icon: "error",
+            title: error,
+          });
+        }
+      }
+    });
+
+    // try {
+    //   const res = await fetch(`/api/apartment/delete-unit/${chosenUnitId}`, {
+    //     method: "DELETE",
+    //   });
+
+    //   const data = await res.json();
+
+    //   if (data.success === false) {
+    //     SweetAlert.fire({
+    //       icon: "error",
+    //       title: data.errorMessage,
+    //     });
+    //   }
+
+    //   SweetAlert.fire({
+    //     icon: "success",
+    //     title: "Successfully deleted unit!",
+    //   });
+    // } catch (error) {
+    //   SweetAlert.fire({
+    //     icon: "error",
+    //     title: error,
+    //   });
+    // }
+  };
 
   return (
     <>
@@ -191,7 +276,6 @@ const UnitPage = () => {
                             setChosenUnitId(unit._id);
                           }}
                           title="Edit"
-
                         >
                           <FontAwesomeIcon icon={faPenToSquare} />
                           {/* <h1>Edit</h1> */}
@@ -199,15 +283,16 @@ const UnitPage = () => {
 
                         {/* delete */}
                         <button
-                        className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
-                          // onClick={() =>
-                          //   {showUpdateModal(); setChosenUnitId(unit._id);}
-                          // }
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          onClick={(e) => {
+                            handleDeleteUnit(e);
+                            setChosenUnitId(unit._id);
+                          }}
                           title="Delete"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                        {/* <h1>Edit</h1> */}
-                      </button>
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                          {/* <h1>Edit</h1> */}
+                        </button>
                       </div>
                     </div>
                   </div>

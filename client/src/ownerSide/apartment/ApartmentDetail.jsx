@@ -5,7 +5,12 @@ import Loading from "../../assets/LoadingScreen";
 import SweetAlert from "../../assets/SweetAlert";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faPenToSquare, faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faPenToSquare,
+  faSearch,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import UpdateApartment from "./UpdateApartment";
 import UpdateUnit from "../unit/UpdateUnit";
 
@@ -30,7 +35,6 @@ const ApartmentDetail = () => {
   const showUnitUpdateModal = () => {
     setUpdateUnitModal(!updateUnitModal);
   };
-
 
   const showUpdateModal = () => {
     setUpdateModal(!updateModal);
@@ -191,15 +195,33 @@ const ApartmentDetail = () => {
                       {unit.advance}
 
                       {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
-                      <button
-                        className={`text-blue-600 cursor-pointer flex gap-1 items-center hover:underline`}
-                          onClick={() =>
-                            {showUnitUpdateModal(); setChosenUnitId(unit._id);}
-                          }
-                      >
-                        <FontAwesomeIcon icon={faPenToSquare} />
-                        <h1>Edit</h1>
-                      </button>
+                      {/* buttons */}
+                      <div className={`flex gap-3`}>
+                        {/* edit */}
+                        <button
+                          className={`text-blue-600 cursor-pointer flex items-center hover:underline text-base`}
+                          onClick={() => {
+                            showUpdateModal();
+                            setChosenUnitId(unit._id);
+                          }}
+                          title="Edit"
+                        >
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                          {/* <h1>Edit</h1> */}
+                        </button>
+
+                        {/* delete */}
+                        <button
+                          className={`text-red-600 cursor-pointer flex gap-1 items-center hover:underline text-base`}
+                          // onClick={() =>
+                          //   {showUpdateModal(); setChosenUnitId(unit._id);}
+                          // }
+                          title="Delete"
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                          {/* <h1>Edit</h1> */}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))

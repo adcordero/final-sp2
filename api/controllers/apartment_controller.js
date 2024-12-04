@@ -97,25 +97,13 @@ export const updateUnit = async (req, res, next) => {
   }
 };
 
-// export const updateUnit = async (req, res, next) => {
-//   // console.log(req.params.id);
-//   try {
-//     const updatedUnit = await Unit.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         $set: {
-//           name: req.body.name,
-//           description: req.body.description,
-//           // rent: req.body.rent,
-//           // deposit: req.body.deposit,
-//           // advance: req.body.advance,
-//         },
-//       },
-//       { new: true }
-//     );
+// deletes an apartment unit
+export const deleteOneUnit = async (req, res, next) => {
+  try {
+    const toDelUnit = await Unit.findByIdAndDelete(req.params.id);
 
-//     return res.status(200).json(updatedUnit);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+    return res.status(200).json("Unit has been deleted...");
+  } catch (error) {
+    next(error);
+  }
+};
