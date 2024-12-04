@@ -12,7 +12,22 @@ import ApartmentPage from "./ownerSide/apartment/ApartmentPage";
 import ApartmentDetail from "./ownerSide/apartment/ApartmentDetail";
 import UnitPage from "./ownerSide/unit/UnitPage";
 
+// import Swal from 'sweetalert2';
+// import withReactContent from 'sweetalert2-react-content'
+
 const App = () => {
+
+  // const showSwal = () => {
+  //   withReactContent(Swal).fire({
+  //     title: <i>Input something</i>,
+  //     input: 'text',
+  //     inputValue,
+  //     preConfirm: () => {
+  //       setInputValue(Swal.getInput()?.value || '')
+  //     },
+  //   })
+  // }
+
   return (
     <>
       <BrowserRouter>
@@ -44,7 +59,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 };

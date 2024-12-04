@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faPenToSquare, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -45,8 +45,16 @@ const ApartmentDetail = () => {
         const unitsData = await unitsRes.json();
 
         if (aptData.success === false || unitsData.success === false) {
-          toast.error(aptData.errorMessage);
-          toast.error(unitsData.errorMessage);
+          // toast.error(aptData.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: aptData.errorMessage,
+          });
+          // toast.error(unitsData.errorMessage);
+          SweetAlert.fire({
+            icon: "error",
+            title: unitsData.errorMessage,
+          });
           return;
         }
 
@@ -54,7 +62,11 @@ const ApartmentDetail = () => {
         setAptUnits(unitsData);
         setShowLoadingScreen(false);
       } catch (error) {
-        toast.error(error);
+        // toast.error(error);
+        SweetAlert.fire({
+          icon: "error",
+          title: error,
+        });
       }
     };
 

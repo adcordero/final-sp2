@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { useSelector } from "react-redux";
 import Loading from "../assets/LoadingScreen";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const TenantDashboard = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);

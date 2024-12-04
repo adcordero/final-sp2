@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 const AddApartment = ({ showAddModal }) => {
   const { currentUser } = useSelector((state) => state.user);
@@ -32,14 +32,26 @@ const AddApartment = ({ showAddModal }) => {
       const data = await res.json();
 
       if (data.success === false) {
-        toast.error(data.errorMessage);
+        // toast.error(data.errorMessage);
+        SweetAlert.fire({
+          icon: "error",
+          title: data.errorMessage,
+        });
         return;
       }
 
-      toast.success("Successfully created apartment!");
+      // toast.success("Successfully created apartment!");
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully created apartment!",
+      });
       showAddModal();
     } catch (error) {
-      toast.error(error);
+      // toast.error(error);
+      SweetAlert.fire({
+        icon: "error",
+        title: error,
+      });
     }
   };
 
