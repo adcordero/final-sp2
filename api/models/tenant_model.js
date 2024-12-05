@@ -51,10 +51,10 @@ const tenantSchema = new mongoose.Schema({
     //     type: String,
     //     default: ''
     // },
-    // apt_name: {
-    //     type: String,
-    //     default: ''
-    // },
+    apt_name: {
+        type: String,
+        default: ''
+    },
 },
 {
     timestamps: true,

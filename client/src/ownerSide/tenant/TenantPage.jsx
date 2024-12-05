@@ -6,7 +6,7 @@ import Loading from "../../assets/LoadingScreen";
 import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const TenantPage = () => {
   // const { currentUser } = useSelector((state) => state.user);
@@ -19,6 +19,12 @@ const TenantPage = () => {
   const [allTenants, setAllTenants] = useState([]);
   const allTenants_nameSort = allTenants.sort((a, b) =>
     a.first_name.localeCompare(b.first_name)
+  );
+  const allTenants_apartmentSort = allTenants_nameSort.sort((a, b) =>
+    a.apt_name.localeCompare(b.apt_name)
+  );
+  const allTenants_unitSort = allTenants_apartmentSort.sort((a, b) =>
+    a.unit_name.localeCompare(b.unit_name)
   );
 
   useEffect(() => {
@@ -114,16 +120,80 @@ const TenantPage = () => {
 
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-4 md:grid-cols-5 justify-between`}
               >
                 <h1>Name</h1>
 
+                <h1>Email</h1>
+
                 <h1>Contact Number</h1>
 
-                <h1>Email</h1>
+                <h1 className={`hidden md:inline`}>Apartment</h1>
+
+                <h1>Unit</h1>
               </div>
 
               {/* list tenants */}
+              {allTenants.length == 0 ? (
+                <div
+                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                >
+                  Tenants are not linked to a unit.
+                </div>
+              ) : (
+                allTenants_unitSort.map((tenant) =>
+                  tenant.unit_id != "" ? (
+                    <div
+                      key={tenant._id}
+                      className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-4 md:grid-cols-5  justify-between`}
+                    >
+                      <h1>
+                        {tenant.first_name} {tenant.last_name}
+                      </h1>
+
+                      <h1>{tenant.email}</h1>
+
+                      <h1>{tenant.contact_num}</h1>
+
+                      <h1 className={`hidden md:inline`}>{tenant.apt_name}</h1>
+
+                      <div className={`flex justify-between`}>
+                        {tenant.unit_name}
+
+                        {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
+
+                        {/* buttons */}
+                        <div className={`flex gap-3`}>
+                          {/* edit */}
+                          <button
+                            className={`text-blue-600 cursor-pointer flex gap-1 items-center text-base`}
+                            // onClick={() =>
+                            //   navigate(`/owner-apartments/detail/${apt._id}`)
+                            // }
+                            title="Details"
+                          >
+                            <FontAwesomeIcon icon={faCircleInfo} />
+                            {/* <h1>Details</h1> */}
+                          </button>
+
+                          {/* delete */}
+                          <button
+                            className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
+                            // onClick={(e) => {
+                            //   handleDeleteApt(e, apt._id);
+                            //   // setChosenUnitId(unit._id);
+                            // }}
+                            title="Delete"
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                            {/* <h1>Edit</h1> */}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ) : null
+                )
+              )}
             </div>
           </div>
         )}

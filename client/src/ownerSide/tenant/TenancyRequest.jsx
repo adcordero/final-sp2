@@ -79,7 +79,7 @@ const TenancyRequest = () => {
                 Tenancy Request
               </span>
               {">"}
-              <h1> All Tenant Requests</h1>
+              <h1> All Tenancy Requests</h1>
             </div>
 
             {/* welcoming statement */}

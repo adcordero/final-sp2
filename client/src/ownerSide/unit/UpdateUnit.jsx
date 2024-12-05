@@ -213,6 +213,7 @@ const UpdateUnit = ({ showUpdateModal, chosenUnitId }) => {
                         />
                       </label>
 
+                      {/* apartment */}
                       <label className={`grid gap-2`}>
                         <span
                           className={`text-base font-semibold font-poppins pl-1`}

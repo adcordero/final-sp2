@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
 import SweetAlert from "../../assets/SweetAlert";
 import Loading from "../../assets/LoadingScreen";
+import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UpdateTenant = ({ showUpdateModal, tenantId }) => {
   const [formData, setFormData] = useState({});
   const [allUnits, setAllUnits] = useState([]);
-  const [unitApartment, setUnitApartment] = useState([]);
+  const allUnits_nameSort = allUnits.sort((a, b) =>
+    a.name.localeCompare(b.name)
+  );
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [prevUnit, setPrevUnit] = useState("");
+  const [buttonLabel, setButtonLabel] = useState("");
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
@@ -37,8 +45,11 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
           last_name: data.last_name,
           email: data.email,
           contact_num: data.contact_num,
+          unit_name: data.unit_name,
         });
 
+        setButtonLabel(data.unit_name);
+        setPrevUnit(data.unit_name);
         setAllUnits(unitData);
         setShowLoadingScreen(false);
       } catch (error) {
@@ -50,15 +61,62 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
     };
 
     fetchNeededDetails();
-  }, [allUnits]);
+  }, []);
 
   // handles changes made in the input fields
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.toString() });
   };
 
+  // for apartment dropdown
+  const dropdownChoice = (unit) => {
+    setButtonLabel(unit.name);
+    setIsOpen(false);
+
+    setFormData({
+      ...formData,
+      unit_id: unit._id.toString(),
+      unit_name: unit.name.toString(),
+    });
+  };
+
   //   handle form submission
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.log(tenantId)
+
+    try {
+      const res = await fetch(`/api/owner/update-tenant/${tenantId}`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+        if (data.success === false) {
+          SweetAlert.fire({
+            icon: "error",
+            title: data.errorMessage,
+          });
+          return;
+        }
+
+        SweetAlert.fire({
+            icon: "success",
+            title: "Successfully linked tenant to unit!",
+        });
+
+        showUpdateModal();
+    } catch (error) {
+      SweetAlert.fire({
+        icon: "error",
+        title: error,
+      });
+    }
+  };
 
   return (
     <>
@@ -96,7 +154,11 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
                   >
                     {/* name */}
                     <h1 className={`text-xl font-semibold font-poppins pl-1`}>
-                      <span className={`font-normal font-nunito-sans text-base`}>Tenant Name: </span>
+                      <span
+                        className={`font-normal font-nunito-sans text-base`}
+                      >
+                        Tenant Name:{" "}
+                      </span>
                       {formData.first_name +
                         " " +
                         formData.mid_name +
@@ -104,7 +166,80 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
                         formData.last_name}
                     </h1>
 
-                    
+                    <div className={`grid md:grid-cols-2 gap-3`}>
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Email
+                        </span>
+                        <input
+                          type="email"
+                          placeholder={formData.email}
+                          id="email"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Contact Number
+                        </span>
+                        <input
+                          type="tel"
+                          placeholder={formData.contact_num}
+                          id="contact_num"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+                    </div>
+
+                    {/* choose unit */}
+                    <label className={`grid gap-2`}>
+                      <span
+                        className={`text-base font-semibold font-poppins pl-1`}
+                      >
+                        Choose Unit
+                      </span>
+
+                      <div
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full flex items-center justify-between text-sm ${
+                          buttonLabel == prevUnit
+                            ? "text-gray-400"
+                            : "text-black"
+                        }`}
+                      >
+                        {buttonLabel == "" ? "Choose Unit" : buttonLabel}
+                        {isOpen ? (
+                          <FontAwesomeIcon icon={faChevronUp} />
+                        ) : (
+                          <FontAwesomeIcon icon={faChevronDown} />
+                        )}
+                      </div>
+
+                      {isOpen && allUnits.length ? (
+                        <div
+                          className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full text-sm h-fit max-h-36 overflow-auto text-black`}
+                        >
+                          {allUnits_nameSort.map((unit) => (
+                            <div
+                              key={unit._id}
+                              className={`grid justify-items-start p-1 content-center cursor-pointer hover:bg-logo-gray/50 hover:rounded-sm`}
+                              onClick={() => dropdownChoice(unit)}
+                            >
+                              {unit.name}
+                            </div>
+                          ))}
+                        </div>
+                      ) : null}
+                    </label>
                   </form>
                 </div>
 

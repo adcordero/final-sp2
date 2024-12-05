@@ -26,7 +26,10 @@ export const getUserUnits = async (req, res, next) => {
 // gets all active tenants with units
 export const getAllActiveTenants = async (req, res, next) => {
   try {
-    const tenants = await Tenant.find({status: "Active", unit_id: { $ne: null }}).exec();
+    const tenants = await Tenant.find({
+      status: "Active",
+      unit_id: { $ne: null },
+    }).exec();
     return res.status(200).json(tenants);
   } catch (error) {
     next(error);
@@ -36,12 +39,11 @@ export const getAllActiveTenants = async (req, res, next) => {
 // get all active tenants with no units
 export const getAllNoUnitTenants = async (req, res, next) => {
   try {
-    const tenants = await Tenant.find({status: "Active", unit_id: ""}).exec();
+    const tenants = await Tenant.find({ status: "Active", unit_id: "" }).exec();
 
     return res.status(200).json(tenants);
   } catch (error) {
     next(error);
-    
   }
 };
 
@@ -58,23 +60,47 @@ export const getTenantById = async (req, res, next) => {
 //   links tenant to unit and update's unit status to occupied
 export const updateTenant = async (req, res, next) => {
   try {
+
+    // const unit = await Unit.findById(req.body.unit_id);
+
+    if (req.body.unit_id) {
+      const updateUnit = await Unit.findByIdAndUpdate(
+        req.body.unit_id,
+        {
+          $set: {
+            tenant_id: req.params.id,
+            status: "Occupied",
+          },
+        },
+        { new: true }
+      )
+
+      const updatedTenant = await Tenant.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            email: req.body.email,
+            contact_num: req.body.contact_num,
+            unit_id: req.body.unit_id,
+            unit_name: req.body.unit_name,
+            apt_name: updateUnit.apt_name,
+          },
+        },
+        { new: true }
+      );
+      return res.status(200).json(updatedTenant);
+      // else if ();
+    }
+
     const updatedTenant = await Tenant.findByIdAndUpdate(
       req.params.id,
       {
         $set: {
-          apt_id: req.body.apt_id,
-          apt_name: req.body.apt_name,
-        },
-      },
-      { new: true }
-    );
-
-    const updateUnit = await Unit.findByIdAndUpdate(
-      req.body.apt_id,
-      {
-        $set: {
-          tenant_id: req.params.id,
-          status: "Occupied",
+          email: req.body.email,
+          contact_num: req.body.contact_num,
+          unit_id: req.body.unit_id,
+          unit_name: req.body.unit_name,
+          // apt_name: unit.apt_name,
         },
       },
       { new: true }
