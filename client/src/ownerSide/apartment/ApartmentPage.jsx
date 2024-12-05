@@ -29,11 +29,12 @@ const ApartmentPage = () => {
   };
 
   const [allApartments, setAllApartments] = useState([]);
-  const allApartments_nameSort = allApartments.sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
   const allApartments_statusSort = allApartments.sort((a, b) =>
     a.status.localeCompare(b.status)
+  );
+
+  const allApartments_nameSort = allApartments_statusSort.sort((a, b) =>
+    a.name.localeCompare(b.name)
   );
 
   useEffect(() => {

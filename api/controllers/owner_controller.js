@@ -23,13 +23,25 @@ export const getUserUnits = async (req, res, next) => {
   }
 };
 
-// gets all tenants
-export const getAllTenants = async (req, res, next) => {
+// gets all active tenants with units
+export const getAllActiveTenants = async (req, res, next) => {
   try {
-    const tenants = await Tenant.find();
+    const tenants = await Tenant.find({status: "Active", unit_id: { $ne: null }}).exec();
     return res.status(200).json(tenants);
   } catch (error) {
     next(error);
+  }
+};
+
+// get all active tenants with no units
+export const getAllNoUnitTenants = async (req, res, next) => {
+  try {
+    const tenants = await Tenant.find({status: "Active", unit_id: ""}).exec();
+
+    return res.status(200).json(tenants);
+  } catch (error) {
+    next(error);
+    
   }
 };
 

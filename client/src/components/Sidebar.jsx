@@ -20,6 +20,8 @@ import {
   faPeopleGroup,
   faReceipt,
   faRightFromBracket,
+  faUserPlus,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Sidebar = ({ currentPage }) => {
@@ -64,7 +66,7 @@ const Sidebar = ({ currentPage }) => {
           {currentUser.user_type === "Owner" ? (
             // owner sidebar
             <div
-              className={`w-full flex flex-col justify-items-start content-center gap-5`}
+              className={`w-full flex flex-col justify-items-start content-center gap-3`}
             >
               {/* dashboard */}
               <div
@@ -102,7 +104,7 @@ const Sidebar = ({ currentPage }) => {
 
                 {/* unit */}
                 <div
-                  className={`mt-2 w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                  className={` w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
                     currentPage == "/owner-units"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
@@ -125,6 +127,22 @@ const Sidebar = ({ currentPage }) => {
                   Tenant Management
                 </h1>
 
+                {/* requests */}
+                <div
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-tenancy-request"
+                      ? "bg-logo-blue rounded-lg text-logo-white"
+                      : ""
+                  } `}
+                  onClick={() => navigate("/owner-tenancy-request")}
+                >
+                  <FontAwesomeIcon
+                    icon={faUserPlus}
+                    className={`text-sm `}
+                  />
+                  <p className={`md:text-lg text-base truncate`}>Tenancy Request</p>
+                </div>
+
                 {/* tenant */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
@@ -135,7 +153,7 @@ const Sidebar = ({ currentPage }) => {
                   onClick={() => navigate("/owner-tenants")}
                 >
                   <FontAwesomeIcon
-                    icon={faPeopleGroup}
+                    icon={faUsers}
                     className={`text-sm `}
                   />
                   <p className={`md:text-lg text-base truncate`}>Tenants</p>
@@ -150,17 +168,43 @@ const Sidebar = ({ currentPage }) => {
                   Payment Management
                 </h1>
 
-                {/* payment */}
+                {/* rent */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/owner-payments"
+                    currentPage == "/owner-rents"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
-                  onClick={() => navigate("/owner-payments")}
+                  onClick={() => navigate("/owner-rents")}
                 >
                   <FontAwesomeIcon icon={faReceipt} className={`text-sm `} />
-                  <p className={`md:text-lg text-base truncate`}>Payments</p>
+                  <p className={`md:text-lg text-base truncate`}>Rent Payments</p>
+                </div>
+
+                {/* water */}
+                <div
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-waters"
+                      ? "bg-logo-blue rounded-lg text-logo-white"
+                      : ""
+                  } `}
+                  onClick={() => navigate("/owner-waters")}
+                >
+                  <FontAwesomeIcon icon={faDroplet} className={`text-sm `} />
+                  <p className={`md:text-lg text-base truncate`}>Water Payments</p>
+                </div>
+
+                {/* electricity */}
+                <div
+                  className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
+                    currentPage == "/owner-electricities"
+                      ? "bg-logo-blue rounded-lg text-logo-white"
+                      : ""
+                  } `}
+                  onClick={() => navigate("/owner-electricities")}
+                >
+                  <FontAwesomeIcon icon={faBolt} className={`text-sm `} />
+                  <p className={`md:text-lg text-base truncate`}>Electricity Payments</p>
                 </div>
               </div>
 
