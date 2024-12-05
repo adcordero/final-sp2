@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare, faSearch } from "@fortawesome/free-solid-svg-icons";
+import UpdateTenant from "./UpdateTenant";
 
 const TenancyRequest = () => {
   const navigate = useNavigate();
@@ -20,6 +21,13 @@ const TenancyRequest = () => {
     a.first_name.localeCompare(b.first_name)
   );
 
+  const [updateModal, setUpdateModal] = useState(false);
+  const [tenantId, setTenantId] = useState("");
+
+  const showUpdateModal = () => {
+    setUpdateModal(!updateModal);
+  };
+
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
@@ -32,6 +40,7 @@ const TenancyRequest = () => {
             icon: "error",
             title: data.errorMessage,
           });
+          return;
         }
 
         setAllTenants(data);
@@ -135,29 +144,26 @@ const TenancyRequest = () => {
                     key={tenant._id}
                     className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
                   >
-                    <h1>
-                      {tenant.first_name +
-                        " " +
-                        tenant.mid_name +
-                        " " +
-                        tenant.last_name}
-                    </h1>
+                    <h1>{tenant.first_name + " " + tenant.last_name}</h1>
 
-                    <h1>{tenant.email}</h1>
+                    <h1 className={`truncate`} title={tenant.email}>
+                      {tenant.email}
+                    </h1>
 
                     <div className={`flex justify-between`}>
                       {tenant.contact_num}
 
                       <button
-                          className={`text-blue-600 cursor-pointer flex gap-1 items-center text-base`}
-                          onClick={() =>
-                            navigate(`/owner-apartments/detail/${tenant._id}`)
-                          }
-                          title="Edit"
-                        >
-                          <FontAwesomeIcon icon={faPenToSquare} />
-                          {/* <h1>Details</h1> */}
-                        </button>
+                        className={`text-blue-600 cursor-pointer flex gap-1 items-center text-base`}
+                        onClick={() => {
+                          showUpdateModal();
+                          setTenantId(tenant._id);
+                        }}
+                        title="Edit"
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare} />
+                        {/* <h1>Details</h1> */}
+                      </button>
                     </div>
                   </div>
                 ))
@@ -166,6 +172,9 @@ const TenancyRequest = () => {
           </div>
         )}
       </div>
+      {updateModal ? (
+        <UpdateTenant showUpdateModal={showUpdateModal} tenantId={tenantId} />
+      ) : null}
     </>
   );
 };

@@ -144,7 +144,7 @@ const ApartmentDetail = () => {
                 Apartments
               </span>
               {">"}
-              <h1> All Apartments</h1>
+              <h1> Apartment Detail</h1>
             </div>
 
             {/* welcoming statement */}
@@ -244,7 +244,7 @@ const ApartmentDetail = () => {
                         <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
                           onClick={() => {
-                            showUpdateModal();
+                            showUnitUpdateModal();
                             setChosenUnitId(unit._id);
                           }}
                           title="Edit"

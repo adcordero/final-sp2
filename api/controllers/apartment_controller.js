@@ -86,6 +86,8 @@ export const updateUnit = async (req, res, next) => {
           rent: req.body.rent,
           deposit: req.body.deposit,
           advance: req.body.advance,
+          apt_id: req.body.apt_id,
+          apt_name: req.body.apt_name,
         },
       },
       { new: true }
@@ -113,6 +115,16 @@ export const deleteApt = async (req, res, next) => {
     const toDelApt = await Apartment.findByIdAndDelete(req.params.id);
     const toDelUnits = await Unit.deleteMany({ apt_id: req.params.id });
     return res.status(200).json("Apartment and its units have been deleted...");
+  } catch (error) {
+    next(error);
+  }
+};
+
+// gets all vacant units
+export const getVacantUnits = async (req, res, next) => {
+  try {
+    const vacantUnits = await Unit.find({ status: "Vacant" });
+    return res.status(200).json(vacantUnits);
   } catch (error) {
     next(error);
   }
