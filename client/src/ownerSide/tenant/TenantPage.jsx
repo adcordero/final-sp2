@@ -151,7 +151,7 @@ const TenantPage = () => {
                         {tenant.first_name} {tenant.last_name}
                       </h1>
 
-                      <h1>{tenant.email}</h1>
+                      <h1 className={`truncate`} title={tenant.email}>{tenant.email}</h1>
 
                       <h1>{tenant.contact_num}</h1>
 
@@ -167,9 +167,9 @@ const TenantPage = () => {
                           {/* edit */}
                           <button
                             className={`text-blue-600 cursor-pointer flex gap-1 items-center text-base`}
-                            // onClick={() =>
-                            //   navigate(`/owner-apartments/detail/${apt._id}`)
-                            // }
+                            onClick={() =>
+                              navigate(`/owner-tenants/detail/${tenant._id}`)
+                            }
                             title="Details"
                           >
                             <FontAwesomeIcon icon={faCircleInfo} />
