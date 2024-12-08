@@ -36,8 +36,6 @@ const TenantDetail = () => {
         const tenantRes = await fetch(`/api/owner/get-tenant/${tenant_id}`);
         const tenantData = await tenantRes.json();
 
-        
-
         if (tenantData.success === false) {
           SweetAlert.fire({
             icon: "error",
@@ -45,9 +43,22 @@ const TenantDetail = () => {
           });
           return;
         }
-
         setTenantDetail(tenantData);
-        // setUnitDetail(unitData);
+
+        const unitRes = await fetch(
+          `/api/apartment/find-unit/${tenantData.unit_id}`
+        );
+        const unitData = await unitRes.json();
+
+        if (unitData.success === false) {
+          SweetAlert.fire({
+            icon: "error",
+            title: unitData.errorMessage,
+          });
+          return;
+        }
+
+        setUnitDetail(unitData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -58,7 +69,7 @@ const TenantDetail = () => {
     };
 
     fetchNeededDetails();
-  }, [tenantDetail]);
+  }, []);
 
   return (
     <>
@@ -111,7 +122,7 @@ const TenantDetail = () => {
 
             {/* tenant unit */}
             <div
-              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
+              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 h-fit`}
             >
               {/* search bar */}
               {/* <div className={`p-3`}>
@@ -131,24 +142,158 @@ const TenantDetail = () => {
                 </form>
               </div> */}
 
-              {/* list title */}
+              {/* unit list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-4 md:grid-cols-5 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}
               >
                 <h1>Name</h1>
-                <h1 className={`hidden md:inline`}>Type</h1>
                 <h1>Rent</h1>
                 <h1>Deposit</h1>
                 <h1>Advance</h1>
+                <h1>Balance</h1>
 
                 {/* <h1>Status</h1> */}
               </div>
-              
-              {/* unit */}
 
+              {/* unit */}
+              {tenantDetail.unit_id == null ? (
+                <div
+                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                >
+                  No units found
+                </div>
+              ) : (
+                <div
+                  className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-5 justify-between`}
+                >
+                  <h1>{unitDetail.apt_name + " - " + unitDetail.name}</h1>
+                  <h1>{unitDetail.rent}</h1>
+                  <h1>{unitDetail.deposit}</h1>
+                  <h1>{unitDetail.advance}</h1>
+                  <h1>{tenantDetail.balance}</h1>
+                </div>
+              )}
             </div>
 
             {/* tenant payments */}
+            <div
+              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-80`}
+            >
+              {/* <div className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}>
+                Bills
+              </div> */}
+
+              {/* search bar */}
+              <div className={`p-3 flex items-center justify-between`}>
+                <h1 className={`px-2 py-1 font-poppins font-semibold`}>Rent Invoices</h1>
+                <form
+                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
+                >
+                  <input
+                    type="text"
+                    placeholder="Search Rent Payments"
+                    className={`focus:outline-none w-48`}
+                  />
+
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className={`place-self-center`}
+                  />
+                </form>
+              </div>
+
+              {/* rent payment list */}
+            </div>
+
+            {/* water payments */}
+            <div
+              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-80`}
+            >
+              {/* <div className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}>
+                Bills
+              </div> */}
+
+              {/* search bar */}
+              <div className={`p-3 flex items-center justify-between`}>
+                <h1 className={`px-2 py-1 font-poppins font-semibold`}>Water Payments</h1>
+                <form
+                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
+                >
+                  <input
+                    type="text"
+                    placeholder="Search Water Payments"
+                    className={`focus:outline-none w-48`}
+                  />
+
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className={`place-self-center`}
+                  />
+                </form>
+              </div>
+
+              {/* water payment list */}
+            </div>
+
+            {/* electricity payments */}
+            <div
+              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-80`}
+            >
+              {/* <div className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}>
+                Bills
+              </div> */}
+
+              {/* search bar */}
+              <div className={`p-3 flex items-center justify-between`}>
+                <h1 className={`px-2 py-1 font-poppins font-semibold`}>Electricity Payments</h1>
+                <form
+                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
+                >
+                  <input
+                    type="text"
+                    placeholder="Search Electricity Payments"
+                    className={`focus:outline-none w-48`}
+                  />
+
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className={`place-self-center`}
+                  />
+                </form>
+              </div>
+
+              {/* electricity payment list */}
+            </div>
+
+            {/* feedback */}
+            <div
+              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-80`}
+            >
+              {/* <div className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}>
+                Bills
+              </div> */}
+
+              {/* search bar */}
+              <div className={`p-3 flex items-center justify-between`}>
+                <h1 className={`px-2 py-1 font-poppins font-semibold`}>Feedbacks</h1>
+                <form
+                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
+                >
+                  <input
+                    type="text"
+                    placeholder="Search Feedbacks"
+                    className={`focus:outline-none w-48`}
+                  />
+
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className={`place-self-center`}
+                  />
+                </form>
+              </div>
+
+              {/* feedbacklist */}
+            </div>
 
             {/* last div */}
           </div>

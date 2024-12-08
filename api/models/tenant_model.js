@@ -55,6 +55,10 @@ const tenantSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    balance: {
+        type: String,
+        default: 0
+    },
 },
 {
     timestamps: true,
