@@ -1,6 +1,7 @@
 import Apartment from "../models/apartment_model.js";
 import Tenant from "../models/tenant_model.js";
 import Unit from "../models/unit_model.js";
+import cron from "node-cron";
 import { errorHandler } from "../utilities/error.js";
 
 // gets owner's apartments
@@ -23,10 +24,24 @@ export const getUserUnits = async (req, res, next) => {
   }
 };
 
-// gets all tenants
-export const getAllTenants = async (req, res, next) => {
+// gets all active tenants with units
+export const getAllActiveTenants = async (req, res, next) => {
   try {
-    const tenants = await Tenant.find();
+    const tenants = await Tenant.find({
+      status: "Active",
+      unit_id: { $ne: null },
+    }).exec();
+    return res.status(200).json(tenants);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// get all active tenants with no units
+export const getAllNoUnitTenants = async (req, res, next) => {
+  try {
+    const tenants = await Tenant.find({ status: "Active", unit_id: "" }).exec();
+
     return res.status(200).json(tenants);
   } catch (error) {
     next(error);
@@ -46,23 +61,72 @@ export const getTenantById = async (req, res, next) => {
 //   links tenant to unit and update's unit status to occupied
 export const updateTenant = async (req, res, next) => {
   try {
+    // const unit = await Unit.findById(req.body.unit_id);
+    const deadlines = [];
+
+    if (req.body.unit_id) {
+      const updateUnit = await Unit.findByIdAndUpdate(
+        req.body.unit_id,
+        {
+          $set: {
+            tenant_id: req.params.id,
+            status: "Occupied",
+          },
+        },
+        { new: true }
+      );
+
+      const updatedTenant = await Tenant.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: {
+            email: req.body.email,
+            contact_num: req.body.contact_num,
+            unit_id: req.body.unit_id,
+            unit_name: req.body.unit_name,
+            apt_name: updateUnit.apt_name,
+            moved_in_day: req.body.moved_in_day,
+            rent: req.body.rent,
+          },
+        },
+        { new: true }
+      );
+
+      cron.schedule("0 0 1 * *", async () => {
+        try {
+          // Get the current month and year
+          const currentDate = new Date();
+          const year = currentDate.getFullYear();
+          const month = currentDate.getMonth(); // 0-indexed
+          
+          while (month < 12) {
+            // const deadlineDay = new Date(year, month + 1, 1);
+            // deadlines.push(deadlineDay);
+            // month++;
+
+            const deadlineDate = new Date(year, month, req.body.moved_in_day);
+            deadlineDate.push()
+
+          }
+
+        } catch (error) {
+          next(error);
+        }
+      });
+
+      return res.status(200).json(updatedTenant);
+      // else if ();
+    }
+
     const updatedTenant = await Tenant.findByIdAndUpdate(
       req.params.id,
       {
         $set: {
-          apt_id: req.body.apt_id,
-          apt_name: req.body.apt_name,
-        },
-      },
-      { new: true }
-    );
-
-    const updateUnit = await Unit.findByIdAndUpdate(
-      req.body.apt_id,
-      {
-        $set: {
-          tenant_id: req.params.id,
-          status: "Occupied",
+          email: req.body.email,
+          contact_num: req.body.contact_num,
+          unit_id: req.body.unit_id,
+          unit_name: req.body.unit_name,
+          // apt_name: unit.apt_name,
         },
       },
       { new: true }

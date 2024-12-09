@@ -43,6 +43,26 @@ const tenantSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
+    unit_name: {
+        type: String,
+        default: ''
+    },
+    apt_name: {
+        type: String,
+        default: ''
+    },
+    balance: {
+        type: String,
+        default: 0
+    },
+    moved_in_day: {
+        type: String,
+        default: ''
+    },
+    rent: {
+        type: String,
+        default: '0'
+    },
 },
 {
     timestamps: true,

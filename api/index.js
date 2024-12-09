@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import apartmentRouter from "./routes/apartment_routes.js";
 import userRouter from "./routes/user_routes.js";
 import ownerRouter from "./routes/owner_routes.js";
+import rentRouter from "./routes/rent_routes.js";
+import rentAutomation from "./utilities/rent_automation.js";
 
 dotenv.config();
 
@@ -29,6 +31,9 @@ app.listen(3000, () => {
 app.use("/api/user", userRouter);
 app.use("/api/apartment", apartmentRouter);
 app.use("/api/owner", ownerRouter);
+app.use("/api/rent", rentRouter);
+
+rentAutomation();
 
 // middleware
 app.use((err, req, res, next) => {
