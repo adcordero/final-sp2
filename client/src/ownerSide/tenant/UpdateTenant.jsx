@@ -4,7 +4,7 @@ import Loading from "../../assets/LoadingScreen";
 import { faChevronDown, faChevronUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const UpdateTenant = ({ showUpdateModal, tenantId }) => {
+const UpdateTenant = ({ showUpdateModal, tenantId, prevPage }) => {
   const [formData, setFormData] = useState({});
   const [allUnits, setAllUnits] = useState([]);
   const allUnits_nameSort = allUnits.sort((a, b) =>
@@ -77,6 +77,7 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
       ...formData,
       unit_id: unit._id.toString(),
       unit_name: unit.name.toString(),
+      rent: unit.rent.toString(),
     });
   };
 
@@ -96,20 +97,20 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
 
       const data = await res.json();
 
-        if (data.success === false) {
-          SweetAlert.fire({
-            icon: "error",
-            title: data.errorMessage,
-          });
-          return;
-        }
-
+      if (data.success === false) {
         SweetAlert.fire({
-            icon: "success",
-            title: "Successfully linked tenant to unit!",
+          icon: "error",
+          title: data.errorMessage,
         });
+        return;
+      }
 
-        showUpdateModal();
+      SweetAlert.fire({
+        icon: "success",
+        title: "Successfully linked tenant to unit!",
+      });
+
+      showUpdateModal();
     } catch (error) {
       SweetAlert.fire({
         icon: "error",
@@ -121,7 +122,9 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
   return (
     <>
       {showLoadingScreen ? (
-        <Loading className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none `} />
+        <Loading
+          className={`justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none `}
+        />
       ) : (
         // main body
         <>
@@ -200,46 +203,64 @@ const UpdateTenant = ({ showUpdateModal, tenantId }) => {
                       </label>
                     </div>
 
-                    {/* choose unit */}
-                    <label className={`grid gap-2`}>
-                      <span
-                        className={`text-base font-semibold font-poppins pl-1`}
-                      >
-                        Choose Unit
-                      </span>
-
-                      <div
-                        onClick={() => setIsOpen(!isOpen)}
-                        className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full flex items-center justify-between text-sm ${
-                          buttonLabel == prevUnit
-                            ? "text-gray-400"
-                            : "text-black"
-                        }`}
-                      >
-                        {buttonLabel == "" ? "Choose Unit" : buttonLabel}
-                        {isOpen ? (
-                          <FontAwesomeIcon icon={faChevronUp} />
-                        ) : (
-                          <FontAwesomeIcon icon={faChevronDown} />
-                        )}
-                      </div>
-
-                      {isOpen && allUnits.length ? (
-                        <div
-                          className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full text-sm h-fit max-h-36 overflow-auto text-black`}
+                    <div className={`grid md:grid-cols-2 gap-3`}>
+                      {/* choose unit */}
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
                         >
-                          {allUnits_nameSort.map((unit) => (
-                            <div
-                              key={unit._id}
-                              className={`grid justify-items-start p-1 content-center cursor-pointer hover:bg-logo-gray/50 hover:rounded-sm`}
-                              onClick={() => dropdownChoice(unit)}
-                            >
-                              {unit.name}
-                            </div>
-                          ))}
+                          Choose Unit
+                        </span>
+
+                        <div
+                          onClick={() => setIsOpen(!isOpen)}
+                          className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full flex items-center justify-between text-sm ${
+                            buttonLabel == prevUnit
+                              ? "text-gray-400"
+                              : "text-black"
+                          }`}
+                        >
+                          {buttonLabel == "" ? "Choose Unit" : buttonLabel}
+                          {isOpen ? (
+                            <FontAwesomeIcon icon={faChevronUp} />
+                          ) : (
+                            <FontAwesomeIcon icon={faChevronDown} />
+                          )}
                         </div>
-                      ) : null}
-                    </label>
+
+                        {isOpen && allUnits.length ? (
+                          <div
+                            className={`border-2 border-black rounded-sm font-nunito-sans p-2 w-full text-sm h-fit max-h-36 overflow-auto text-black`}
+                          >
+                            {allUnits_nameSort.map((unit) => (
+                              <div
+                                key={unit._id}
+                                className={`grid justify-items-start p-1 content-center cursor-pointer hover:bg-logo-gray/50 hover:rounded-sm`}
+                                onClick={() => dropdownChoice(unit)}
+                              >
+                                {unit.name}
+                              </div>
+                            ))}
+                          </div>
+                        ) : null}
+                      </label>
+
+                      <label className={`grid gap-2`}>
+                        <span
+                          className={`text-base font-semibold font-poppins pl-1`}
+                        >
+                          Moved In Day
+                        </span>
+                        <input
+                          type="number"
+                          placeholder={formData.moved_in_day}
+                          id="moved_in_day"
+                          className={`focus:outline-none rounded-sm border-black border-2 p-2 text-sm font-nunito-sans `}
+                          onChange={handleChange}
+                          required
+                        />
+                      </label>
+                    </div>
                   </form>
                 </div>
 

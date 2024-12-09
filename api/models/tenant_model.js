@@ -47,10 +47,6 @@ const tenantSchema = new mongoose.Schema({
         type: String,
         default: ''
     },
-    // apt_id: {
-    //     type: String,
-    //     default: ''
-    // },
     apt_name: {
         type: String,
         default: ''
@@ -58,6 +54,14 @@ const tenantSchema = new mongoose.Schema({
     balance: {
         type: String,
         default: 0
+    },
+    moved_in_day: {
+        type: String,
+        default: ''
+    },
+    rent: {
+        type: String,
+        default: '0'
     },
 },
 {

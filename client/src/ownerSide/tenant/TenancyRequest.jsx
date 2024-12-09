@@ -173,7 +173,7 @@ const TenancyRequest = () => {
         )}
       </div>
       {updateModal ? (
-        <UpdateTenant showUpdateModal={showUpdateModal} tenantId={tenantId} />
+        <UpdateTenant showUpdateModal={showUpdateModal} tenantId={tenantId} prevPage={"TenancyRequest"} />
       ) : null}
     </>
   );

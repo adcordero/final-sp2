@@ -252,10 +252,11 @@ const Sidebar = ({ currentPage }) => {
               {/* dashboard */}
               <div
                 className={`w-auto flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                  currentPage == "/t-home"
+                  currentPage == "/tenant-dashboard"
                     ? "bg-logo-blue rounded-lg text-logo-white"
                     : ""
                 } `}
+                 onClick={() => navigate("/tenant-dashboard")}
               >
                 <FontAwesomeIcon icon={faHouse} className={`text-sm `} />
                 <p className={`md:text-lg text-base`}>Dashboard</p>
@@ -276,6 +277,7 @@ const Sidebar = ({ currentPage }) => {
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                   onClick={() => navigate("/rent")}
                 >
                   <FontAwesomeIcon icon={faReceipt} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>
@@ -290,6 +292,7 @@ const Sidebar = ({ currentPage }) => {
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                   onClick={() => navigate("/water-bill")}
                 >
                   <FontAwesomeIcon icon={faDroplet} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>
@@ -297,17 +300,18 @@ const Sidebar = ({ currentPage }) => {
                   </p>
                 </div>
 
-                {/* power */}
+                {/* electricity */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/power-bill"
+                    currentPage == "/electricity-bill"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                   onClick={() => navigate("/electricity-bill")}
                 >
                   <FontAwesomeIcon icon={faBolt} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>
-                    Power Payments
+                    Electricity Payments
                   </p>
                 </div>
               </div>
@@ -323,10 +327,11 @@ const Sidebar = ({ currentPage }) => {
                 {/* water */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/t-feedbacks"
+                    currentPage == "/tenant-feedbacks"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
+                   onClick={() => navigate("/tenant-feedbacks")}
                 >
                   <FontAwesomeIcon icon={faInbox} className={`text-sm`} />
                   <p className={`md:text-lg text-base`}>Feedbacks</p>
