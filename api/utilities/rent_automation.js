@@ -28,7 +28,7 @@ export default async function rentAutomation() {
           tenant_id: tenant._id,
           unit_id: tenant.unit_id,
           amount: tenant.rent,
-          due_date: deadlineDate,
+          due_date: deadlineDate.toDateString(),
         });
       })
 

@@ -9,6 +9,8 @@ import ownerRouter from "./routes/owner_routes.js";
 import rentRouter from "./routes/rent_routes.js";
 import rentAutomation from "./utilities/rent_automation.js";
 
+import path from "path";
+
 dotenv.config();
 
 mongoose
@@ -19,6 +21,8 @@ mongoose
   .catch((err) => {
     console.log("Connection error: " + err);
   });
+
+const __dirname = path.resolve();
 
 const app = express();
 app.use(express.json());
@@ -32,6 +36,12 @@ app.use("/api/user", userRouter);
 app.use("/api/apartment", apartmentRouter);
 app.use("/api/owner", ownerRouter);
 app.use("/api/rent", rentRouter);
+
+app.use(express.static(path.join(__dirname, "/client/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 
 rentAutomation();
 

@@ -122,7 +122,7 @@ const ApartmentDetail = () => {
 
   return (
     <>
-      <div className={`h-[calc(100vh-3.5rem)] flex`}>
+      <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
         <Sidebar currentPage={"/owner-apartments"} />
 
         {showLoadingScreen ? (
