@@ -273,11 +273,11 @@ const Sidebar = ({ currentPage }) => {
                 {/* rent */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/rent"
+                    currentPage == "/tenant-rent"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
-                   onClick={() => navigate("/rent")}
+                   onClick={() => navigate("/tenant-rent")}
                 >
                   <FontAwesomeIcon icon={faReceipt} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>

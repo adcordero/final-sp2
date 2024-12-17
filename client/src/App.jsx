@@ -15,6 +15,7 @@ import TenantPage from "./ownerSide/tenant/TenantPage";
 import TenancyRequest from "./ownerSide/tenant/TenancyRequest";
 import TenantDetail from "./ownerSide/tenant/TenantDetail";
 import RentPage from "./tenantSide/rent/RentPage";
+import RentDetails from "./tenantSide/rent/RentDetail";
 
 // import Swal from 'sweetalert2';
 // import withReactContent from 'sweetalert2-react-content'
@@ -49,7 +50,8 @@ const App = () => {
             <Route path="/tenant-dashboard" element={<TenantDashboard />} />
 
             {/* tenant - rent */}
-            <Route path="/rent" element={<RentPage />} />
+            <Route path="/tenant-rent" element={<RentPage />} />
+            <Route path="/tenant-rent/detail/:id" element={<RentDetails />} />
 
             {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />
