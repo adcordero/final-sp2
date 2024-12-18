@@ -21,6 +21,7 @@ export default async function rentAutomation() {
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth(); // 0-indexed
 
+      // map through all tenants and create rent instances
       getTenants.forEach(async (tenant) => {
         const deadlineDate = new Date(year, month, tenant.moved_in_day);
 
@@ -30,6 +31,10 @@ export default async function rentAutomation() {
           amount: tenant.rent,
           due_date: deadlineDate.toDateString(),
         });
+
+        const updatedBalance = parseInt(tenant.balance, 10) + parseInt(tenant.rent, 10);
+
+        const updatedTenant = await Tenant.updateOne({ _id: tenant._id }, { balance: updatedBalance.toString() });
       })
 
     //   const rent = await Rent.create({

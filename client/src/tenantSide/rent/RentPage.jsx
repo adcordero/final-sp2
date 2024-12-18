@@ -146,9 +146,9 @@ const RentPage = () => {
                         className={`${
                           rent.status == "Pending"
                             ? "text-yellow-500"
-                            : rent.status == "Overdue"
-                            ? "text-red-500"
-                            : "text-green-50"
+                            : rent.status == "Paid"
+                            ? "text-green-500"
+                            : "text-red-500"
                         }`}
                       >
                         {rent.status}

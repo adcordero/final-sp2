@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
 import { useSelector } from "react-redux";
 import Loading from "../../assets/LoadingScreen";
+import RentPaymentModal from "./RentPaymentModal";
 
 const RentDetail = () => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
   const rent_id = pathname_array[3];
+
+  const fileRef = useRef(null);
+  const [file, setFile] = useState(undefined);
 
   const navigate = useNavigate();
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
@@ -81,30 +85,148 @@ const RentDetail = () => {
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
                 {rentDetail.due_date}
+                {/* {rentDetail.amount} */}
               </div>
 
-              <button
-                className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                onClick={showUpdateModal}
-              >
-                Add Payment
-              </button>
+              {rentDetail.status == "Unpaid" ? (
+                <button
+                  className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
+                  // onClick={() => fileRef.current.click()}
+                  onClick={showUpdateModal}
+                >
+                  Add Payment
+                </button>
+              ) : null}
+
+              {/* <input
+                onChange={(e) => setFile(e.target.files[0])}
+                type="file"
+                accept="image/*"
+                ref={fileRef}
+                hidden
+              /> */}
             </div>
 
-            {/* rent detail */}
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* list details */}
-              <div >
+              {/* list title */}
+              <div
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-2 justify-items-center`}
+              >
+                <h1>Amount</h1>
+                <h1>Status</h1>
+              </div>
 
+              {/* list details */}
+              <div
+                className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-2 justify-items-center`}
+              >
+                <h1>{rentDetail.amount}</h1>
+                <h1
+                  className={`${
+                    rentDetail.status == "Pending"
+                      ? "text-yellow-500"
+                      : rentDetail.status == "Paid"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {rentDetail.status}
+                </h1>
               </div>
             </div>
+
+            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+              {/* column 1 */}
+              <div className={``}>
+                {/* rent */}
+                <div className={`bg-logo-white p-2 rounded-md shadow-md`}>
+                  <h1
+                    className={`font-poppins text-sm py-1 px-2 text-zinc-500 truncate`}
+                  >
+                    Payment Proof
+                  </h1>
+
+                  {rentDetail.payment_proof ? (
+                    <div
+                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                    >
+                      <img
+                        src={rentDetail.payment_proof}
+                        alt="payment proof"
+                        className={`max-w-96 h-auto`}
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                    >
+                      No payment proof uploaded
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* column 2 */}
+              <div className={``}>
+                {/* rent */}
+                <div className={`bg-logo-white p-2 rounded-md shadow-md`}>
+                  <h1
+                    className={`font-poppins text-sm py-1 px-2 text-zinc-500 truncate`}
+                  >
+                    Invoice
+                  </h1>
+
+                  {rentDetail.invoice ? (
+                    <div>with invoice</div>
+                  ) : (
+                    <div
+                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                    >
+                      No invoice
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* <div>
+              <h1 className={`text-lg`}>
+                <span className={`font-bold`}>Amount Due: </span>
+                {rentDetail.amount}
+              </h1>
+
+              <h1 className={`text-lg`}>
+                <span className={`font-bold`}>Status: </span>
+                {rentDetail.status}
+              </h1>
+
+              <h1 className={`text-lg`}>
+                <span className={`font-bold`}>Payment Proof: </span>
+                {
+                  rentDetail.payment_proof ? (
+                    <img
+                      src={rentDetail.payment_proof}
+                      alt="payment proof"
+                      className={`w-20 h-auto`}
+                    />
+                  ) : (
+                    "No payment proof uploaded"
+                  )
+                }
+              </h1>
+            </div> */}
 
             {/* main body last div */}
           </div>
         )}
       </div>
+
+      {/* add payment */}
+      {updateModal ? (
+        <RentPaymentModal showUpdateModal={showUpdateModal} />
+      ) : null}
     </>
   );
 };

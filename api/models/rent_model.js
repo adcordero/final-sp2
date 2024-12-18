@@ -20,8 +20,16 @@ const rentSchema = new mongoose.Schema(
         },
         status: {
             type: String,
-            enum: ['Pending', 'Paid', 'Overdue'],
-            default: 'Pending'
+            enum: ['Unpaid', 'Pending', 'Paid'],
+            default: 'Unpaid'
+        },
+        payment_proof: {
+            type: String,
+            default: null
+        },
+        invoice: {
+            type: String,
+            default: null
         }
     },
     {
