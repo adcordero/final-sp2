@@ -3,16 +3,22 @@ import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
+import FeedbackReplyModal from "./FeedbackReplyModal";
 
-const FeedbackDetail = () => {
+const O_FeedbackDetail = () => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
   const feedback_id = pathname_array[3];
-  
+
   const navigate = useNavigate();
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [feedbackDetail, setFeedbackDetail] = useState([]);
+  const [replyModal, setReplyModal] = useState(false);
+
+  const showReplyModal = () => {
+    setReplyModal(!replyModal);
+  };
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
@@ -47,7 +53,7 @@ const FeedbackDetail = () => {
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-feedback"} />
+        <Sidebar currentPage={"/owner-feedbacks"} />
 
         {showLoadingScreen ? (
           <Loading />
@@ -55,6 +61,7 @@ const FeedbackDetail = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
+            {/* breadcrumbs */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
@@ -77,15 +84,13 @@ const FeedbackDetail = () => {
                 {/* {rentDetail.amount} */}
               </div>
 
-              {/* {rentDetail.status == "Unpaid" ? (
-                <button
-                  className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                  // onClick={() => fileRef.current.click()}
-                  onClick={showUpdateModal}
-                >
-                  Add Payment
-                </button>
-              ) : null} */}
+              <button
+                className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
+                // onClick={() => fileRef.current.click()}
+                //   onClick={showUpdateModal}
+              >
+                Add Reply
+              </button>
             </div>
 
             <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
@@ -132,7 +137,23 @@ const FeedbackDetail = () => {
               </div>
             </div>
 
-            <div
+            {feedbackDetail.reply ? (
+              <div
+                className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
+              >
+                <div className={`p-3 font-poppins text-sm font-semibold`}>
+                  Owner's Reply
+                </div>
+
+                <div
+                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                  >
+                    {feedbackDetail.reply}
+                  </div>
+              </div>
+            ) : null}
+
+            {/* <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
               <div className={`p-3 font-poppins text-sm font-semibold`}>
@@ -150,14 +171,20 @@ const FeedbackDetail = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
 
-            {/* last div of main body */}
+            {/* final div */}
           </div>
         )}
       </div>
+
+      {
+        replyModal ? (
+            <FeedbackReplyModal showReplyModal={showReplyModal} />
+        ) : null
+      }
     </>
   );
 };
 
-export default FeedbackDetail;
+export default O_FeedbackDetail;

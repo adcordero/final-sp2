@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
-import { useSelector } from "react-redux";
 import Loading from "../../assets/LoadingScreen";
 import RentPaymentModal from "./RentPaymentModal";
 
