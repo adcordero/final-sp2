@@ -16,6 +16,7 @@ const AddFeedback = ({ showAddModal }) => {
     tenant_name: currentUser.first_name + " " + currentUser.last_name,
     title: "",
     description: "",
+    photo_url: null,
   });
 
   // handles changes made in the input fields
@@ -61,30 +62,33 @@ const AddFeedback = ({ showAddModal }) => {
         return;
       }
 
-      //   const createdFeedback = await fetch(`/api/feedback/create-feedback`, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-type": "application/json",
-      //     },
-      //     body: JSON.stringify(formData),
-      //   });
-      //   const createdFeedbackData = await createdFeedback.json();
+      formData.photo_url = uploadedData.url;
+    //   console.log(formData);
 
-      //   if (createdFeedbackData.success === false) {
-      //     SweetAlert.fire({
-      //       icon: "error",
-      //       title: createdFeedbackData.errorMessage,
-      //     });
-      //     return;
-      //   }
+        const createdFeedback = await fetch(`/api/feedback/create-feedback`, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const createdFeedbackData = await createdFeedback.json();
+
+        if (createdFeedbackData.success === false) {
+          SweetAlert.fire({
+            icon: "error",
+            title: createdFeedbackData.errorMessage,
+          });
+          return;
+        }
 
       SweetAlert.fire({
         icon: "success",
         title: "Successfully created feedback!",
       });
 
-      //   setUploading(false);
-      //   showAddModal();
+        setUploading(false);
+        showAddModal();
     } catch (error) {
       setUploading(false);
       SweetAlert.fire({
@@ -123,7 +127,7 @@ const AddFeedback = ({ showAddModal }) => {
               <form
                 className={`w-full grid justify-self-center self-center gap-3`}
               >
-                {/* <label className={`grid gap-2`}>
+                <label className={`grid gap-2`}>
                   <span className={`text-base font-semibold font-poppins pl-1`}>
                     Title
                   </span>
@@ -135,9 +139,9 @@ const AddFeedback = ({ showAddModal }) => {
                     onChange={handleChange}
                     required
                   />
-                </label> */}
+                </label>
 
-                {/* <label className={`grid gap-2`}>
+                <label className={`grid gap-2`}>
                   <span className={`text-base font-semibold font-poppins pl-1`}>
                     Description
                   </span>
@@ -150,7 +154,7 @@ const AddFeedback = ({ showAddModal }) => {
                     onChange={handleChange}
                     required
                   />
-                </label> */}
+                </label>
 
                 <label className={`grid gap-2`}>
                   <span className={`text-base font-semibold font-poppins pl-1`}>

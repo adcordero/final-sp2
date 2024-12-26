@@ -30,7 +30,7 @@ const feedbackSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        payment_proof: {
+        photo_url: {
             type: String,
             default: null
         },
