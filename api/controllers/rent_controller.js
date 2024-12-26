@@ -1,4 +1,5 @@
 import Rent from "../models/rent_model.js";
+import Tenant from "../models/tenant_model.js";
 
 export const getAllRents = async (req, res, next) => {
   try {
@@ -78,6 +79,21 @@ export const updateRentStatus = async (req, res, next) => {
       },
       { new: true }
     );
+
+    // console.log(rent.tenant_id);
+
+    const tenantBal = await Tenant.findById(rent.tenant_id);
+
+    const tenant = await Tenant.findByIdAndUpdate(
+      rent.tenant_id,
+      {
+        $set: {
+          balance: parseInt(tenantBal.balance, 10) - parseInt(rent.amount, 10),
+        },
+      },
+      { new: true }
+    );
+
     return res.status(200).json(rent);
   } catch (error) {
     next(error);

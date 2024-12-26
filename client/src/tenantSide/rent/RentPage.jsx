@@ -16,13 +16,18 @@ const RentPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true); //currently in false bcs useEffect is empty
   const navigate = useNavigate();
   const [allRents, setAllRents] = useState([]);
+  const allRents_statusSort = allRents.sort((a, b) =>
+    b.status.localeCompare(a.status)
+  );
 
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const rentRes = await fetch(`/api/rent/get-all-rents/${currentUser._id}`);
+        const rentRes = await fetch(
+          `/api/rent/get-all-rents/${currentUser._id}`
+        );
         const rentData = await rentRes.json();
 
         if (rentData.success === false) {
@@ -120,14 +125,14 @@ const RentPage = () => {
               </div>
 
               {/* list invoices */}
-              {allRents.length == 0 ? (
+              {allRents_statusSort.length == 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
                   Nothing to pay yet.
                 </div>
               ) : (
-                allRents.map((rent) => (
+                allRents_statusSort.map((rent) => (
                   <div
                     key={rent._id}
                     className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
@@ -149,31 +154,16 @@ const RentPage = () => {
                       </p>
                       {/* {rent.status} */}
 
-                      {/* buttons */}
-                      <div className={`flex gap-3`}>
-                        {/* edit */}
-                        <button
-                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/tenant-rent/detail/${rent._id}`)}
-                          title="Details"
-                        >
-                          <FontAwesomeIcon icon={faCircleInfo} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-
-                        {/* delete */}
-                        <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                          // onClick={(e) => {
-                          //   handleDeleteUnit(e, unit._id);
-                          //   // setChosenUnitId(unit._id);
-                          // }}
-                          title="Delete"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-                      </div>
+                      <button
+                        className={`text-blue-600 cursor-pointer flex items-center text-base`}
+                        onClick={() =>
+                          navigate(`/tenant-rent/detail/${rent._id}`)
+                        }
+                        title="Details"
+                      >
+                        <FontAwesomeIcon icon={faCircleInfo} />
+                        {/* <h1>Edit</h1> */}
+                      </button>
                     </div>
                   </div>
                 ))
