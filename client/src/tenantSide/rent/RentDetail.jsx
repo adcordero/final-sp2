@@ -47,7 +47,7 @@ const RentDetail = () => {
     };
 
     fetchNeededDetails();
-  }, []);
+  }, [rentDetail]);
 
   return (
     <>
@@ -61,6 +61,7 @@ const RentDetail = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
+            {/* breadcrumbs */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
@@ -179,33 +180,6 @@ const RentDetail = () => {
                 </div>
               </div>
             </div>
-
-            {/* <div>
-              <h1 className={`text-lg`}>
-                <span className={`font-bold`}>Amount Due: </span>
-                {rentDetail.amount}
-              </h1>
-
-              <h1 className={`text-lg`}>
-                <span className={`font-bold`}>Status: </span>
-                {rentDetail.status}
-              </h1>
-
-              <h1 className={`text-lg`}>
-                <span className={`font-bold`}>Payment Proof: </span>
-                {
-                  rentDetail.payment_proof ? (
-                    <img
-                      src={rentDetail.payment_proof}
-                      alt="payment proof"
-                      className={`w-20 h-auto`}
-                    />
-                  ) : (
-                    "No payment proof uploaded"
-                  )
-                }
-              </h1>
-            </div> */}
 
             {/* main body last div */}
           </div>

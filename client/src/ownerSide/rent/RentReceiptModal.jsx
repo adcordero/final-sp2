@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import SweetAlert from "../../assets/SweetAlert";
 
-const RentPaymentModal = ({ showUpdateModal }) => {
+const RentReceiptModal = ({ showUpdateModal }) => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
   const rent_id = pathname_array[3];
-
-  //   const [formData, setFormData] = useState({});
-  //   const [rentDetail, setRentDetail] = useState([]);
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -15,8 +12,6 @@ const RentPaymentModal = ({ showUpdateModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // console.log(import.meta.env.VITE_FIREBASE_API_KEY);
 
     if (!file) {
       SweetAlert.fire({
@@ -28,12 +23,12 @@ const RentPaymentModal = ({ showUpdateModal }) => {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "final-sp2-rent");
+    data.append("upload_preset", "final-sp2-receipt");
     data.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
       setUploading(true);
-      // const uploadImg = await uploadFile('final-sp2-rent');
+
       const uploadRes = await fetch(
         `https://api.cloudinary.com/v1_1/${
           import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
@@ -53,16 +48,17 @@ const RentPaymentModal = ({ showUpdateModal }) => {
         });
         return;
       }
-      // console.log(uploadedData.url);
 
       const updatedRent = await fetch(
-        `/api/rent/update-rent-image/${rent_id}`,
+        `/api/rent/update-rent-status/${rent_id}`,
         {
           method: "POST",
           headers: {
-            "Content-type": "application/json",
+            "Content-Type": "application/json",
           },
-          body: JSON.stringify({ image: uploadedData.url }),
+          body: JSON.stringify({
+            image: uploadedData.url,
+          }),
         }
       );
 
@@ -73,14 +69,14 @@ const RentPaymentModal = ({ showUpdateModal }) => {
           icon: "error",
           title: updatedRentData.errorMessage,
         });
-        setUploading(false);
         return;
       }
 
       setUploading(false);
+
       SweetAlert.fire({
         icon: "success",
-        title: "Payment proof added successfully",
+        title: "Receipt added successfully",
       });
 
       showUpdateModal();
@@ -107,7 +103,7 @@ const RentPaymentModal = ({ showUpdateModal }) => {
               className={`flex items-center justify-between p-4 rounded-t-lg  bg-logo-blue font-poppins`}
             >
               <h3 className={`text-3xl text-white font-semibold `}>
-                Add Payment Proof
+                Add Receipt
               </h3>
               <button
                 className={`ml-auto bg-transparent border-0 text-white opacity-50 float-right text-3xl leading-none font-semibold outline-none focus:outline-none`}
@@ -144,7 +140,6 @@ const RentPaymentModal = ({ showUpdateModal }) => {
                 className={`bg-logo-gray-blue text-white hover:bg-logo-blue-gray active:bg-logo-blue font-bold font-nunito-sans uppercase text-sm px-6 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
                 type="button"
                 onClick={handleSubmit}
-                // onClick={showAddModal}
               >
                 {uploading ? "Uploading..." : "Add"}
               </button>
@@ -159,4 +154,4 @@ const RentPaymentModal = ({ showUpdateModal }) => {
   );
 };
 
-export default RentPaymentModal;
+export default RentReceiptModal;
