@@ -13,6 +13,7 @@ const TenantDashboard = () => {
   // apartment + unit details
   // const [estDetail, setEstDetail] = useState([]);
   const [unitDetail, setUnitDetail] = useState([]);
+  const [tenantDetail, setTenantDetail] = useState([]);
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
@@ -22,16 +23,21 @@ const TenantDashboard = () => {
         );
         const unitData = await unitRes.json();
 
-        if (unitData.success === false) {
+        const tenantRes = await fetch(`/api/owner/get-tenant/${currentUser._id}`);
+
+        const tenantData = await tenantRes.json();
+
+        if (unitData.success === false || tenantData.success === false) {
           SweetAlert({
             icon: "error",
-            text: unitData.message,
+            text: unitData.message || tenantData.message,
           });
           return;
         }
 
         // const apartmentRes = await fetch(`/api/apartment/find-apartment/${unitData.apt_id}`);
         setUnitDetail(unitData);
+        setTenantDetail(tenantData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert({
@@ -42,7 +48,7 @@ const TenantDashboard = () => {
     };
 
     fetchNeededDetails();
-  }, []);
+  }, [tenantDetail]);
 
   return (
     <>
@@ -117,7 +123,7 @@ const TenantDashboard = () => {
                   <h1>{unitDetail.rent}</h1>
                   <h1>{unitDetail.deposit}</h1>
                   <h1>{unitDetail.advance}</h1>
-                  <h1>{currentUser.balance}</h1>
+                  <h1>{tenantDetail.balance}</h1>
                 </div>
               )}
             </div>

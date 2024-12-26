@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -114,7 +114,7 @@ const UnitPage = () => {
 
   return (
     <>
-      <div className={`h-[calc(100vh-3.5rem)] flex `}>
+      <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
         <Sidebar currentPage={"/owner-units"} />
 
         {showLoadingScreen ? (
