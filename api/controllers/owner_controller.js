@@ -92,27 +92,27 @@ export const updateTenant = async (req, res, next) => {
         { new: true }
       );
 
-      cron.schedule("0 0 1 * *", async () => {
-        try {
-          // Get the current month and year
-          const currentDate = new Date();
-          const year = currentDate.getFullYear();
-          const month = currentDate.getMonth(); // 0-indexed
+      // cron.schedule("0 0 1 * *", async () => {
+      //   try {
+      //     // Get the current month and year
+      //     const currentDate = new Date();
+      //     const year = currentDate.getFullYear();
+      //     const month = currentDate.getMonth(); // 0-indexed
           
-          while (month < 12) {
-            // const deadlineDay = new Date(year, month + 1, 1);
-            // deadlines.push(deadlineDay);
-            // month++;
+      //     while (month < 12) {
+      //       // const deadlineDay = new Date(year, month + 1, 1);
+      //       // deadlines.push(deadlineDay);
+      //       // month++;
 
-            const deadlineDate = new Date(year, month, req.body.moved_in_day);
-            deadlineDate.push()
+      //       const deadlineDate = new Date(year, month, req.body.moved_in_day);
+      //       deadlineDate.push()
 
-          }
+      //     }
 
-        } catch (error) {
-          next(error);
-        }
-      });
+      //   } catch (error) {
+      //     next(error);
+      //   }
+      // });
 
       return res.status(200).json(updatedTenant);
       // else if ();

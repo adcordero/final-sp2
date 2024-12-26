@@ -62,7 +62,7 @@ const O_FeedbackPage = () => {
             >
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-feedback")}
+                onClick={() => navigate("/owner-feedbacks")}
               >
                 Feedback
               </span>

@@ -14,6 +14,7 @@ const O_FeedbackDetail = () => {
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [feedbackDetail, setFeedbackDetail] = useState([]);
+  const [replyDetail, setReplyDetail] = useState([]);
   const [replyModal, setReplyModal] = useState(false);
 
   const showReplyModal = () => {
@@ -37,6 +38,23 @@ const O_FeedbackDetail = () => {
           return;
         }
 
+        if (data.reply_id) {
+          const replyRes = await fetch(
+            `/api/feedback/get-one-reply/${data.reply_id}`
+          );
+          const replyData = await replyRes.json();
+
+          if (replyData.success === false) {
+            SweetAlert.fire({
+              icon: "error",
+              title: replyData.errorMessage,
+            });
+            return;
+          }
+
+          setReplyDetail(replyData);
+        }
+
         setFeedbackDetail(data);
         setShowLoadingScreen(false);
       } catch (error) {
@@ -48,7 +66,7 @@ const O_FeedbackDetail = () => {
     };
 
     fetchNeededDetails();
-  }, []);
+  }, [feedbackDetail]);
 
   return (
     <>
@@ -67,7 +85,7 @@ const O_FeedbackDetail = () => {
             >
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-feedback")}
+                onClick={() => navigate("/owner-feedbacks")}
               >
                 Feedback
               </span>
@@ -84,13 +102,15 @@ const O_FeedbackDetail = () => {
                 {/* {rentDetail.amount} */}
               </div>
 
-              <button
-                className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                // onClick={() => fileRef.current.click()}
-                //   onClick={showUpdateModal}
-              >
-                Add Reply
-              </button>
+              {feedbackDetail.reply_id ? null : (
+                <button
+                  className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
+                  // onClick={() => fileRef.current.click()}
+                  onClick={showReplyModal}
+                >
+                  Add Reply
+                </button>
+              )}
             </div>
 
             <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
@@ -137,7 +157,7 @@ const O_FeedbackDetail = () => {
               </div>
             </div>
 
-            {feedbackDetail.reply ? (
+            {feedbackDetail.reply_id ? (
               <div
                 className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
               >
@@ -145,11 +165,9 @@ const O_FeedbackDetail = () => {
                   Owner's Reply
                 </div>
 
-                <div
-                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                  >
-                    {feedbackDetail.reply}
-                  </div>
+                <div className={`p-3 font-nunito-sans md:text-base text-sm`}>
+                  {replyDetail.reply}
+                </div>
               </div>
             ) : null}
 
@@ -178,11 +196,12 @@ const O_FeedbackDetail = () => {
         )}
       </div>
 
-      {
-        replyModal ? (
-            <FeedbackReplyModal showReplyModal={showReplyModal} />
-        ) : null
-      }
+      {replyModal ? (
+        <FeedbackReplyModal
+          showReplyModal={showReplyModal}
+          feedback_id={feedback_id}
+        />
+      ) : null}
     </>
   );
 };
