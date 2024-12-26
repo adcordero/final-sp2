@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import SweetAlert from "../../assets/SweetAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const FeedbackPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
   const [addModal, setAddModal] = useState(false);
   const [allFeedbacks, setAllFeedbacks] = useState([]);
@@ -122,7 +124,7 @@ const FeedbackPage = () => {
                         {/* edit */}
                         <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          //   onClick={() => navigate(`/tenant-rent/detail/${rent._id}`)}
+                          onClick={() => navigate(`/tenant-feedback/detail/${feedback._id}`)}
                           title="Details"
                         >
                           <FontAwesomeIcon icon={faCircleInfo} />
@@ -170,7 +172,7 @@ const FeedbackPage = () => {
                       {/* edit */}
                       <button
                         className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                        //   onClick={() => navigate(`/tenant-rent/detail/${rent._id}`)}
+                          onClick={() => navigate(`/tenant-feedback/detail/${feedback._id}`)}
                         title="Details"
                       >
                         <FontAwesomeIcon icon={faCircleInfo} />

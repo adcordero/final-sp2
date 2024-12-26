@@ -326,10 +326,10 @@ const Sidebar = ({ currentPage }) => {
                   Feedback Management
                 </h1>
 
-                {/* water */}
+                {/* feedback */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/tenant-feedbacks"
+                    currentPage == "/tenant-feedback"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}

@@ -19,3 +19,12 @@ export const getAllFeedback = async (req, res, next) => {
         
     }
 };
+
+export const getOneFB = async (req, res, next) => {
+    try {
+        const fb = await Feedback.findById(req.params.id);
+        return res.status(200).json(fb);
+    } catch (error) {
+        next(error);
+    }
+};

@@ -16,9 +16,9 @@ import TenancyRequest from "./ownerSide/tenant/TenancyRequest";
 import TenantDetail from "./ownerSide/tenant/TenantDetail";
 import RentPage from "./tenantSide/rent/RentPage";
 import RentDetails from "./tenantSide/rent/RentDetail";
-import WaterPage from "./tenantSide/water/WaterPage";
 import O_RentPage from "./ownerSide/rent/O_RentPage";
 import FeedbackPage from "./tenantSide/feedback/FeedbackPage";
+import FeedbackDetail from "./tenantSide/feedback/FeedbackDetail";
 
 // import Swal from 'sweetalert2';
 // import withReactContent from 'sweetalert2-react-content'
@@ -56,11 +56,9 @@ const App = () => {
             <Route path="/tenant-rent" element={<RentPage />} />
             <Route path="/tenant-rent/detail/:id" element={<RentDetails />} />
 
-            {/* tenant - water */}
-            <Route path="water-bill" element={<WaterPage />} />
-
-            {/* tenant - feedabck */}
+            {/* tenant - feedback */}
             <Route path="/tenant-feedback" element={<FeedbackPage />} />
+            <Route path="/tenant-feedback/detail/:id" element={<FeedbackDetail />} />
 
             {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />

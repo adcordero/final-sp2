@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
@@ -11,12 +11,8 @@ const RentDetail = () => {
   const pathname_array = pathname.split("/");
   const rent_id = pathname_array[3];
 
-  const fileRef = useRef(null);
-  const [file, setFile] = useState(undefined);
-
   const navigate = useNavigate();
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
-  const { currentUser } = useSelector((state) => state.user);
 
   const [updateModal, setUpdateModal] = useState(false);
 
@@ -52,7 +48,7 @@ const RentDetail = () => {
     };
 
     fetchNeededDetails();
-  }, [rentDetail]);
+  }, []);
 
   return (
     <>
@@ -99,14 +95,6 @@ const RentDetail = () => {
                   Add Payment
                 </button>
               ) : null}
-
-              {/* <input
-                onChange={(e) => setFile(e.target.files[0])}
-                type="file"
-                accept="image/*"
-                ref={fileRef}
-                hidden
-              /> */}
             </div>
 
             <div
