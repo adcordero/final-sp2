@@ -6,7 +6,6 @@ import SweetAlert from "../../assets/SweetAlert";
 import { useSelector } from "react-redux";
 import {
   faCircleInfo,
-  faPenToSquare,
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
@@ -63,6 +62,8 @@ const RentPage = () => {
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
+              {/* <h1>Bills</h1>
+              {">"} */}
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
                 onClick={() => navigate("/tenant-rent")}
@@ -70,7 +71,7 @@ const RentPage = () => {
                 Rent
               </span>
               {">"}
-              <h1> Invoices</h1>
+              <h1>List</h1>
             </div>
 
             {/* welcoming statement */}
@@ -78,15 +79,8 @@ const RentPage = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                Rent Invoices
+                Rent Bills
               </div>
-
-              {/* <button
-                className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                onClick={showAddModal}
-              >
-                New Unit
-              </button> */}
             </div>
 
             {/* rent list */}
@@ -100,7 +94,7 @@ const RentPage = () => {
                 >
                   <input
                     type="text"
-                    placeholder="Search Rent Invoices"
+                    placeholder="Search Rent Bills"
                     className={`focus:outline-none w-48`}
                   />
 

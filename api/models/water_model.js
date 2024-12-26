@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const rentSchema = new mongoose.Schema(
+const waterSchema = new mongoose.Schema(
     {
         tenant_id: {
             type: String,
@@ -30,10 +30,6 @@ const rentSchema = new mongoose.Schema(
         payment_proof: {
             type: String,
             default: null
-        },
-        invoice: {
-            type: String,
-            default: null
         }
     },
     {
@@ -41,6 +37,6 @@ const rentSchema = new mongoose.Schema(
     }
 );
 
-const Rent = mongoose.model("Rent", rentSchema);
+const Water = mongoose.model("Water", waterSchema);
 
-export default Rent;
+export default Water;

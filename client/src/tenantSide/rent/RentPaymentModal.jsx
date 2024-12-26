@@ -10,30 +10,13 @@ const RentPaymentModal = ({ showUpdateModal }) => {
   //   const [rentDetail, setRentDetail] = useState([]);
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState(undefined);
 
   useEffect(() => {
     // const fetchNeededDetails = async () => {};
     // fetchNeededDetails();
   }, []);
-
-  // const uploadFile = async (folder) => {
-  //   const data = new FormData();
-  //   data.append("file", img);
-  //   data.append("upload_preset", folder);
-
-  //   try {
-  //       // let cloud_name = process.env.CLOUDINARY_CLOUD_NAME;
-  //       // let resource_type = "image";
-  //       // let api = `https://api.cloudinary.com/v1_1/${process.env.CLOUDINARY_CLOUD_NAME}/image/upload`;
-
-  //   } catch (error) {
-  //       SweetAlert.fire({
-  //           icon: "error",
-  //           title: error,
-  //       });
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,6 +37,7 @@ const RentPaymentModal = ({ showUpdateModal }) => {
     data.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
+      setUploading(true);
       // const uploadImg = await uploadFile('final-sp2-rent');
       const uploadRes = await fetch(
         `https://api.cloudinary.com/v1_1/${
@@ -94,9 +78,11 @@ const RentPaymentModal = ({ showUpdateModal }) => {
           icon: "error",
           title: updatedRentData.errorMessage,
         });
+        setUploading(false);
         return;
       }
 
+      setUploading(false);
       SweetAlert.fire({
         icon: "success",
         title: "Payment proof added successfully",
@@ -164,7 +150,7 @@ const RentPaymentModal = ({ showUpdateModal }) => {
                 onClick={handleSubmit}
                 // onClick={showAddModal}
               >
-                Add
+                {uploading ? "Uploading..." : "Add"}
               </button>
             </div>
           </div>

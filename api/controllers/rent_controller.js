@@ -35,3 +35,23 @@ export const updateRentImage = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getPendingRents = async (req, res, next) => {
+  try {
+    const rent = await Rent.find({ status: "Pending" });
+    return res.status(200).json(rent);
+  } catch (error) {
+    next(error);
+    
+  }
+};
+
+export const getUnpaidRents = async (req, res, next) => {
+  try {
+    const rent = await Rent.find({ status: "Unpaid" });
+    return res.status(200).json(rent);
+  } catch (error) {
+    next(error);
+    
+  }
+};

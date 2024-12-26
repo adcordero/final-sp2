@@ -69,6 +69,8 @@ const RentDetail = () => {
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
+              {/* <h1>Bills</h1>
+              {">"} */}
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
                 onClick={() => navigate("/tenant-rent")}
@@ -76,7 +78,7 @@ const RentDetail = () => {
                 Rent
               </span>
               {">"}
-              <h1> Rent Detail</h1>
+              <h1>Detail</h1>
             </div>
 
             {/* welcoming statement */}

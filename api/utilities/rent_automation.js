@@ -27,6 +27,7 @@ export default async function rentAutomation() {
 
         const rent = await Rent.create({
           tenant_id: tenant._id,
+          tenant_name: tenant.first_name + " " + tenant.last_name,
           unit_id: tenant.unit_id,
           amount: tenant.rent,
           due_date: deadlineDate.toDateString(),
