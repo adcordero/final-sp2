@@ -3,6 +3,7 @@ import Tenant from "../models/tenant_model.js";
 import Unit from "../models/unit_model.js";
 import cron from "node-cron";
 import { errorHandler } from "../utilities/error.js";
+import { sendAccountLinked } from "../utilities/nodemailer_config.js";
 
 // gets owner's apartments
 export const getUserApts = async (req, res, next) => {
@@ -92,27 +93,7 @@ export const updateTenant = async (req, res, next) => {
         { new: true }
       );
 
-      // cron.schedule("0 0 1 * *", async () => {
-      //   try {
-      //     // Get the current month and year
-      //     const currentDate = new Date();
-      //     const year = currentDate.getFullYear();
-      //     const month = currentDate.getMonth(); // 0-indexed
-          
-      //     while (month < 12) {
-      //       // const deadlineDay = new Date(year, month + 1, 1);
-      //       // deadlines.push(deadlineDay);
-      //       // month++;
-
-      //       const deadlineDate = new Date(year, month, req.body.moved_in_day);
-      //       deadlineDate.push()
-
-      //     }
-
-      //   } catch (error) {
-      //     next(error);
-      //   }
-      // });
+      sendAccountLinked(updatedTenant.email);
 
       return res.status(200).json(updatedTenant);
       // else if ();

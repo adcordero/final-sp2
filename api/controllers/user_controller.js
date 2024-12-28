@@ -1,7 +1,7 @@
 import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utilities/error.js";
 import jwt from "jsonwebtoken";
-import { sendEmailConfirmation } from "../utilities/nodemailer_config.js";
+import { sendEmailConfirmation, sendTenancyRequest } from "../utilities/nodemailer_config.js";
 import Tenant from "../models/tenant_model.js";
 import Owner from "../models/owner_model.js";
 
@@ -92,6 +92,8 @@ export const emailVerified = async (req, res, next) => {
 
     validOwner.status = "Active";
     validOwner.save();
+
+    sendTenancyRequest("adcordero@up.edu.ph")
 
     // User.updateOne
   } catch (error) {

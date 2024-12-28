@@ -70,7 +70,7 @@ export const sendFeedbackCreation = (email) => {
         to: email,
         subject: "UPA Feedback Creation",
         html: `<h1>Feedback Creation</h1>
-        <p>Tenant sent a feedback. To pay, please login at UPA.</p>
+        <p>Tenant sent a feedback. To check, please login at UPA.</p>
         <a href=https://upa-sp2.onrender.com> Click here</a>`
     });
 }
@@ -81,7 +81,29 @@ export const sendFeedbackReply = (email) => {
         to: email,
         subject: "UPA Feedback Replied",
         html: `<h1>Feedback Replied</h1>
-        <p>Owner replied to a feedback you sent. To pay, please login at UPA.</p>
+        <p>Owner replied to a feedback you sent. To check, please login at UPA.</p>
+        <a href=https://upa-sp2.onrender.com> Click here</a>`
+    });
+}
+
+export const sendTenancyRequest = (email) => {
+    transport.sendMail({
+        from: process.env.NM_EMAIL_ADD || "kcarteu3@gmail.com",
+        to: email,
+        subject: "UPA Tenancy Request",
+        html: `<h1>Tenancy Request</h1>
+        <p>A tenant has requested to be linked to a unit. To link, please login at UPA.</p>
+        <a href=https://upa-sp2.onrender.com> Click here</a>`
+    });
+}
+
+export const sendAccountLinked = (email) => {
+    transport.sendMail({
+        from: process.env.NM_EMAIL_ADD || "kcarteu3@gmail.com",
+        to: email,
+        subject: "UPA Tenancy Request",
+        html: `<h1>Tenancy Request</h1>
+        <p>You have been linked to a unit. To access all tenant features, please login at UPA.</p>
         <a href=https://upa-sp2.onrender.com> Click here</a>`
     });
 }
