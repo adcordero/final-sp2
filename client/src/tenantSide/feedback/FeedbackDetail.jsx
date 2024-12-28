@@ -77,18 +77,10 @@ const FeedbackDetail = () => {
                 {/* {rentDetail.amount} */}
               </div>
 
-              {/* {rentDetail.status == "Unpaid" ? (
-                <button
-                  className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                  // onClick={() => fileRef.current.click()}
-                  onClick={showUpdateModal}
-                >
-                  Add Payment
-                </button>
-              ) : null} */}
+              
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <div className={`h-fit w-full mt-7 grid md:grid-cols-2 gap-10`}>
               <div>
                 <div className={`bg-logo-white p-2 rounded-md shadow-md`}>
                   <h1
@@ -118,7 +110,7 @@ const FeedbackDetail = () => {
                       <img
                         src={feedbackDetail.photo_url}
                         alt="photo uploaded"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     </div>
                   ) : (

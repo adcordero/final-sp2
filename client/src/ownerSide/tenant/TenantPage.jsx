@@ -160,18 +160,6 @@ const TenantPage = () => {
                             {/* <h1>Details</h1> */}
                           </button>
 
-                          {/* delete */}
-                          <button
-                            className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                            // onClick={(e) => {
-                            //   handleDeleteApt(e, apt._id);
-                            //   // setChosenUnitId(unit._id);
-                            // }}
-                            title="Delete"
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                            {/* <h1>Edit</h1> */}
-                          </button>
                         </div>
                       </div>
                     </div>

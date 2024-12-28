@@ -142,7 +142,7 @@ const T_BillDetail = () => {
               </div>
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <div className={`h-fit w-full mt-7 grid md:grid-cols-2 gap-10`}>
               {/* column 1 */}
               <div className={``}>
                 {/* rent */}

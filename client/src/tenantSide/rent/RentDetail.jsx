@@ -92,7 +92,7 @@ const RentDetail = () => {
                   // onClick={() => fileRef.current.click()}
                   onClick={showUpdateModal}
                 >
-                  Add Payment
+                  Add <span className={`hidden md:inline`}>Payment</span>
                 </button>
               ) : null}
             </div>
@@ -127,7 +127,7 @@ const RentDetail = () => {
               </div>
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <div className={`h-fit w-full mt-7 grid md:grid-cols-2 gap-10`}>
               {/* column 1 */}
               <div className={``}>
                 {/* rent */}
@@ -145,7 +145,7 @@ const RentDetail = () => {
                       <img
                         src={rentDetail.payment_proof}
                         alt="payment proof"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     </div>
                   ) : (
@@ -175,7 +175,7 @@ const RentDetail = () => {
                     <img
                       src={rentDetail.invoice}
                       alt="payment proof"
-                      className={`max-w-96 h-auto`}
+                      className={`max-w-1/2 h-auto`}
                     />
                   </div>
                   ) : (
