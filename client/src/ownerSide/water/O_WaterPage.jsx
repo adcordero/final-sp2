@@ -28,6 +28,11 @@ const O_WaterPage = () => {
 
   const showAddModal = () => {
     setAddModal(!addModal);
+
+    if (addModal) {
+      window.location.reload();
+    }
+      
   };
 
   useEffect(() => {

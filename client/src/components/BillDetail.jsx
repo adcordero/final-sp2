@@ -71,6 +71,10 @@ const BillDetail = () => {
         icon: "success",
         title: "Bill acknowledged!",
       });
+
+      if (addModal) {
+        window.location.reload();
+      }
     } catch (error) {
       SweetAlert.fire({
         icon: "error",

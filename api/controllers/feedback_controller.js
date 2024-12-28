@@ -1,10 +1,20 @@
 import Feedback from "../models/feedback_model.js";
+import Owner from "../models/owner_model.js";
 import Reply from "../models/reply_model.js";
+import Tenant from "../models/tenant_model.js";
+import Unit from "../models/unit_model.js";
+import { sendFeedbackCreation, sendFeedbackReply } from "../utilities/nodemailer_config.js";
 
 // create new feedback
 export const createFeedback = async (req, res, next) => {
   try {
     const fb = await Feedback.create(req.body);
+
+    const unit = await Unit.findById(fb.unit_id);
+    const owner = await Owner.findById(unit.owner_id);
+
+    sendFeedbackCreation(owner.email);
+
     return res.status(201).json(fb);
   } catch (error) {
     next(error);
@@ -62,6 +72,10 @@ export const replyFeedback = async (req, res, next) => {
       },
       { new: true }
     );
+
+    const tenant = await Tenant.findById(updatedFeedback.tenant_id);
+
+    sendFeedbackReply(tenant.email);
 
     return res.status(201).json(rep);
   } catch (error) {

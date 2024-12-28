@@ -1,5 +1,7 @@
 import Bill from "../models/bill_model.js";
+import Owner from "../models/owner_model.js";
 import Tenant from "../models/tenant_model.js";
+import { sendOwnerProofReceived, sendRentBillCreation, sendTenantProofSent } from "../utilities/nodemailer_config.js";
 
 export const createBill = async (req, res, next) => {
   try {
@@ -16,6 +18,8 @@ export const createBill = async (req, res, next) => {
       },
       { new: true }
     );
+
+    sendRentBillCreation(tenant.first_name, tenant.last_name, tenant.email, req.body.bill_type);
 
     return res.status(201).json(newBill);
   } catch (error) {
@@ -35,6 +39,10 @@ export const updateBillTenant = async (req, res, next) => {
       },
       { new: true }
     );
+
+    const owner = await Owner.findById(updatedBill.owner_id);
+
+    sendTenantProofSent(owner.email, updatedBill.bill_type);
 
     return res.status(200).json(updatedBill);
   } catch (error) {
@@ -68,6 +76,8 @@ export const acknowledgeBill = async (req, res, next) => {
       },
       { new: true }
     );
+
+    sendOwnerProofReceived(tenant.email, bill.bill_type);
 
     return res.status(200).json(updated);
   } catch (error) {

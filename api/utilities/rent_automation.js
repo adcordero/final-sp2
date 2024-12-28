@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import cron from "node-cron";
 import Tenant from "../models/tenant_model.js";
 import Rent from "../models/rent_model.js";
+import { sendRentBillCreation } from "./nodemailer_config.js";
 
 // runs every 1st of the month
 export default async function rentAutomation() {
@@ -37,6 +38,8 @@ export default async function rentAutomation() {
         const updatedBalance = parseInt(tenant.balance, 10) + parseInt(tenant.rent, 10);
 
         const updatedTenant = await Tenant.updateOne({ _id: tenant._id }, { balance: updatedBalance.toString() });
+
+        sendRentBillCreation(tenant.first_name, tenant.last_name, tenant.email, "Rent");
       })
 
     //   const rent = await Rent.create({

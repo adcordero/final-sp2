@@ -16,6 +16,7 @@ const AddBillModal = ({ showAddModal, billType }) => {
   const { currentUser } = useSelector((state) => state.user);
 
   const [formData, setFormData] = useState({
+    owner_id: currentUser._id,
     amount: "",
     tenant_id: "",
     bill_proof: "",

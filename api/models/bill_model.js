@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const billSchema = new mongoose.Schema(
     {
+        owner_id: {
+            type: String,
+            required: true,
+        },
         tenant_id: {
             type: String,
             required: true,
