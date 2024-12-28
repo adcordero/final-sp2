@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import {
   faCircleInfo,
   faSearch,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 

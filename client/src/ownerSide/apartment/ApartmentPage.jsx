@@ -9,7 +9,6 @@ import {
   faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-// import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import AddApartment from "./AddApartment";
@@ -113,7 +112,7 @@ const ApartmentPage = () => {
 
   return (
     <>
-      <div className={`h-[calc(100vh-3.5rem)] flex `}>
+      <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
         <Sidebar currentPage={"/owner-apartments"} />
 
         {showLoadingScreen ? (
@@ -123,7 +122,7 @@ const ApartmentPage = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
-            {/* welcoming statement */}
+            {/* breadcrumbs */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >

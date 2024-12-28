@@ -290,11 +290,11 @@ const Sidebar = ({ currentPage }) => {
                 {/* water */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/water-bill"
+                    currentPage == "/tenant-water"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
-                  onClick={() => navigate("/water-bill")}
+                  onClick={() => navigate("/tenant-water")}
                 >
                   <FontAwesomeIcon icon={faDroplet} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>
@@ -305,11 +305,11 @@ const Sidebar = ({ currentPage }) => {
                 {/* electricity */}
                 <div
                   className={`w-full flex gap-2 py-1 px-2 items-center justify-start font-nunito-sans  hover:rounded-md hover:bg-logo-blue-gray hover:text-logo-white cursor-pointer ${
-                    currentPage == "/electricity-bill"
+                    currentPage == "/tenant-electricity"
                       ? "bg-logo-blue rounded-lg text-logo-white"
                       : ""
                   } `}
-                  onClick={() => navigate("/electricity-bill")}
+                  onClick={() => navigate("/tenant-electricity")}
                 >
                   <FontAwesomeIcon icon={faBolt} className={`text-sm`} />
                   <p className={`md:text-lg text-base truncate`}>

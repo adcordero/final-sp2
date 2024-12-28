@@ -162,7 +162,7 @@ const O_RentPage = () => {
                 {/* <h1>Status</h1> */}
               </div>
 
-              {/* list pendings */}
+              {/* list unpaid */}
               {allUnpaids.length == 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
