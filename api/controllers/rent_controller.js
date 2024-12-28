@@ -1,5 +1,7 @@
 import Rent from "../models/rent_model.js";
 import Tenant from "../models/tenant_model.js";
+import Unit from "../models/unit_model.js";
+import { sendOwnerProofReceived, sendTenantProofSent } from "../utilities/nodemailer_config.js";
 
 export const getAllRents = async (req, res, next) => {
   try {
@@ -31,6 +33,13 @@ export const updateRentImage = async (req, res, next) => {
       },
       { new: true }
     );
+
+    const unit = await Unit.findById(rent.unit_id);
+
+    const owner = await Owner.findById(unit.owner_id);
+
+    sendTenantProofSent(owner.email, "Rent")
+
     return res.status(200).json(rent);
   } catch (error) {
     next(error);
@@ -93,6 +102,8 @@ export const updateRentStatus = async (req, res, next) => {
       },
       { new: true }
     );
+
+    sendOwnerProofReceived(tenant.email, "Rent")
 
     return res.status(200).json(rent);
   } catch (error) {

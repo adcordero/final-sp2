@@ -90,67 +90,6 @@ const SignUp = () => {
     }
   };
 
-  // handles the creation of owner account
-  const handleCreateOwnerAccount = async (e) => {
-    e.preventDefault();
-
-    const passRegEx =
-      /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*_=+-])(?!.* ).{8,16}$/;
-
-    setOwnerLoading(true);
-
-    if (passRegEx.test(formData.password)) {
-      try {
-        const res = await fetch("/api/user/owner-sign-up", {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        const data = await res.json();
-
-        if (data.success == false) {
-          // toast.error(data.message)
-          setOwnerLoading(false);
-          // toast.error(data.errorMessage);
-          SweetAlert.fire({
-            icon: "error",
-            title: data.errorMessage,
-          });
-
-          // setError(data.message);
-          return;
-        }
-
-        // toast.success("Please check email!");
-        SweetAlert.fire({
-          icon: "info",
-          title: "Please check email!",
-        })
-        setOwnerLoading(false);
-
-        navigate("/");
-      } catch (error) {
-        setOwnerLoading(false);
-        // toast.error(data.errorMessage);
-        SweetAlert.fire({
-          icon: "error",
-          title: data.errorMessage,
-        })
-      }
-    } else {
-      // toast.error(
-      //   "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)"
-      // );
-      SweetAlert.fire({
-        icon: "error",
-        title: "Password should have at least 1 uppercase, 1 lowercase, 1 number, and 1 special character (!@#$%^&*_=+-)",
-      })
-    }
-  };
-
   return (
     <>
       <div
@@ -269,15 +208,6 @@ const SignUp = () => {
             <div
               className={`flex flex-col md:flex-row gap-3 md:gap-0 items-center justify-evenly`}
             >
-              <button
-                type="submit"
-                className={`justify-self-center no-wrap text-base rounded p-1 md:text-lg md:w-1/4 w-2/4 font-semibold text-main-violet shadow-md border-2 border-transparent hover:border-logo-gray-blue font-poppins`}
-                onClick={handleCreateOwnerAccount}
-              >
-                {/* Create Account */}
-                {ownerLoading ? "Please wait. . ." : "Create Owner"}
-              </button>
-
               <button
                 type="submit"
                 className={`justify-self-center no-wrap text-base rounded p-1 md:text-lg md:w-1/4 w-2/4 font-semibold text-main-violet shadow-md border-2 border-transparent hover:border-logo-gray-blue font-poppins`}

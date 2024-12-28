@@ -28,6 +28,10 @@ const O_ElectricityPage = () => {
 
   const showAddModal = () => {
     setAddModal(!addModal);
+
+    if (addModal) {
+      window.location.reload();
+    }
   };
 
   useEffect(() => {

@@ -18,6 +18,10 @@ const T_BillDetail = () => {
 
   const showUpdateModal = () => {
     setUpdateModal(!updateModal);
+
+    if (updateModal) {
+      window.location.reload();
+    }
   };
 
   useEffect(() => {
