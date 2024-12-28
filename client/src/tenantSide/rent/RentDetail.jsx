@@ -169,7 +169,15 @@ const RentDetail = () => {
                   </h1>
 
                   {rentDetail.invoice ? (
-                    <div>with invoice</div>
+                    <div
+                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                  >
+                    <img
+                      src={rentDetail.invoice}
+                      alt="payment proof"
+                      className={`max-w-96 h-auto`}
+                    />
+                  </div>
                   ) : (
                     <div
                       className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
