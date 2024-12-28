@@ -14,13 +14,13 @@ import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import AddWaterBill from "../../components/AddBillModal";
 
-const O_WaterPage = () => {
+const O_ElectricityPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
   const navigate = useNavigate();
 
-  const [allWater, setAllWater] = useState([]);
-  const allWater_statusSort = allWater.sort((a, b) =>
+  const [allElect, setAllElect] = useState([]);
+  const allElect_statusSort = allElect.sort((a, b) =>
     b.status.localeCompare(a.status)
   );
 
@@ -33,7 +33,7 @@ const O_WaterPage = () => {
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const unpaidRes = await fetch(`/api/bill/get-all-water`);
+        const unpaidRes = await fetch(`/api/bill/get-all-electricity`);
         const unpaidData = await unpaidRes.json();
 
         if (unpaidData.success === false) {
@@ -44,7 +44,7 @@ const O_WaterPage = () => {
           return;
         }
 
-        setAllWater(unpaidData);
+        setAllElect(unpaidData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -55,12 +55,12 @@ const O_WaterPage = () => {
     };
 
     fetchNeededDetails();
-  }, [allWater]);
+  }, [allElect]);
 
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/owner-waters"} />
+        <Sidebar currentPage={"/owner-electricities"} />
 
         {showLoadingScreen ? (
           <Loading />
@@ -74,9 +74,9 @@ const O_WaterPage = () => {
             >
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/owner-waters")}
+                onClick={() => navigate("/owner-electricities")}
               >
-                Water
+                Electricity
               </span>
               {">"}
               <h1>List</h1>
@@ -87,14 +87,14 @@ const O_WaterPage = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                Water Bills
+                Electricity Bills
               </div>
 
               <button
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showAddModal}
               >
-                New Water Bill
+                New Electricity Bill
               </button>
             </div>
 
@@ -110,47 +110,45 @@ const O_WaterPage = () => {
                 <h1>Status</h1>
               </div>
 
-              {
-                allWater.length === 0 ? (
-                  <div
+              {allElect.length === 0 ? (
+                <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
                   No bill created yet.
                 </div>
-                ) : (
-                  allWater_statusSort.map((unpaid) => (
-                    <div
-                      key={unpaid._id}
-                      className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
-                    >
-                      <h1 className={``}>{unpaid.tenant_name}</h1>
-                      <h1>{unpaid.amount}</h1>
-    
-                      <div className={`flex justify-between`}>
-                        <h1
-                          className={`${
-                            unpaid.status == "Pending"
-                              ? "text-yellow-500"
-                              : unpaid.status == "Paid"
-                              ? "text-green-500"
-                              : "text-red-500"
-                          }`}
-                        >
-                          {unpaid.status}
-                        </h1>
-    
-                        <button
-                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/bill/detail/${unpaid._id}`)}
-                          title="Details"
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                        </button>
-                      </div>
+              ) : (
+                allElect_statusSort.map((electricity) => (
+                  <div
+                    key={electricity._id}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                  >
+                    <h1 className={``}>{electricity.tenant_name}</h1>
+                    <h1>{electricity.amount}</h1>
+
+                    <div className={`flex justify-between`}>
+                      <h1
+                        className={`${
+                          electricity.status == "Pending"
+                            ? "text-yellow-500"
+                            : electricity.status == "Paid"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {electricity.status}
+                      </h1>
+
+                      <button
+                        className={`text-blue-600 cursor-pointer flex items-center text-base`}
+                        onClick={() => navigate(`/bill/detail/${electricity._id}`)}
+                        title="Details"
+                      >
+                        <FontAwesomeIcon icon={faInfoCircle} />
+                      </button>
                     </div>
-                  ))
-                )
-              }
+                  </div>
+                ))
+              )}
             </div>
 
             {/* last div */}
@@ -159,10 +157,10 @@ const O_WaterPage = () => {
       </div>
 
       {addModal ? (
-        <AddWaterBill showAddModal={showAddModal} billType={"Water"} />
+        <AddWaterBill showAddModal={showAddModal} billType={"Electricity"} />
       ) : null}
     </>
   );
 };
 
-export default O_WaterPage;
+export default O_ElectricityPage;

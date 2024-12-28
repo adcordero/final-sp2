@@ -1,5 +1,5 @@
 import express from 'express';
-import { acknowledgeBill, createBill, getAllTenantWater, getAllWaterOwner, getOneBill, updateBillTenant } from '../controllers/bill_controller.js';
+import { acknowledgeBill, createBill, getAllElectOwner, getAllTenantElectricity, getAllTenantWater, getAllWaterOwner, getOneBill, updateBillTenant } from '../controllers/bill_controller.js';
 
 const router = express.Router();
 
@@ -11,6 +11,9 @@ router.post('/acknowledge-bill/:id', acknowledgeBill);
 
 router.get('/get-all-water', getAllWaterOwner);
 router.get('/get-all-tenant-water/:id', getAllTenantWater);
+
+router.get('/get-all-electricity', getAllElectOwner);
+router.get('/get-all-tenant-electricity/:id', getAllTenantElectricity);
 
 
 export default router;

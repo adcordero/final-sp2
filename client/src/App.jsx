@@ -25,6 +25,8 @@ import O_WaterPage from "./ownerSide/water/O_WaterPage";
 import BillDetail from "./components/BillDetail";
 import WaterPage from "./tenantSide/water/WaterPage";
 import T_BillDetail from "./components/T_BillDetail";
+import O_ElectricityPage from "./ownerSide/electricity/O_ElectricityPage";
+import ElectricityPage from "./tenantSide/electricity/ElectricityPage";
 
 
 const App = () => {
@@ -55,6 +57,9 @@ const App = () => {
 
             {/* tenant - water */}
             <Route path="/tenant-water" element={<WaterPage />} />
+
+            {/* tenant - electricity */}
+            <Route path="/tenant-electricity" element={<ElectricityPage />} />
 
 
 
@@ -88,6 +93,7 @@ const App = () => {
             <Route path="/owner-waters" element={<O_WaterPage />} />
 
             {/* owner = electricity */}
+            <Route path="/owner-electricities" element={<O_ElectricityPage />} />
 
             {/* owner - bill */}
             <Route path="/bill/detail/:id" element={<BillDetail />} />

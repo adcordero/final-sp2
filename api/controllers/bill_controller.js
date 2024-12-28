@@ -11,7 +11,7 @@ export const createBill = async (req, res, next) => {
       req.body.tenant_id,
       {
         $set: {
-          balance: parseInt(tenant.balance) + parseInt(req.body.amount),
+          balance: parseInt(tenant.balance, 10) + parseInt(req.body.amount, 10),
         },
       },
       { new: true }
@@ -87,6 +87,18 @@ export const getAllWaterOwner = async (req, res, next) => {
   }
 };
 
+export const getAllElectOwner = async (req, res, next) => {
+  try {
+    const bills = await Bill.find({
+      bill_type: "Electricity",
+    }).exec();
+
+    return res.status(200).json(bills);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getOneBill = async (req, res, next) => {
   try {
     const bill = await Bill.findById(req.params.id);
@@ -96,6 +108,7 @@ export const getOneBill = async (req, res, next) => {
   }
 };
 
+
 export const getAllTenantWater = async (req, res, next) => {
   try {
     const water = await Bill.find({
@@ -103,6 +116,18 @@ export const getAllTenantWater = async (req, res, next) => {
       bill_type: "Water",
     });
     return res.status(200).json(water);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllTenantElectricity = async (req, res, next) => {
+  try {
+    const electricity = await Bill.find({
+      tenant_id: req.params.id,
+      bill_type: "Electricity",
+    });
+    return res.status(200).json(electricity);
   } catch (error) {
     next(error);
   }

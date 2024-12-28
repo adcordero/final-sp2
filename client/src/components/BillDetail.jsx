@@ -211,7 +211,7 @@ const BillDetail = () => {
                   >
                     {billDetail.payment_proof ? (
                       <img
-                        src={billDetail.bill_proof}
+                        src={billDetail.payment_proof}
                         alt="payment proof"
                         className={`max-w-96 h-auto`}
                       />

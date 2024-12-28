@@ -7,42 +7,42 @@ import { useSelector } from "react-redux";
 import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const WaterPage = () => {
+const ElectricityPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(false); //currently in false bcs useEffect is empty
   const navigate = useNavigate();
 
   const { currentUser } = useSelector((state) => state.user);
 
-  const [allWater, setAllWater] = useState([]);
-  const allWater_statusSort = allWater.sort((a, b) =>
+  const [allElect, setAllElect] = useState([]);
+  const allElect_statusSort = allElect.sort((a, b) =>
     b.status.localeCompare(a.status)
   );
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
-      const waterRes = await fetch(
-        `/api/bill/get-all-tenant-water/${currentUser._id}`
+      const electricityRes = await fetch(
+        `/api/bill/get-all-tenant-electricity/${currentUser._id}`
       );
-      const waterData = await waterRes.json();
+      const electricityData = await electricityRes.json();
 
-      if (waterData.success === false) {
+      if (electricityData.success === false) {
         SweetAlert.fire({
           icon: "error",
-          title: waterData.errorMessage,
+          title: electricityData.errorMessage,
         });
         return;
       }
 
-      setAllWater(waterData);
+      setAllElect(electricityData);
       setShowLoadingScreen(false);
     };
     fetchNeededDetails();
-  }, [allWater]);
+  }, [allElect]);
 
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-water"} />
+        <Sidebar currentPage={"/tenant-electricity"} />
 
         {showLoadingScreen ? (
           <Loading />
@@ -58,9 +58,9 @@ const WaterPage = () => {
               {">"} */}
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-water")}
+                onClick={() => navigate("/tenant-electricity")}
               >
-                Water
+                Electricity
               </span>
               {">"}
               <h1>List</h1>
@@ -71,7 +71,7 @@ const WaterPage = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                Water Bills
+                Electricity Bills
               </div>
             </div>
 
@@ -86,44 +86,43 @@ const WaterPage = () => {
                 <h1>Status</h1>
               </div>
 
-              {allWater.length === 0 ? (
+              {allElect.length === 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
                   Nothing to pay yet.
                 </div>
               ) : (
-                allWater_statusSort.map((water) => (
+                allElect_statusSort.map((electricity) => (
                   <div
-                    key={water._id}
+                    key={electricity._id}
                     className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-2 justify-between `}
                   >
-                    <h1>{water.amount}</h1>
-                    
-                    <div className={`flex justify-between`}>
-                    <h1
-                      className={`${
-                        water.status == "Pending"
-                          ? "text-yellow-500"
-                          : water.status == "Paid"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {water.status}
-                    </h1>
+                    <h1>{electricity.amount}</h1>
 
-                    <button
+                    <div className={`flex justify-between`}>
+                      <h1
+                        className={`${
+                          electricity.status == "Pending"
+                            ? "text-yellow-500"
+                            : electricity.status == "Paid"
+                            ? "text-green-500"
+                            : "text-red-500"
+                        }`}
+                      >
+                        {electricity.status}
+                      </h1>
+
+                      <button
                         className={`text-blue-600 cursor-pointer flex items-center text-base`}
                         onClick={() =>
-                          navigate(`/tenant-bill/detail/${water._id}`)
+                          navigate(`/tenant-bill/detail/${electricity._id}`)
                         }
                         title="Details"
                       >
                         <FontAwesomeIcon icon={faCircleInfo} />
                         {/* <h1>Edit</h1> */}
                       </button>
-
                     </div>
                   </div>
                 ))
@@ -138,4 +137,4 @@ const WaterPage = () => {
   );
 };
 
-export default WaterPage;
+export default ElectricityPage;
