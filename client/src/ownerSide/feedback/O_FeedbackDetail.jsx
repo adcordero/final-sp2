@@ -99,7 +99,6 @@ const O_FeedbackDetail = () => {
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
                 {feedbackDetail.title}
-                {/* {rentDetail.amount} */}
               </div>
 
               {feedbackDetail.reply_id ? null : (
@@ -108,12 +107,14 @@ const O_FeedbackDetail = () => {
                   // onClick={() => fileRef.current.click()}
                   onClick={showReplyModal}
                 >
-                  Add Reply
+                  Add <span className={`hidden md:inline`}>Reply</span>
                 </button>
               )}
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <h1 className={`font-nunito-sans text-base`}>{feedbackDetail.tenant_name}</h1>
+
+            <div className={`h-fit w-full mt-7 grid md:grid-cols-2 gap-10`}>
               <div>
                 <div className={`bg-logo-white p-2 rounded-md shadow-md`}>
                   <h1
@@ -143,7 +144,7 @@ const O_FeedbackDetail = () => {
                       <img
                         src={feedbackDetail.photo_url}
                         alt="photo uploaded"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     </div>
                   ) : (

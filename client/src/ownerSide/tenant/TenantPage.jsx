@@ -6,7 +6,7 @@ import Loading from "../../assets/LoadingScreen";
 import Swal from "sweetalert2";
 import SweetAlert from "../../assets/SweetAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const TenantPage = () => {
   // const { currentUser } = useSelector((state) => state.user);
@@ -100,33 +100,15 @@ const TenantPage = () => {
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* search bar */}
-              <div className={`p-3`}>
-                <form
-                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search Tenants"
-                    className={`focus:outline-none w-48`}
-                  />
-
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className={`place-self-center`}
-                  />
-                </form>
-              </div>
-
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-4 md:grid-cols-5 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 md:grid-cols-5 justify-between`}
               >
                 <h1>Name</h1>
 
                 <h1>Email</h1>
 
-                <h1>Contact Number</h1>
+                <h1 className={`hidden md:inline`}>Contact Number</h1>
 
                 <h1 className={`hidden md:inline`}>Apartment</h1>
 
@@ -145,15 +127,17 @@ const TenantPage = () => {
                   tenant.unit_id != "" ? (
                     <div
                       key={tenant._id}
-                      className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-4 md:grid-cols-5  justify-between`}
+                      className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 md:grid-cols-5  justify-between`}
                     >
                       <h1>
                         {tenant.first_name} {tenant.last_name}
                       </h1>
 
-                      <h1 className={`truncate`} title={tenant.email}>{tenant.email}</h1>
+                      <h1 className={`truncate`} title={tenant.email}>
+                        {tenant.email}
+                      </h1>
 
-                      <h1>{tenant.contact_num}</h1>
+                      <h1 className={`hidden md:inline`}>{tenant.contact_num}</h1>
 
                       <h1 className={`hidden md:inline`}>{tenant.apt_name}</h1>
 

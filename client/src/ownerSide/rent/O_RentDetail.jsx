@@ -90,7 +90,7 @@ const O_RentDetail = () => {
                   // onClick={() => fileRef.current.click()}
                   onClick={showUpdateModal}
                 >
-                  Add Receipt
+                  Add <span className={`hidden nd:inline`}>Receipt</span>
                 </button>
               )}
             </div>
@@ -129,7 +129,7 @@ const O_RentDetail = () => {
               </div>
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <div className={`h-fit mt-7 grid md:grid-cols-2 gap-10`}>
               {/* column 1 */}
               <div className={``}>
                 {/* rent */}
@@ -146,7 +146,7 @@ const O_RentDetail = () => {
                     <img
                       src={rentDetail.payment_proof}
                       alt="payment proof"
-                      className={`max-w-96 h-auto`}
+                      className={`max-w-1/2 h-auto`}
                     />
                   </div>
                 </div>
@@ -169,7 +169,7 @@ const O_RentDetail = () => {
                       <img
                         src={rentDetail.invoice}
                         alt="receipt"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     </div>
                   ) : (

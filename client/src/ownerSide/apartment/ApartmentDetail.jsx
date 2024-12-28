@@ -7,7 +7,6 @@ import Sidebar from "../../components/Sidebar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
-  faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import UpdateApartment from "./UpdateApartment";
@@ -158,7 +157,7 @@ const ApartmentDetail = () => {
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showUpdateModal}
               >
-                Edit Apartment
+                Edit <span className={`hidden md:inline`}>Apartment</span>
               </button>
             </div>
 
@@ -171,32 +170,14 @@ const ApartmentDetail = () => {
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* search bar */}
-              <div className={`p-3`}>
-                <form
-                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search Units"
-                    className={`focus:outline-none w-48`}
-                  />
-
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className={`place-self-center`}
-                  />
-                </form>
-              </div>
-
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-4 md:grid-cols-5 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 md:grid-cols-5 justify-between`}
               >
                 <h1>Unit Name</h1>
                 <h1 className={`hidden md:inline`}>Type</h1>
                 <h1>Rent</h1>
-                <h1>Deposit</h1>
+                <h1 className={`hidden md:inline`}>Deposit</h1>
                 <h1>Advance</h1>
 
                 {/* <h1>Status</h1> */}
@@ -213,7 +194,7 @@ const ApartmentDetail = () => {
                 aptUnits_nameSort.map((unit) => (
                   <div
                     key={unit._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-4 md:grid-cols-5 justify-between`}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 md:grid-cols-5 justify-between`}
                   >
                     <h1
                       className={`${
@@ -229,14 +210,11 @@ const ApartmentDetail = () => {
                     {/* <h1 className={`hidden md:inline`}>{unit.apt_name}</h1> */}
                     <h1 className={`hidden md:inline`}>{unit.description}</h1>
                     <h1>{unit.rent}</h1>
-                    <h1>{unit.deposit}</h1>
-                    {/* <h1>{unit.advance}</h1> */}
-                    {/* <h1>{unit.apt_name}</h1> */}
+                    <h1 className={`hidden md:inline`}>{unit.deposit}</h1>
 
                     <div className={`flex justify-between`}>
                       {unit.advance}
 
-                      
                       {/* buttons */}
                       <div className={`flex gap-3`}>
                         {/* edit */}

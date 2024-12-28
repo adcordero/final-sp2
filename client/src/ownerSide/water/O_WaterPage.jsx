@@ -38,18 +38,18 @@ const O_WaterPage = () => {
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const unpaidRes = await fetch(`/api/bill/get-all-water`);
-        const unpaidData = await unpaidRes.json();
+        const waterRes = await fetch(`/api/bill/get-all-water`);
+        const waterData = await waterRes.json();
 
-        if (unpaidData.success === false) {
+        if (waterData.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: unpaidData.errorMessage,
+            title: waterData.errorMessage,
           });
           return;
         }
 
-        setAllWater(unpaidData);
+        setAllWater(waterData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -99,7 +99,7 @@ const O_WaterPage = () => {
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showAddModal}
               >
-                New Water Bill
+                New <span className={`hidden md:inline`}>Water Bill</span>
               </button>
             </div>
 
@@ -123,30 +123,30 @@ const O_WaterPage = () => {
                   No bill created yet.
                 </div>
                 ) : (
-                  allWater_statusSort.map((unpaid) => (
+                  allWater_statusSort.map((water) => (
                     <div
-                      key={unpaid._id}
+                      key={water._id}
                       className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
                     >
-                      <h1 className={``}>{unpaid.tenant_name}</h1>
-                      <h1>{unpaid.amount}</h1>
+                      <h1 className={``}>{water.tenant_name}</h1>
+                      <h1>{water.amount}</h1>
     
                       <div className={`flex justify-between`}>
                         <h1
                           className={`${
-                            unpaid.status == "Pending"
+                            water.status == "Pending"
                               ? "text-yellow-500"
-                              : unpaid.status == "Paid"
+                              : water.status == "Paid"
                               ? "text-green-500"
                               : "text-red-500"
                           }`}
                         >
-                          {unpaid.status}
+                          {water.status}
                         </h1>
     
                         <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/bill/detail/${unpaid._id}`)}
+                          onClick={() => navigate(`/bill/detail/${water._id}`)}
                           title="Details"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />

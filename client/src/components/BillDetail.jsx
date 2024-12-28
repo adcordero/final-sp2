@@ -72,9 +72,10 @@ const BillDetail = () => {
         title: "Bill acknowledged!",
       });
 
-      if (addModal) {
-        window.location.reload();
-      }
+      window.location.reload();
+      // if (addModal) {
+      //   window.location.reload();
+      // }
     } catch (error) {
       SweetAlert.fire({
         icon: "error",
@@ -177,7 +178,7 @@ const BillDetail = () => {
               </div>
             </div>
 
-            <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
+            <div className={`mt-7 grid md:grid-cols-2 gap-10`}>
               {/* column 1 */}
               <div className={``}>
                 {/* rent */}
@@ -194,7 +195,7 @@ const BillDetail = () => {
                     <img
                       src={billDetail.bill_proof}
                       alt="payment proof"
-                      className={`max-w-96 h-auto`}
+                      className={`max-w-1/2 h-auto`}
                     />
                   </div>
                 </div>
@@ -217,7 +218,7 @@ const BillDetail = () => {
                       <img
                         src={billDetail.payment_proof}
                         alt="payment proof"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     ) : (
                       "No payment proof yet."

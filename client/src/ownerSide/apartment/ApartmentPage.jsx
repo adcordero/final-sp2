@@ -6,7 +6,6 @@ import Loading from "../../assets/LoadingScreen";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCircleInfo,
-  faSearch,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
@@ -148,7 +147,7 @@ const ApartmentPage = () => {
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showAddModal}
               >
-                New Apartment
+                New <span className={`hidden md:inline`}>Apartment</span>
               </button>
             </div>
 
@@ -156,33 +155,14 @@ const ApartmentPage = () => {
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* search bar */}
-              <div className={`p-3`}>
-                <form
-                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search Apartments"
-                    className={`focus:outline-none w-48`}
-                  />
-
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className={`place-self-center`}
-                  />
-                </form>
-              </div>
 
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-2 justify-between`}
               >
                 <h1>Apartment Name</h1>
 
                 <h1>Location</h1>
-
-                <h1>Status</h1>
               </div>
 
               {/* list apartments */}
@@ -190,13 +170,13 @@ const ApartmentPage = () => {
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
-                  No apartments found
+                  No apartments created yet.
                 </div>
               ) : (
                 allApartments_statusSort.map((apt) => (
                   <div
                     key={apt._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-2 justify-between`}
                   >
                     {/* <h1
                       className={`cursor-pointer hover:underline text-blue-600`}
@@ -206,10 +186,8 @@ const ApartmentPage = () => {
                     </h1> */}
                     <h1>{apt.name}</h1>
 
-                    <h1>{apt.address}</h1>
-
                     <div className={`flex justify-between`}>
-                      {apt.status}
+                      {apt.address}
 
                       {/* <span className={`text-blue-600 cursor-pointer hover:underline`}>View Details</span> */}
 

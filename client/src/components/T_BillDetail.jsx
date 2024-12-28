@@ -107,7 +107,7 @@ const T_BillDetail = () => {
                   className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                   onClick={showUpdateModal}
                 >
-                  Add Payment Proof
+                  Add <span className={`hidden md:inline`}>Payment Proof</span>
                 </button>
               ) : null}
             </div>
@@ -159,7 +159,7 @@ const T_BillDetail = () => {
                     <img
                       src={billDetail.bill_proof}
                       alt="payment proof"
-                      className={`max-w-96 h-auto`}
+                      className={`max-w-1/2 h-auto`}
                     />
                   </div>
                 </div>
@@ -182,7 +182,7 @@ const T_BillDetail = () => {
                       <img
                         src={billDetail.bill_proof}
                         alt="payment proof"
-                        className={`max-w-96 h-auto`}
+                        className={`max-w-1/2 h-auto`}
                       />
                     ) : (
                       "No payment proof yet."
