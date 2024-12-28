@@ -8,6 +8,7 @@ import userRouter from "./routes/user_routes.js";
 import ownerRouter from "./routes/owner_routes.js";
 import rentRouter from "./routes/rent_routes.js";
 import feedbackRouter from "./routes/feedback_routes.js";
+import billRouter from "./routes/bill_routes.js";
 
 import rentAutomation from "./utilities/rent_automation.js";
 
@@ -40,6 +41,7 @@ app.use("/api/apartment", apartmentRouter);
 app.use("/api/owner", ownerRouter);
 app.use("/api/rent", rentRouter);
 app.use("/api/feedback", feedbackRouter);
+app.use("/api/bill", billRouter);
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 

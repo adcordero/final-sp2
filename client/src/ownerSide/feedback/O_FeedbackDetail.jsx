@@ -3,16 +3,23 @@ import Sidebar from "../../components/Sidebar";
 import Loading from "../../assets/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
+import FeedbackReplyModal from "./FeedbackReplyModal";
 
-const FeedbackDetail = () => {
+const O_FeedbackDetail = () => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
   const feedback_id = pathname_array[3];
-  
+
   const navigate = useNavigate();
 
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const [feedbackDetail, setFeedbackDetail] = useState([]);
+  const [replyDetail, setReplyDetail] = useState([]);
+  const [replyModal, setReplyModal] = useState(false);
+
+  const showReplyModal = () => {
+    setReplyModal(!replyModal);
+  };
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
@@ -31,6 +38,23 @@ const FeedbackDetail = () => {
           return;
         }
 
+        if (data.reply_id) {
+          const replyRes = await fetch(
+            `/api/feedback/get-one-reply/${data.reply_id}`
+          );
+          const replyData = await replyRes.json();
+
+          if (replyData.success === false) {
+            SweetAlert.fire({
+              icon: "error",
+              title: replyData.errorMessage,
+            });
+            return;
+          }
+
+          setReplyDetail(replyData);
+        }
+
         setFeedbackDetail(data);
         setShowLoadingScreen(false);
       } catch (error) {
@@ -42,12 +66,12 @@ const FeedbackDetail = () => {
     };
 
     fetchNeededDetails();
-  }, []);
+  }, [feedbackDetail]);
 
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-feedback"} />
+        <Sidebar currentPage={"/owner-feedbacks"} />
 
         {showLoadingScreen ? (
           <Loading />
@@ -55,12 +79,13 @@ const FeedbackDetail = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
+            {/* breadcrumbs */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-feedback")}
+                onClick={() => navigate("/owner-feedbacks")}
               >
                 Feedback
               </span>
@@ -77,15 +102,15 @@ const FeedbackDetail = () => {
                 {/* {rentDetail.amount} */}
               </div>
 
-              {/* {rentDetail.status == "Unpaid" ? (
+              {feedbackDetail.reply_id ? null : (
                 <button
                   className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                   // onClick={() => fileRef.current.click()}
-                  onClick={showUpdateModal}
+                  onClick={showReplyModal}
                 >
-                  Add Payment
+                  Add Reply
                 </button>
-              ) : null} */}
+              )}
             </div>
 
             <div className={`h-fit w-full mt-7 grid grid-cols-2 gap-10`}>
@@ -132,7 +157,21 @@ const FeedbackDetail = () => {
               </div>
             </div>
 
-            <div
+            {feedbackDetail.reply_id ? (
+              <div
+                className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
+              >
+                <div className={`p-3 font-poppins text-sm font-semibold`}>
+                  Owner's Reply
+                </div>
+
+                <div className={`p-3 font-nunito-sans md:text-base text-sm`}>
+                  {replyDetail.reply}
+                </div>
+              </div>
+            ) : null}
+
+            {/* <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
               <div className={`p-3 font-poppins text-sm font-semibold`}>
@@ -150,14 +189,21 @@ const FeedbackDetail = () => {
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
 
-            {/* last div of main body */}
+            {/* final div */}
           </div>
         )}
       </div>
+
+      {replyModal ? (
+        <FeedbackReplyModal
+          showReplyModal={showReplyModal}
+          feedback_id={feedback_id}
+        />
+      ) : null}
     </>
   );
 };
 
-export default FeedbackDetail;
+export default O_FeedbackDetail;

@@ -39,7 +39,7 @@ const feedbackSchema = new mongoose.Schema(
             enum: ['Unresolved', 'Resolved'],
             default: 'Unresolved'
         },
-        reply: {
+        reply_id: {
             type: String,
             default: null
         }

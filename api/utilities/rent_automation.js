@@ -10,9 +10,10 @@ export default async function rentAutomation() {
 //   "*/1 * * * *" => every minute
   cron.schedule("0 0 1 * *", async () => {
     // console.log("Cron job is running every minute...");
+    // status: "Active" => gets all active tenants
 
     try {
-      const getTenants = await Tenant.find({ status: "Active", unit_id: { $ne: null } });
+      const getTenants = await Tenant.find({ _id: "674f3db6bef00a3b9173fea8", unit_id: { $ne: null } });
 
     //   console.log(getTenants);
 

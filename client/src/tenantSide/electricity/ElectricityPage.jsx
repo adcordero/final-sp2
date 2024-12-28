@@ -4,57 +4,45 @@ import Loading from "../../assets/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
 import { useSelector } from "react-redux";
-import {
-  faCircleInfo,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const RentPage = () => {
-  // should be TRUE by default
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true); //currently in false bcs useEffect is empty
+const ElectricityPage = () => {
+  const [showLoadingScreen, setShowLoadingScreen] = useState(false); //currently in false bcs useEffect is empty
   const navigate = useNavigate();
-  const [allRents, setAllRents] = useState([]);
-  const allRents_statusSort = allRents.sort((a, b) =>
-    b.status.localeCompare(a.status)
-  );
 
   const { currentUser } = useSelector((state) => state.user);
 
+  const [allElect, setAllElect] = useState([]);
+  const allElect_statusSort = allElect.sort((a, b) =>
+    b.status.localeCompare(a.status)
+  );
+
   useEffect(() => {
     const fetchNeededDetails = async () => {
-      try {
-        const rentRes = await fetch(
-          `/api/rent/get-all-rents/${currentUser._id}`
-        );
-        const rentData = await rentRes.json();
+      const electricityRes = await fetch(
+        `/api/bill/get-all-tenant-electricity/${currentUser._id}`
+      );
+      const electricityData = await electricityRes.json();
 
-        if (rentData.success === false) {
-          // toast.error(data.errorMessage);
-          SweetAlert.fire({
-            icon: "error",
-            title: rentData.errorMessage,
-          });
-          return;
-        }
-
-        setAllRents(rentData);
-        setShowLoadingScreen(false);
-      } catch (error) {
+      if (electricityData.success === false) {
         SweetAlert.fire({
           icon: "error",
-          title: error,
+          title: electricityData.errorMessage,
         });
+        return;
       }
-    };
 
+      setAllElect(electricityData);
+      setShowLoadingScreen(false);
+    };
     fetchNeededDetails();
-  }, []);
+  }, [allElect]);
 
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-rent"} />
+        <Sidebar currentPage={"/tenant-electricity"} />
 
         {showLoadingScreen ? (
           <Loading />
@@ -62,7 +50,7 @@ const RentPage = () => {
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
-            {/* tags */}
+            {/* breadcrumbs */}
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
@@ -70,9 +58,9 @@ const RentPage = () => {
               {">"} */}
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-rent")}
+                onClick={() => navigate("/tenant-electricity")}
               >
-                Rent
+                Electricity
               </span>
               {">"}
               <h1>List</h1>
@@ -83,80 +71,52 @@ const RentPage = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                Rent Bills
+                Electricity Bills
               </div>
             </div>
 
-            {/* rent list */}
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* search bar */}
-              <div className={`p-3`}>
-                <form
-                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search Rent Bills"
-                    className={`focus:outline-none w-48`}
-                  />
-
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className={`place-self-center`}
-                  />
-                </form>
-              </div>
-
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-2 justify-between`}
               >
-                <h1>Due Date</h1>
-                {/* <h1 className={`hidden md:inline`}>Apartment</h1>
-                <h1 className={`hidden md:inline`}>Type</h1> */}
                 <h1>Amount</h1>
                 <h1>Status</h1>
-                {/* <h1>Advance</h1> */}
-
-                {/* <h1>Status</h1> */}
               </div>
 
-              {/* list invoices */}
-              {allRents_statusSort.length == 0 ? (
+              {allElect.length === 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
                   Nothing to pay yet.
                 </div>
               ) : (
-                allRents_statusSort.map((rent) => (
+                allElect_statusSort.map((electricity) => (
                   <div
-                    key={rent._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                    key={electricity._id}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-2 justify-between `}
                   >
-                    <h1>{rent.due_date}</h1>
-                    <h1>{rent.amount}</h1>
+                    <h1>{electricity.amount}</h1>
 
                     <div className={`flex justify-between`}>
-                      <p
+                      <h1
                         className={`${
-                          rent.status == "Pending"
+                          electricity.status == "Pending"
                             ? "text-yellow-500"
-                            : rent.status == "Paid"
+                            : electricity.status == "Paid"
                             ? "text-green-500"
                             : "text-red-500"
                         }`}
                       >
-                        {rent.status}
-                      </p>
-                      {/* {rent.status} */}
+                        {electricity.status}
+                      </h1>
 
                       <button
                         className={`text-blue-600 cursor-pointer flex items-center text-base`}
                         onClick={() =>
-                          navigate(`/tenant-rent/detail/${rent._id}`)
+                          navigate(`/tenant-bill/detail/${electricity._id}`)
                         }
                         title="Details"
                       >
@@ -169,7 +129,7 @@ const RentPage = () => {
               )}
             </div>
 
-            {/* last div of main body */}
+            {/* last div */}
           </div>
         )}
       </div>
@@ -177,4 +137,4 @@ const RentPage = () => {
   );
 };
 
-export default RentPage;
+export default ElectricityPage;

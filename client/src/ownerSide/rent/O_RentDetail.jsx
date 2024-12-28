@@ -3,9 +3,9 @@ import Sidebar from "../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
 import Loading from "../../assets/LoadingScreen";
-import RentPaymentModal from "./RentPaymentModal";
+import RentReceiptModal from "./RentReceiptModal";
 
-const RentDetail = () => {
+const O_RentDetail = () => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
   const rent_id = pathname_array[3];
@@ -13,9 +13,9 @@ const RentDetail = () => {
   const navigate = useNavigate();
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
-  const [updateModal, setUpdateModal] = useState(false);
-
   const [rentDetail, setRentDetail] = useState([]);
+
+  const [updateModal, setUpdateModal] = useState(false);
 
   const showUpdateModal = () => {
     setUpdateModal(!updateModal);
@@ -24,19 +24,18 @@ const RentDetail = () => {
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const rentRes = await fetch(`/api/rent/get-one-rent/${rent_id}`);
+        const res = await fetch(`/api/rent/get-one-rent/${rent_id}`);
+        const data = await res.json();
 
-        const rentData = await rentRes.json();
-
-        if (rentData.success === false) {
+        if (data.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: rentData.errorMessage,
+            title: data.errorMessage,
           });
           return;
         }
 
-        setRentDetail(rentData);
+        setRentDetail(data);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -52,12 +51,11 @@ const RentDetail = () => {
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-rent"} />
+        <Sidebar currentPage={"/owner-rents"} />
 
         {showLoadingScreen ? (
           <Loading />
         ) : (
-          // main body
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
@@ -69,7 +67,7 @@ const RentDetail = () => {
               {">"} */}
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-rent")}
+                onClick={() => navigate("/owner-rents")}
               >
                 Rent
               </span>
@@ -82,19 +80,23 @@ const RentDetail = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                {rentDetail.due_date}
+                {rentDetail.tenant_name}
                 {/* {rentDetail.amount} */}
               </div>
 
-              {rentDetail.status == "Unpaid" ? (
+              {rentDetail.status == "Paid" ? null : (
                 <button
                   className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                   // onClick={() => fileRef.current.click()}
                   onClick={showUpdateModal}
                 >
-                  Add Payment
+                  Add Receipt
                 </button>
-              ) : null}
+              )}
+            </div>
+
+            <div>
+              <h1>{rentDetail.due_date}</h1>
             </div>
 
             <div
@@ -138,23 +140,15 @@ const RentDetail = () => {
                     Payment Proof
                   </h1>
 
-                  {rentDetail.payment_proof ? (
-                    <div
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                    >
-                      <img
-                        src={rentDetail.payment_proof}
-                        alt="payment proof"
-                        className={`max-w-96 h-auto`}
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                    >
-                      No payment proof uploaded
-                    </div>
-                  )}
+                  <div
+                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                  >
+                    <img
+                      src={rentDetail.payment_proof}
+                      alt="payment proof"
+                      className={`max-w-96 h-auto`}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -165,33 +159,40 @@ const RentDetail = () => {
                   <h1
                     className={`font-poppins text-sm py-1 px-2 text-zinc-500 truncate`}
                   >
-                    Invoice
+                    Receipt
                   </h1>
 
                   {rentDetail.invoice ? (
-                    <div>with invoice</div>
+                    <div
+                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                    >
+                      <img
+                        src={rentDetail.invoice}
+                        alt="receipt"
+                        className={`max-w-96 h-auto`}
+                      />
+                    </div>
                   ) : (
                     <div
                       className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                     >
-                      No invoice
+                      No receipt uploaded yet.
                     </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* main body last div */}
+            {/* final div */}
           </div>
         )}
       </div>
 
-      {/* add payment */}
       {updateModal ? (
-        <RentPaymentModal showUpdateModal={showUpdateModal} />
+        <RentReceiptModal showUpdateModal={showUpdateModal} />
       ) : null}
     </>
   );
 };
 
-export default RentDetail;
+export default O_RentDetail;

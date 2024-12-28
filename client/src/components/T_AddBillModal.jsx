@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from "react";
-import SweetAlert from "../../assets/SweetAlert";
+import { useSelector } from "react-redux";
+import SweetAlert from "../assets/SweetAlert";
 
-const RentPaymentModal = ({ showUpdateModal }) => {
-  const pathname = window.location.pathname;
-  const pathname_array = pathname.split("/");
-  const rent_id = pathname_array[3];
+const T_AddBillModal = ({ showUpdateModal }) => {
+    const pathname = window.location.pathname;
+    const pathname_array = pathname.split("/");
+    const bill_id = pathname_array[3];
 
-  //   const [formData, setFormData] = useState({});
-  //   const [rentDetail, setRentDetail] = useState([]);
-
-  const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [file, setFile] = useState(undefined);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // console.log(import.meta.env.VITE_FIREBASE_API_KEY);
 
     if (!file) {
       SweetAlert.fire({
@@ -28,12 +23,12 @@ const RentPaymentModal = ({ showUpdateModal }) => {
 
     const data = new FormData();
     data.append("file", file);
-    data.append("upload_preset", "final-sp2-rent");
+    data.append("upload_preset", "final-sp2-bill");
     data.append("cloud_name", import.meta.env.VITE_CLOUDINARY_CLOUD_NAME);
 
     try {
       setUploading(true);
-      // const uploadImg = await uploadFile('final-sp2-rent');
+
       const uploadRes = await fetch(
         `https://api.cloudinary.com/v1_1/${
           import.meta.env.VITE_CLOUDINARY_CLOUD_NAME
@@ -51,45 +46,47 @@ const RentPaymentModal = ({ showUpdateModal }) => {
           icon: "error",
           title: uploadedData.errorMessage,
         });
+        setUploading(false);
         return;
       }
-      // console.log(uploadedData.url);
 
-      const updatedRent = await fetch(
-        `/api/rent/update-rent-image/${rent_id}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-type": "application/json",
-          },
-          body: JSON.stringify({ image: uploadedData.url }),
-        }
-      );
+    //   formData.bill_proof = uploadedData.url;
 
-      const updatedRentData = await updatedRent.json();
+      const updatedBill = await fetch(`/api/bill/update-bill-tenant/${bill_id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            image: uploadedData.url,
+        }),
+      });
 
-      if (updatedRentData.success === false) {
+      const updatedBillData = await updatedBill.json();
+
+      if (updatedBillData.success === false) {
         SweetAlert.fire({
           icon: "error",
-          title: updatedRentData.errorMessage,
+          title: updatedBillData.errorMessage,
         });
         setUploading(false);
         return;
       }
 
       setUploading(false);
+
       SweetAlert.fire({
         icon: "success",
-        title: "Payment proof added successfully",
+        title: "Successfully updated bill!",
       });
 
       showUpdateModal();
     } catch (error) {
+      setUploading(false);
       SweetAlert.fire({
         icon: "error",
         title: error,
       });
-      setUploading(false);
     }
   };
 
@@ -144,7 +141,7 @@ const RentPaymentModal = ({ showUpdateModal }) => {
                 className={`bg-logo-gray-blue text-white hover:bg-logo-blue-gray active:bg-logo-blue font-bold font-nunito-sans uppercase text-sm px-6 py-3 rounded-md shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150`}
                 type="button"
                 onClick={handleSubmit}
-                // onClick={showAddModal}
+                // onClick={showUpdateModal}
               >
                 {uploading ? "Uploading..." : "Add"}
               </button>
@@ -159,4 +156,4 @@ const RentPaymentModal = ({ showUpdateModal }) => {
   );
 };
 
-export default RentPaymentModal;
+export default T_AddBillModal;

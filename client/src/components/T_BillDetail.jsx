@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
-import SweetAlert from "../../assets/SweetAlert";
-import Loading from "../../assets/LoadingScreen";
-import RentPaymentModal from "./RentPaymentModal";
+import Sidebar from "./Sidebar";
+import SweetAlert from "../assets/SweetAlert";
+import Loading from "../assets/LoadingScreen";
+import T_AddBillModal from "./T_AddBillModal";
 
-const RentDetail = () => {
+const T_BillDetail = () => {
   const pathname = window.location.pathname;
   const pathname_array = pathname.split("/");
-  const rent_id = pathname_array[3];
+  const bill_id = pathname_array[3];
 
-  const navigate = useNavigate();
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
+  const navigate = useNavigate();
 
+  const [billDetail, setBillDetail] = useState([]);
   const [updateModal, setUpdateModal] = useState(false);
-
-  const [rentDetail, setRentDetail] = useState([]);
 
   const showUpdateModal = () => {
     setUpdateModal(!updateModal);
@@ -24,19 +23,21 @@ const RentDetail = () => {
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const rentRes = await fetch(`/api/rent/get-one-rent/${rent_id}`);
+        const billRes = await fetch(`/api/bill/find-bill/${bill_id}`);
+        const billData = await billRes.json();
 
-        const rentData = await rentRes.json();
-
-        if (rentData.success === false) {
+        if (billData.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: rentData.errorMessage,
+            title: billData.errorMessage,
           });
           return;
         }
 
-        setRentDetail(rentData);
+        const createdAt_Array = billData.createdAt.split("T");
+        billData.createdAt = createdAt_Array[0];
+
+        setBillDetail(billData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -47,17 +48,22 @@ const RentDetail = () => {
     };
 
     fetchNeededDetails();
-  }, [rentDetail]);
+  }, [billDetail]);
 
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex bg-logo-white`}>
-        <Sidebar currentPage={"/tenant-rent"} />
+        <Sidebar
+          currentPage={
+            billDetail.bill_type == "Water"
+              ? "/tenant-water"
+              : "/tenant-electricity"
+          }
+        />
 
         {showLoadingScreen ? (
           <Loading />
         ) : (
-          // main body
           <div
             className={`h-[calc(100vh-3.5rem)] overflow-auto p-6 w-full bg-logo-gray/50 rounded-tl-3xl`}
           >
@@ -65,16 +71,23 @@ const RentDetail = () => {
             <div
               className={`flex h-fit justify-start text-sm text-zinc-500 font-nunito-sans gap-2`}
             >
-              {/* <h1>Bills</h1>
-              {">"} */}
-              <span
-                className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/tenant-rent")}
-              >
-                Rent
-              </span>
+              {billDetail.bill_type == "Water" ? (
+                <span
+                  className={`cursor-pointer hover:text-logo-blue hover:underline`}
+                  onClick={() => navigate("/tenant-water")}
+                >
+                  Water
+                </span>
+              ) : (
+                <span
+                  className={`cursor-pointer hover:text-logo-blue hover:underline`}
+                  onClick={() => navigate("/tenant-electricity")}
+                >
+                  Electricity
+                </span>
+              )}
               {">"}
-              <h1>Detail</h1>
+              <h1> Detail</h1>
             </div>
 
             {/* welcoming statement */}
@@ -82,17 +95,15 @@ const RentDetail = () => {
               <div
                 className={`flex h-fit justify-start text-3xl text-black font-semibold font-poppins`}
               >
-                {rentDetail.due_date}
-                {/* {rentDetail.amount} */}
+                {billDetail.createdAt}
               </div>
 
-              {rentDetail.status == "Unpaid" ? (
+              {billDetail.status == "Unpaid" ? (
                 <button
                   className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                  // onClick={() => fileRef.current.click()}
                   onClick={showUpdateModal}
                 >
-                  Add Payment
+                  Add Payment Proof
                 </button>
               ) : null}
             </div>
@@ -112,17 +123,17 @@ const RentDetail = () => {
               <div
                 className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-2 justify-items-center`}
               >
-                <h1>{rentDetail.amount}</h1>
+                <h1>{billDetail.amount}</h1>
                 <h1
                   className={`${
-                    rentDetail.status == "Pending"
+                    billDetail.status == "Pending"
                       ? "text-yellow-500"
-                      : rentDetail.status == "Paid"
+                      : billDetail.status == "Paid"
                       ? "text-green-500"
                       : "text-red-500"
                   }`}
                 >
-                  {rentDetail.status}
+                  {billDetail.status}
                 </h1>
               </div>
             </div>
@@ -135,26 +146,18 @@ const RentDetail = () => {
                   <h1
                     className={`font-poppins text-sm py-1 px-2 text-zinc-500 truncate`}
                   >
-                    Payment Proof
+                    Bill Proof
                   </h1>
 
-                  {rentDetail.payment_proof ? (
-                    <div
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                    >
-                      <img
-                        src={rentDetail.payment_proof}
-                        alt="payment proof"
-                        className={`max-w-96 h-auto`}
-                      />
-                    </div>
-                  ) : (
-                    <div
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                    >
-                      No payment proof uploaded
-                    </div>
-                  )}
+                  <div
+                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                  >
+                    <img
+                      src={billDetail.bill_proof}
+                      alt="payment proof"
+                      className={`max-w-96 h-auto`}
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -165,33 +168,38 @@ const RentDetail = () => {
                   <h1
                     className={`font-poppins text-sm py-1 px-2 text-zinc-500 truncate`}
                   >
-                    Invoice
+                    Payment Proof
                   </h1>
 
-                  {rentDetail.invoice ? (
-                    <div>with invoice</div>
-                  ) : (
-                    <div
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                    >
-                      No invoice
-                    </div>
-                  )}
+                  <div
+                    className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                  >
+                    {billDetail.payment_proof ? (
+                      <img
+                        src={billDetail.bill_proof}
+                        alt="payment proof"
+                        className={`max-w-96 h-auto`}
+                      />
+                    ) : (
+                      "No payment proof yet."
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* main body last div */}
+            {/* last div */}
           </div>
         )}
       </div>
 
-      {/* add payment */}
-      {updateModal ? (
-        <RentPaymentModal showUpdateModal={showUpdateModal} />
-      ) : null}
+      {
+        updateModal ? (
+            <T_AddBillModal showUpdateModal={showUpdateModal} />
+        ) : null
+      }
     </>
   );
 };
 
-export default RentDetail;
+export default T_BillDetail;

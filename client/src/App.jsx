@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
 import Header from "./components/Header";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
@@ -19,22 +18,18 @@ import RentDetails from "./tenantSide/rent/RentDetail";
 import O_RentPage from "./ownerSide/rent/O_RentPage";
 import FeedbackPage from "./tenantSide/feedback/FeedbackPage";
 import FeedbackDetail from "./tenantSide/feedback/FeedbackDetail";
+import O_RentDetail from "./ownerSide/rent/O_RentDetail";
+import O_FeedbackPage from "./ownerSide/feedback/O_FeedbackPage";
+import O_FeedbackDetail from "./ownerSide/feedback/O_FeedbackDetail";
+import O_WaterPage from "./ownerSide/water/O_WaterPage";
+import BillDetail from "./components/BillDetail";
+import WaterPage from "./tenantSide/water/WaterPage";
+import T_BillDetail from "./components/T_BillDetail";
+import O_ElectricityPage from "./ownerSide/electricity/O_ElectricityPage";
+import ElectricityPage from "./tenantSide/electricity/ElectricityPage";
 
-// import Swal from 'sweetalert2';
-// import withReactContent from 'sweetalert2-react-content'
 
 const App = () => {
-
-  // const showSwal = () => {
-  //   withReactContent(Swal).fire({
-  //     title: <i>Input something</i>,
-  //     input: 'text',
-  //     inputValue,
-  //     preConfirm: () => {
-  //       setInputValue(Swal.getInput()?.value || '')
-  //     },
-  //   })
-  // }
 
   return (
     <>
@@ -60,6 +55,14 @@ const App = () => {
             <Route path="/tenant-feedback" element={<FeedbackPage />} />
             <Route path="/tenant-feedback/detail/:id" element={<FeedbackDetail />} />
 
+            {/* tenant - water */}
+            <Route path="/tenant-water" element={<WaterPage />} />
+
+            {/* tenant - electricity */}
+            <Route path="/tenant-electricity" element={<ElectricityPage />} />
+
+
+
             {/* owner side */}
             <Route path="/owner-dashboard" element={<OwnerDashboard />} />
 
@@ -80,11 +83,25 @@ const App = () => {
 
             {/* owner - rent */}
             <Route path="/owner-rents" element={<O_RentPage />} />
+            <Route path="/owner-rents/detail/:id" element={<O_RentDetail />} />
+
+            {/* owner - feedback */}
+            <Route path="/owner-feedbacks" element={<O_FeedbackPage />} />
+            <Route path="/owner-feedbacks/detail/:id" element={<O_FeedbackDetail />} />
+
+            {/* owner - water */}
+            <Route path="/owner-waters" element={<O_WaterPage />} />
+
+            {/* owner = electricity */}
+            <Route path="/owner-electricities" element={<O_ElectricityPage />} />
+
+            {/* owner - bill */}
+            <Route path="/bill/detail/:id" element={<BillDetail />} />
+            <Route path="/tenant-bill/detail/:id" element={<T_BillDetail />} />
 
           </Route>
         </Routes>
       </BrowserRouter>
-      {/* <ToastContainer /> */}
     </>
   );
 };

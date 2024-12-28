@@ -16,6 +16,8 @@ import Sidebar from "../../components/Sidebar";
 const O_RentPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
 
+  const navigate = useNavigate();
+
   const [allPendings, setAllPendings] = useState([]);
   const [allUnpaids, setAllUnpaids] = useState([]);
   const [allPaids, setAllPaids] = useState([]);
@@ -29,16 +31,20 @@ const O_RentPage = () => {
         const unpaidRes = await fetch(`/api/rent/get-unpaid-rents`);
         const unpaidData = await unpaidRes.json();
 
-        if (pendingData.success === false || unpaidData.success === false) {
+        const paidRes = await fetch(`/api/rent/get-paid-rents`);
+        const paidData = await paidRes.json();
+
+        if (pendingData.success === false || unpaidData.success === false || paidData.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: pendingData.errorMessage || unpaidData.errorMessage,
+            title: pendingData.errorMessage || unpaidData.errorMessage || paidData.errorMessage,
           });
           return;
         }
 
         setAllPendings(pendingData);
         setAllUnpaids(unpaidData);
+        setAllPaids(paidData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -69,7 +75,7 @@ const O_RentPage = () => {
             >
               <span
                 className={`cursor-pointer hover:text-logo-blue hover:underline`}
-                onClick={() => navigate("/owner-units")}
+                onClick={() => navigate("/owner-rents")}
               >
                 Rent
               </span>
@@ -124,34 +130,13 @@ const O_RentPage = () => {
                     <div className={`flex justify-between`}>
                       <h1 className={``}>{rent.amount}</h1>
 
-                      {/* buttons */}
-                      <div className={`flex gap-3`}>
-                        {/* edit */}
-                        <button
+                      <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          // onClick={() => {
-                          //   showUpdateModal();
-                          //   setChosenUnitId(unit._id);
-                          // }}
+                          onClick={() => navigate(`/owner-rents/detail/${rent._id}`)}
                           title="Details"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />
-                          {/* <h1>Edit</h1> */}
                         </button>
-
-                        {/* delete */}
-                        <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                          // onClick={(e) => {
-                          //   handleDeleteUnit(e, unit._id);
-                          //   // setChosenUnitId(unit._id);
-                          // }}
-                          title="Delete"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-                      </div>
                     </div>
                   </div>
                 ))
@@ -177,12 +162,12 @@ const O_RentPage = () => {
                 {/* <h1>Status</h1> */}
               </div>
 
-              {/* list pendings */}
+              {/* list unpaid */}
               {allUnpaids.length == 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
-                  No pending payments
+                  No unpaid payments
                 </div>
               ) : (
                 allUnpaids.map((rent) => (
@@ -195,35 +180,57 @@ const O_RentPage = () => {
 
                     <div className={`flex justify-between`}>
                       <h1 className={``}>{rent.amount}</h1>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
 
-                      {/* buttons */}
-                      <div className={`flex gap-3`}>
-                        {/* edit */}
-                        <button
+            {/* paid rent payments */}
+            <div
+              className={`mt-7 bg-logo-white shadow-md max-h-3/5 rounded-md grid text-base font-nunito-sans divide-y-2`}
+            >
+              {/* title */}
+              <div className={`p-3`}>
+                <h1>Paid</h1>
+              </div>
+              {/* list title */}
+              <div
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+              >
+                <h1>Tenant Name</h1>
+                <h1>Due Date</h1>
+                <h1>Amount</h1>
+
+                {/* <h1>Status</h1> */}
+              </div>
+
+              {/* list pendings */}
+              {allPaids.length == 0 ? (
+                <div
+                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
+                >
+                  No paid payments
+                </div>
+              ) : (
+                allPaids.map((rent) => (
+                  <div
+                    key={rent._id}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                  >
+                    <h1 className={``}>{rent.tenant_name}</h1>
+                    <h1>{rent.due_date}</h1>
+
+                    <div className={`flex justify-between`}>
+                      <h1 className={``}>{rent.amount}</h1>
+
+                      <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          // onClick={() => {
-                          //   showUpdateModal();
-                          //   setChosenUnitId(unit._id);
-                          // }}
+                          onClick={() => navigate(`/owner-rents/detail/${rent._id}`)}
                           title="Details"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />
-                          {/* <h1>Edit</h1> */}
                         </button>
-
-                        {/* delete */}
-                        <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                          // onClick={(e) => {
-                          //   handleDeleteUnit(e, unit._id);
-                          //   // setChosenUnitId(unit._id);
-                          // }}
-                          title="Delete"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-                      </div>
                     </div>
                   </div>
                 ))
