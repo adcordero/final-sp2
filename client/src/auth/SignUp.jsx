@@ -96,7 +96,7 @@ const SignUp = () => {
         className={`flex items-center bg-gradient-to-b from-logo-white from-10% via-logo-blue-gray to-logo-blue justify-center w-full h-[calc(100vh-3.5rem)] overflow-auto`}
       >
         <div
-          className={`w-5/6 bg-white grid justify-items-center rounded-md shadow-lg h-fit p-5 gap-y-3 md:w-4/6`}
+          className={`w-5/6 bg-white grid justify-items-center rounded-md shadow-lg h-4/5 md:h-fit p-5 gap-y-3 md:w-4/6 overflow-auto`}
         >
           <div
             className={`w-full grid justify-self-center self-center gap-y-1 h-fit`}

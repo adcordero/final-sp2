@@ -5,7 +5,7 @@ import AddFeedback from "./AddFeedback";
 import { useSelector } from "react-redux";
 import SweetAlert from "../../assets/SweetAlert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 const FeedbackPage = () => {
@@ -16,6 +16,9 @@ const FeedbackPage = () => {
 
   const [addModal, setAddModal] = useState(false);
   const [allFeedbacks, setAllFeedbacks] = useState([]);
+  const allFeedbacks_statusSort = allFeedbacks.sort((a, b) =>
+    b.status.localeCompare(a.status)
+  );
 
   const showAddModal = () => {
     setAddModal(!addModal);
@@ -27,7 +30,6 @@ const FeedbackPage = () => {
         const feedbackRes = await fetch(
           `/api/feedback/get-tenant-feedback/${currentUser._id}`
         );
-
         const feedbackData = await feedbackRes.json();
 
         if (feedbackData.success === false) {
@@ -91,18 +93,13 @@ const FeedbackPage = () => {
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showAddModal}
               >
-                New Feedback
+                New <span className={`hidden md:inline`}>Feedback</span>
               </button>
             </div>
 
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-96`}
             >
-              {/* list title */}
-              <div className={`p-3 font-poppins text-sm font-semibold`}>
-                <h1>Unresolved</h1>
-              </div>
-
               {/* list feedbacks */}
               {allFeedbacks.length === 0 ? (
                 <div
@@ -111,56 +108,7 @@ const FeedbackPage = () => {
                   No feedbacks made yet.
                 </div>
               ) : (
-                allFeedbacks.map((feedback) =>
-                  feedback.status === "Unresolved" ? (
-                    <div
-                      key={feedback._id}
-                      className={`p-3 font-nunito-sans md:text-base text-sm flex justify-between`}
-                    >
-                      <div>{feedback.title}</div>
-
-                      {/* buttons */}
-                      <div className={`flex gap-3`}>
-                        {/* edit */}
-                        <button
-                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/tenant-feedback/detail/${feedback._id}`)}
-                          title="Details"
-                        >
-                          <FontAwesomeIcon icon={faCircleInfo} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-
-                        {/* delete */}
-                        <button
-                          className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                          // onClick={(e) => {
-                          //   handleDeleteUnit(e, unit._id);
-                          //   // setChosenUnitId(unit._id);
-                          // }}
-                          title="Delete"
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                          {/* <h1>Edit</h1> */}
-                        </button>
-                      </div>
-                    </div>
-                  ) : null
-                )
-              )}
-            </div>
-
-            <div
-              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-96`}
-            >
-              {/* list title */}
-              <div className={`p-3 font-poppins text-sm font-semibold`}>
-                <h1>Resolved</h1>
-              </div>
-
-              {/* list feedbacks */}
-              {allFeedbacks.map((feedback) =>
-                feedback.status === "Resolved" ? (
+                allFeedbacks_statusSort.map((feedback) => (
                   <div
                     key={feedback._id}
                     className={`p-3 font-nunito-sans md:text-base text-sm flex justify-between`}
@@ -172,28 +120,17 @@ const FeedbackPage = () => {
                       {/* edit */}
                       <button
                         className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/tenant-feedback/detail/${feedback._id}`)}
+                        onClick={() =>
+                          navigate(`/tenant-feedback/detail/${feedback._id}`)
+                        }
                         title="Details"
                       >
                         <FontAwesomeIcon icon={faCircleInfo} />
                         {/* <h1>Edit</h1> */}
                       </button>
-
-                      {/* delete */}
-                      <button
-                        className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                        // onClick={(e) => {
-                        //   handleDeleteUnit(e, unit._id);
-                        //   // setChosenUnitId(unit._id);
-                        // }}
-                        title="Delete"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                        {/* <h1>Edit</h1> */}
-                      </button>
                     </div>
                   </div>
-                ) : null
+                ))
               )}
             </div>
 

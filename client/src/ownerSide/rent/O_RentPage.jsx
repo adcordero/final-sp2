@@ -18,33 +18,30 @@ const O_RentPage = () => {
 
   const navigate = useNavigate();
 
-  const [allPendings, setAllPendings] = useState([]);
-  const [allUnpaids, setAllUnpaids] = useState([]);
-  const [allPaids, setAllPaids] = useState([]);
+  const [allRent, setAllRent] = useState([]);
+  const allRent_nameSort = allRent.sort((a, b) =>
+    a.tenant_name.localeCompare(b.tenant_name)
+  );
+  const allRent_statusSort = allRent_nameSort.sort((a, b) =>
+    b.status.localeCompare(a.status)
+  );
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const pendingRes = await fetch(`/api/rent/get-pending-rents`);
-        const pendingData = await pendingRes.json();
+        const waterBillRes = await fetch(`/api/rent/get-all-rents-owner`);
 
-        const unpaidRes = await fetch(`/api/rent/get-unpaid-rents`);
-        const unpaidData = await unpaidRes.json();
+        const waterBillData = await waterBillRes.json();
 
-        const paidRes = await fetch(`/api/rent/get-paid-rents`);
-        const paidData = await paidRes.json();
-
-        if (pendingData.success === false || unpaidData.success === false || paidData.success === false) {
+        if (waterBillData.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: pendingData.errorMessage || unpaidData.errorMessage || paidData.errorMessage,
+            title: waterBillData.errorMessage,
           });
           return;
         }
 
-        setAllPendings(pendingData);
-        setAllUnpaids(unpaidData);
-        setAllPaids(paidData);
+        setAllRent(waterBillData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -55,7 +52,7 @@ const O_RentPage = () => {
     };
 
     fetchNeededDetails();
-  }, []);
+  }, [allRent]);
 
   return (
     <>
@@ -92,145 +89,61 @@ const O_RentPage = () => {
               </div>
             </div>
 
-            {/* pending rent payments */}
+            {/* rent payments */}
             <div
               className={`mt-7 bg-logo-white shadow-md max-h-3/5 rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* title */}
-              <div className={`p-3`}>
-                <h1>Pending</h1>
-              </div>
               {/* list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 md:grid-cols-4 justify-between`}
               >
                 <h1>Tenant Name</h1>
                 <h1>Due Date</h1>
+                <h1 className={`hidden md:inline`}>Status</h1>
                 <h1>Amount</h1>
-
-                {/* <h1>Status</h1> */}
               </div>
 
               {/* list pendings */}
-              {allPendings.length == 0 ? (
+              {allRent.length == 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
-                  No pending payments
+                  No water bills made.
                 </div>
               ) : (
-                allPendings.map((rent) => (
+                allRent_statusSort.map((rent) => (
                   <div
                     key={rent._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
+                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 md:grid-cols-4 justify-between`}
                   >
                     <h1 className={``}>{rent.tenant_name}</h1>
                     <h1>{rent.due_date}</h1>
+                    <h1
+                      className={`hidden md:inline ${
+                        rent.status == "Pending"
+                          ? "text-yellow-500"
+                          : rent.status == "Paid"
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                    >
+                      {rent.status}
+                    </h1>
 
                     <div className={`flex justify-between`}>
                       <h1 className={``}>{rent.amount}</h1>
 
-                      <button
+                      {rent.status == "Unpaid" ? null : (
+                        <button
                           className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/owner-rents/detail/${rent._id}`)}
+                          onClick={() =>
+                            navigate(`/owner-rents/detail/${rent._id}`)
+                          }
                           title="Details"
                         >
                           <FontAwesomeIcon icon={faInfoCircle} />
                         </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* unpaid rent payments */}
-            <div
-              className={`mt-7 bg-logo-white shadow-md max-h-3/5 rounded-md grid text-base font-nunito-sans divide-y-2`}
-            >
-              {/* title */}
-              <div className={`p-3`}>
-                <h1>Unpaid</h1>
-              </div>
-              {/* list title */}
-              <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
-              >
-                <h1>Tenant Name</h1>
-                <h1>Due Date</h1>
-                <h1>Amount</h1>
-
-                {/* <h1>Status</h1> */}
-              </div>
-
-              {/* list unpaid */}
-              {allUnpaids.length == 0 ? (
-                <div
-                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                >
-                  No unpaid payments
-                </div>
-              ) : (
-                allUnpaids.map((rent) => (
-                  <div
-                    key={rent._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
-                  >
-                    <h1 className={``}>{rent.tenant_name}</h1>
-                    <h1>{rent.due_date}</h1>
-
-                    <div className={`flex justify-between`}>
-                      <h1 className={``}>{rent.amount}</h1>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            {/* paid rent payments */}
-            <div
-              className={`mt-7 bg-logo-white shadow-md max-h-3/5 rounded-md grid text-base font-nunito-sans divide-y-2`}
-            >
-              {/* title */}
-              <div className={`p-3`}>
-                <h1>Paid</h1>
-              </div>
-              {/* list title */}
-              <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
-              >
-                <h1>Tenant Name</h1>
-                <h1>Due Date</h1>
-                <h1>Amount</h1>
-
-                {/* <h1>Status</h1> */}
-              </div>
-
-              {/* list pendings */}
-              {allPaids.length == 0 ? (
-                <div
-                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                >
-                  No paid payments
-                </div>
-              ) : (
-                allPaids.map((rent) => (
-                  <div
-                    key={rent._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 justify-between`}
-                  >
-                    <h1 className={``}>{rent.tenant_name}</h1>
-                    <h1>{rent.due_date}</h1>
-
-                    <div className={`flex justify-between`}>
-                      <h1 className={``}>{rent.amount}</h1>
-
-                      <button
-                          className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                          onClick={() => navigate(`/owner-rents/detail/${rent._id}`)}
-                          title="Details"
-                        >
-                          <FontAwesomeIcon icon={faInfoCircle} />
-                        </button>
+                      )}
                     </div>
                   </div>
                 ))

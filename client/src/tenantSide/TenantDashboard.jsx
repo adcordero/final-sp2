@@ -10,10 +10,12 @@ const TenantDashboard = () => {
 
   const { currentUser } = useSelector((state) => state.user);
 
-  // apartment + unit details
-  // const [estDetail, setEstDetail] = useState([]);
   const [unitDetail, setUnitDetail] = useState([]);
   const [tenantDetail, setTenantDetail] = useState([]);
+  const [rentDetail, setRentDetail] = useState([]);
+  const [waterDetail, setWaterDetail] = useState([]);
+  const [electricityDetail, setElectricityDetail] = useState([]);
+  const [feedbackDetail, setFeedbackDetail] = useState([]);
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
@@ -24,20 +26,42 @@ const TenantDashboard = () => {
         const unitData = await unitRes.json();
 
         const tenantRes = await fetch(`/api/owner/get-tenant/${currentUser._id}`);
-
         const tenantData = await tenantRes.json();
 
-        if (unitData.success === false || tenantData.success === false) {
+        const rentRes = await fetch(
+          `/api/rent/get-all-rents/${currentUser._id}`
+        );
+        const rentData = await rentRes.json();
+
+        const waterRes = await fetch(
+          `/api/bill/get-all-tenant-water/${currentUser._id}`
+        );
+        const waterData = await waterRes.json();
+
+        const electricityRes = await fetch(
+          `/api/bill/get-all-tenant-electricity/${currentUser._id}`
+        );
+        const electricityData = await electricityRes.json();
+
+        const feedbackRes = await fetch(
+          `/api/feedback/get-tenant-feedback/${currentUser._id}`
+        );
+        const feedbackData = await feedbackRes.json();
+
+        if (unitData.success == false || tenantData.success == false || rentData.success == false || waterData.success == false || electricityData.success == false || feedbackData.success == false) {
           SweetAlert({
             icon: "error",
-            text: unitData.message || tenantData.message,
+            text: unitData.message || tenantData.message || rentData.message || waterData.message || electricityData.message || feedbackData.message,
           });
           return;
         }
 
-        // const apartmentRes = await fetch(`/api/apartment/find-apartment/${unitData.apt_id}`);
         setUnitDetail(unitData);
         setTenantDetail(tenantData);
+        setRentDetail(rentData);
+        setWaterDetail(waterData);
+        setElectricityDetail(electricityData);
+        setFeedbackDetail(feedbackData);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert({
@@ -48,7 +72,7 @@ const TenantDashboard = () => {
     };
 
     fetchNeededDetails();
-  }, [tenantDetail]);
+  }, [tenantDetail, rentDetail, waterDetail, electricityDetail, feedbackDetail]);
 
   return (
     <>
@@ -78,19 +102,15 @@ const TenantDashboard = () => {
             {/* welcoming statement */}
             <div className={`mt-2 flex justify-between`}>
               <div
-                className={`flex h-fit justify-start text-3xl text-black font-poppins`}
+                className={`flex  h-fit justify-start text-3xl text-black font-poppins`}
               >
-                Welcome,&nbsp;
-                <span className={`font-semibold`}>
+                Welcome
+                <span className={`hidden md:inline`}>,&nbsp;</span>
+                <span className={`font-semibold hidden md:inline`}>
                   {currentUser.first_name + " " + currentUser.last_name}
                 </span>
                 !
               </div>
-            </div>
-
-            {/* tenant details */}
-            <div>
-              <h1>{currentUser.email + " - " + currentUser.contact_num}</h1>
             </div>
 
             {/* unit detail */}
@@ -99,12 +119,12 @@ const TenantDashboard = () => {
             >
               {/* unit list title */}
               <div
-                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-5 justify-between`}
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 md:grid-cols-5 justify-between`}
               >
                 <h1>Name</h1>
                 <h1>Rent</h1>
-                <h1>Deposit</h1>
-                <h1>Advance</h1>
+                <h1 className={`hidden md:inline`}>Deposit</h1>
+                <h1 className={`hidden md:inline`}>Advance</h1>
                 <h1>Balance</h1>
               </div>
 
@@ -117,18 +137,18 @@ const TenantDashboard = () => {
                 </div>
               ) : (
                 <div
-                  className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-5 justify-between`}
+                  className={`p-3 font-nunito-sans md:text-base text-sm grid grid-cols-3 md:grid-cols-5 justify-between`}
                 >
                   <h1>{unitDetail.apt_name + " - " + unitDetail.name}</h1>
                   <h1>{unitDetail.rent}</h1>
-                  <h1>{unitDetail.deposit}</h1>
-                  <h1>{unitDetail.advance}</h1>
+                  <h1 className={`hidden md:inline`}>{unitDetail.deposit}</h1>
+                  <h1 className={`hidden md:inline`}>{unitDetail.advance}</h1>
                   <h1>{tenantDetail.balance}</h1>
                 </div>
               )}
             </div>
             
-            <div className={`h-fit w-full mt-7 grid grid-cols-3 gap-10`}>
+            <div className={`h-fit w-full mt-7 grid md:grid-cols-3 gap-10`}>
               {/* column 1 */}
               <div className={``}>
                 {/* rent */}
@@ -139,7 +159,11 @@ const TenantDashboard = () => {
                     Rent Payments
                   </h1>
 
-                  <h1></h1>
+                  <h1
+                    className={`font-poppins text-base py-1 px-2 truncate justify-self-end`}
+                  >
+                    {rentDetail.length}
+                  </h1>
                 </div>
               </div>
 
@@ -153,7 +177,11 @@ const TenantDashboard = () => {
                     Water Payments
                   </h1>
 
-                  <h1></h1>
+                  <h1
+                    className={`font-poppins text-base py-1 px-2 truncate justify-self-end`}
+                  >
+                    {waterDetail.length}
+                  </h1>
                 </div>
               </div>
 
@@ -167,7 +195,11 @@ const TenantDashboard = () => {
                     Electricity Payments
                   </h1>
 
-                  <h1></h1>
+                  <h1
+                    className={`font-poppins text-base py-1 px-2 truncate justify-self-end`}
+                  >
+                    {electricityDetail.length}
+                  </h1>
                 </div>
               </div>
 
@@ -181,7 +213,11 @@ const TenantDashboard = () => {
                     Feedbacks
                   </h1>
 
-                  <h1></h1>
+                  <h1
+                    className={`font-poppins text-base py-1 px-2 truncate justify-self-end`}
+                  >
+                    {feedbackDetail.length}
+                  </h1>
                 </div>
               </div>
             </div>

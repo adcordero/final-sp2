@@ -82,6 +82,8 @@ export const emailVerified = async (req, res, next) => {
     if (validTenant) {
       validTenant.status = "Active";
       validTenant.save();
+
+      sendTenancyRequest("adcordero@up.edu.ph")
     }
 
     const validOwner = await Owner.findOne({

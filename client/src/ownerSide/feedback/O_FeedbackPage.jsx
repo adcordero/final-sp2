@@ -11,28 +11,29 @@ const O_FeedbackPage = () => {
   const [showLoadingScreen, setShowLoadingScreen] = useState(true);
   const navigate = useNavigate();
 
-  const [unrepliedFB, setUnrepliedFB] = useState([]);
-  const [repliedFB, setRepliedFB] = useState([]);
+  const [allFB, setAllFB] = useState([]);
+  const allFb_nameSort = allFB.sort((a, b) =>
+    a.tenant_name.localeCompare(b.tenant_name)
+  );
+  const allFb_statusSort = allFb_nameSort.sort((a, b) =>
+    b.status.localeCompare(a.status)
+  );
 
   useEffect(() => {
     const fetchNeededDetails = async () => {
       try {
-        const res = await fetch("/api/feedback/get-unreplied-feedbacks");
+        const res = await fetch("/api/feedback/get-all-feedbacks");
         const data = await res.json();
 
-        const repliedRes = await fetch("/api/feedback/get-replied-feedbacks");
-        const repliedData = await repliedRes.json();
-
-        if (data.success === false || repliedData.success === false) {
+        if (data.success === false) {
           SweetAlert.fire({
             icon: "error",
-            title: data.errorMessage || repliedData.errorMessage,
+            title: data.errorMessage,
           });
           return;
         }
 
-        setUnrepliedFB(data);
-        setRepliedFB(repliedData);
+        setAllFB(data);
         setShowLoadingScreen(false);
       } catch (error) {
         SweetAlert.fire({
@@ -43,7 +44,7 @@ const O_FeedbackPage = () => {
     };
 
     fetchNeededDetails();
-  }, [unrepliedFB, repliedFB]);
+  }, [allFB]);
 
   return (
     <>
@@ -77,40 +78,47 @@ const O_FeedbackPage = () => {
               >
                 Feedbacks
               </div>
-
-              {/* <button
-                className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
-                // onClick={showAddModal}
-              >
-                New Feedback
-              </button> */}
             </div>
 
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-96`}
             >
               {/* list title */}
-              <div className={`p-3 font-poppins text-sm font-semibold`}>
-                <h1>Unreplied</h1>
+              <div
+                className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}
+              >
+                <h1>Tenant Name</h1>
+                <h1>Status</h1>
+                <h1>Title</h1>
               </div>
 
               {/* list unreplied feedbacks */}
-              {unrepliedFB.length === 0 ? (
+              {allFB.length === 0 ? (
                 <div
                   className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
                 >
                   All feedbacks are replied to.
                 </div>
               ) : (
-                unrepliedFB.map((feedback) => (
+                allFb_statusSort.map((feedback) => (
                   <div
                     key={feedback._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm flex justify-between`}
+                    className={`p-3 font-nunito-sans md:text-base text-sm justify-between grid grid-cols-3`}
                   >
-                    <div>{feedback.title}</div>
+                    <h1>{feedback.tenant_name}</h1>
+                    <h1
+                      className={`${
+                        feedback.status == "Unresolved"
+                          ? "text-red-500"
+                          : "text-green-500"
+                      }`}
+                    >
+                      {feedback.status}
+                    </h1>
 
                     {/* buttons */}
-                    <div className={`flex gap-3`}>
+                    <div className={`flex justify-between`}>
+                      <h1>{feedback.title}</h1>
                       {/* edit */}
                       <button
                         className={`text-blue-600 cursor-pointer flex items-center text-base`}
@@ -120,74 +128,6 @@ const O_FeedbackPage = () => {
                         title="Details"
                       >
                         <FontAwesomeIcon icon={faCircleInfo} />
-                        {/* <h1>Edit</h1> */}
-                      </button>
-
-                      {/* delete */}
-                      <button
-                        className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                        // onClick={(e) => {
-                        //   handleDeleteUnit(e, unit._id);
-                        //   // setChosenUnitId(unit._id);
-                        // }}
-                        title="Delete"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
-                        {/* <h1>Edit</h1> */}
-                      </button>
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div
-              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-96`}
-            >
-              {/* list title */}
-              <div className={`p-3 font-poppins text-sm font-semibold`}>
-                <h1>Replied</h1>
-              </div>
-
-              {/* list unreplied feedbacks */}
-              {repliedFB.length === 0 ? (
-                <div
-                  className={`p-3 font-nunito-sans md:text-base text-sm flex items-center justify-center `}
-                >
-                  No replies made to feedbacks.
-                </div>
-              ) : (
-                repliedFB.map((feedback) => (
-                  <div
-                    key={feedback._id}
-                    className={`p-3 font-nunito-sans md:text-base text-sm flex justify-between`}
-                  >
-                    <div>{feedback.title}</div>
-
-                    {/* buttons */}
-                    <div className={`flex gap-3`}>
-                      {/* edit */}
-                      <button
-                        className={`text-blue-600 cursor-pointer flex items-center text-base`}
-                        onClick={() =>
-                          navigate(`/owner-feedbacks/detail/${feedback._id}`)
-                        }
-                        title="Details"
-                      >
-                        <FontAwesomeIcon icon={faCircleInfo} />
-                        {/* <h1>Edit</h1> */}
-                      </button>
-
-                      {/* delete */}
-                      <button
-                        className={`text-red-600 cursor-pointer flex gap-1 items-center text-base`}
-                        // onClick={(e) => {
-                        //   handleDeleteUnit(e, unit._id);
-                        //   // setChosenUnitId(unit._id);
-                        // }}
-                        title="Delete"
-                      >
-                        <FontAwesomeIcon icon={faTrash} />
                         {/* <h1>Edit</h1> */}
                       </button>
                     </div>

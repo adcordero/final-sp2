@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllRents, getOneRent, getPaidRents, getPendingRents, getUnpaidRents, updateRentImage, updateRentStatus } from '../controllers/rent_controller.js';
+import { getAllRents, getAllRentsOwner, getOneRent, getPaidRents, getPendingRents, getUnpaidRents, updateRentImage, updateRentStatus } from '../controllers/rent_controller.js';
 
 const router = express.Router();
 
@@ -11,5 +11,7 @@ router.get('/get-paid-rents', getPaidRents);
 
 router.post('/update-rent-image/:id', updateRentImage);
 router.post('/update-rent-status/:id', updateRentStatus);
+
+router.get('/get-all-rents-owner', getAllRentsOwner);
 
 export default router;

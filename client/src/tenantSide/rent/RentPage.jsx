@@ -4,10 +4,7 @@ import Loading from "../../assets/LoadingScreen";
 import { useNavigate } from "react-router-dom";
 import SweetAlert from "../../assets/SweetAlert";
 import { useSelector } from "react-redux";
-import {
-  faCircleInfo,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RentPage = () => {
@@ -91,24 +88,6 @@ const RentPage = () => {
             <div
               className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
-              {/* search bar */}
-              <div className={`p-3`}>
-                <form
-                  className={`w-fit justify-self-end border-2 px-2 py-1 flex gap-3 rounded-md`}
-                >
-                  <input
-                    type="text"
-                    placeholder="Search Rent Bills"
-                    className={`focus:outline-none w-48`}
-                  />
-
-                  <FontAwesomeIcon
-                    icon={faSearch}
-                    className={`place-self-center`}
-                  />
-                </form>
-              </div>
-
               {/* list title */}
               <div
                 className={`p-3 font-poppins text-sm font-semibold grid grid-cols-3 justify-between`}

@@ -12,6 +12,15 @@ export const getAllRents = async (req, res, next) => {
   }
 };
 
+export const getAllRentsOwner = async (req, res, next) => {
+  try {
+    const rent = await Rent.find();
+    return res.status(200).json(rent);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getOneRent = async (req, res, next) => {
   try {
     const rent = await Rent.findById(req.params.id);

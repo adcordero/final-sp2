@@ -30,27 +30,18 @@ export const getTenantFeedbacks = async (req, res, next) => {
   }
 };
 
+export const getAllFeedbacks = async (req, res, next) => {
+  try {
+    const fb = await Feedback.find();
+    return res.status(200).json(fb);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getOneFB = async (req, res, next) => {
   try {
     const fb = await Feedback.findById(req.params.id);
-    return res.status(200).json(fb);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getUnrepliedFeedbacks = async (req, res, next) => {
-  try {
-    const fb = await Feedback.find({ status: "Unresolved" });
-    return res.status(200).json(fb);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getRepliedFeedbacks = async (req, res, next) => {
-  try {
-    const fb = await Feedback.find({ status: "Resolved" });
     return res.status(200).json(fb);
   } catch (error) {
     next(error);

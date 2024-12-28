@@ -98,7 +98,7 @@ const O_ElectricityPage = () => {
                 className={`p-2 bg-logo-blue hover:bg-logo-blue-gray text-logo-white font-nunito-sans text-sm rounded-md`}
                 onClick={showAddModal}
               >
-                New Electricity Bill
+                New <span className={`hidden md:inline`}>Electricity Bill</span>
               </button>
             </div>
 
