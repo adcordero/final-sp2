@@ -90,7 +90,7 @@ const O_RentDetail = () => {
                   // onClick={() => fileRef.current.click()}
                   onClick={showUpdateModal}
                 >
-                  Add <span className={`hidden nd:inline`}>Receipt</span>
+                  Add <span className={`hidden md:inline`}>Receipt</span>
                 </button>
               )}
             </div>
