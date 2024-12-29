@@ -180,7 +180,7 @@ const T_BillDetail = () => {
                   >
                     {billDetail.payment_proof ? (
                       <img
-                        src={billDetail.bill_proof}
+                        src={billDetail.payment_proof}
                         alt="payment proof"
                         className={`max-w-1/2 h-auto`}
                       />

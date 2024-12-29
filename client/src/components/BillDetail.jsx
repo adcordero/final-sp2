@@ -67,12 +67,14 @@ const BillDetail = () => {
         return;
       }
 
+      window.location.reload();
+
       SweetAlert.fire({
         icon: "success",
         title: "Bill acknowledged!",
       });
 
-      window.location.reload();
+      
       // if (addModal) {
       //   window.location.reload();
       // }

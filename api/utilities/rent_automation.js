@@ -15,7 +15,7 @@ export default async function rentAutomation() {
     // status: "Active" => gets all active tenants
 
     try {
-      const getTenants = await Tenant.find({ _id: "67702e58280dbe9ee10db594", unit_id: { $ne: null } });
+      const getTenants = await Tenant.find({ _id: "67714866c705f8e63376c6ab", unit_id: { $ne: null } });
 
     //   console.log(getTenants);
 
