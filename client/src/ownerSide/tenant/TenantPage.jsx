@@ -57,7 +57,7 @@ const TenantPage = () => {
   return (
     <>
       <div className={`h-[calc(100vh-3.5rem)] flex `}>
-        <Sidebar currentPage={"owner-tenants"} />
+        <Sidebar currentPage={"/owner-tenants"} />
 
         {showLoadingScreen ? (
           <Loading />
