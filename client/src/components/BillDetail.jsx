@@ -67,8 +67,6 @@ const BillDetail = () => {
         return;
       }
 
-      window.location.reload();
-
       SweetAlert.fire({
         icon: "success",
         title: "Bill acknowledged!",
