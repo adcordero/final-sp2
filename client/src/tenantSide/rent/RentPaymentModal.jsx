@@ -77,12 +77,13 @@ const RentPaymentModal = ({ showUpdateModal }) => {
         return;
       }
 
-      setUploading(false);
+      
       SweetAlert.fire({
         icon: "success",
         title: "Payment proof added successfully",
       });
 
+      setUploading(false);
       showUpdateModal();
     } catch (error) {
       SweetAlert.fire({
