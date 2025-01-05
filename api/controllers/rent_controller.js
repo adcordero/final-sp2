@@ -1,6 +1,7 @@
 import Rent from "../models/rent_model.js";
 import Tenant from "../models/tenant_model.js";
 import Unit from "../models/unit_model.js";
+import Owner from "../models/owner_model.js";
 import { sendOwnerProofReceived, sendTenantProofSent } from "../utilities/nodemailer_config.js";
 
 export const getAllRents = async (req, res, next) => {
