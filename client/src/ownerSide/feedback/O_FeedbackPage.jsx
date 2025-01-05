@@ -81,7 +81,7 @@ const O_FeedbackPage = () => {
             </div>
 
             <div
-              className={`mt-7 bg-logo-white shadow-md rounded-md grid text-base font-nunito-sans divide-y-2 max-h-96`}
+              className={`mt-7 bg-logo-white shadow-md max-h-3/5 rounded-md grid text-base font-nunito-sans divide-y-2`}
             >
               {/* list title */}
               <div
