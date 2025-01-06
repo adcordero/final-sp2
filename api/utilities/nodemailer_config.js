@@ -34,8 +34,8 @@ export const sendRentBillCreation = (first_name, last_name, email, bill_type) =>
     transport.sendMail({
         from: process.env.NM_EMAIL_ADD || "kcarteu3@gmail.com",
         to: email,
-        subject: "UPA Rent Bill Creation",
-        html: `<h1>Rent Bill Creation</h1>
+        subject: "UPA Bill Creation",
+        html: `<h1>${bill_type} Bill Creation</h1>
         <h2>Hello ${first_name} ${last_name}</h2>
         <p>${bill_type} Bill for this month has been created. To pay, please login at UPA.</p>
         <a href=https://upa-sp2.onrender.com> Click here</a>`
